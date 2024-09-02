@@ -4,12 +4,9 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 const routes: Array<RouteRecordRaw> = [
     {
         path: "/",
-        component: () => import("../views/index.vue"),
+        component: () => import("../views/IndexView.vue"),
     },
-    {
-        path: "/hello",
-        component: () => import("../components/HelloWorld.vue"),
-    },
+
 ];
 // 1.返回一个 router 实列，为函数，里面有配置项（对象） history
 const router = createRouter({

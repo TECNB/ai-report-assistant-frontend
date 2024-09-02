@@ -9,7 +9,7 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 
 
 }
@@ -30,22 +30,37 @@ body {
     height: 100%;
     width: 100%;
 
-    padding: 0 50px;
-    padding-top: 15px;
+    padding: 0px;
+    /* padding-top: 15px; */
     position: relative;
 }
 
-:root {
+/* :root {
     --primary-100: #8B5FBF;
     --primary-200: #61398F;
     --primary-300: #FFFFFF;
     --accent-100: #D6C6E1;
     --accent-200: #9A73B5;
-    --text-100: #4A4A4A;
-    --text-200: #878787;
-    --bg-100: #F5F3F7;
-    --bg-200: #E9E4ED;
-    --bg-300: #FFFFFF;
+    --text-100: #333333;
+    --text-200: #676767;
+    --text-300: #B4B4B4;
+    --text-400: #ECECEC;
+    --bg-100: #F9F9F9;
+    --bg-200: #FFFFFF;
+} */
+:root {
+    --primary-100: #f1f1f1;  /* Light gray used for backgrounds */
+    --primary-200: #eaeaea;  /* Slightly darker gray for other backgrounds */
+    --primary-300: #dedede;  /* Even darker gray for button outlines or borders */
+    --accent-100: #ffca28;   /* Yellow-orange accent color used for highlights or active states */
+    --accent-200: #ff8f00;   /* Darker orange used for stronger accent areas */
+    --text-100: #000000;     /* Black used for primary text */
+    --text-200: #666666;     /* Dark gray for secondary text */
+    --text-300: #999999;     /* Lighter gray for tertiary text or placeholders */
+    --text-400: #cccccc;     /* Light gray used for subtle text, hints, or inactive states */
+    --bg-100: #ffffff;       /* White for the main background */
+    --bg-200: #f9f9f9;       /* Slightly off-white for secondary backgrounds */
+    --bg-300: #ECECEC;       /* Light gray for borders or other elements */
 }
 
 body {
