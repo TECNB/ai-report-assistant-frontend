@@ -50,7 +50,8 @@
                 <p class="text-sm font-bold">TEC</p>
             </div>
         </div>
-        <MaskLayer ifShow="true"/>
+        <!-- <MaskLayer ifShow="true"/>
+        <Chart ifShow="true"/> -->
         <Chart ifShow="true"/>
     </div>
 </template>

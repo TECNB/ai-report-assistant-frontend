@@ -43,5 +43,18 @@ const toggleVisibility = () => {
     text-align: left;
 
     padding: 20px;
+}.Chart {
+    width: 70%;
+    height: 700px;
+    position: absolute;
+    z-index: 99999;
+    // 居中对齐
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #ffffff;
+    border-radius: 20px;
+    text-align: left;
+    padding: 20px;
 }
 </style>
