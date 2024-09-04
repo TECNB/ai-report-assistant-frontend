@@ -13,7 +13,8 @@
 
             </div>
             <transition name="fade">
-                <div v-if="statementVisible" class="w-96 absolute top-11 shadow-lg rounded-xl border-[0.5px] bg-bg-100 p-5">
+                <div v-if="statementVisible"
+                    class="w-96 absolute top-11 shadow-lg rounded-xl border-[0.5px] bg-bg-100 p-5">
                     <!-- 下面为藏品名称搜索框 -->
                     <el-input v-model="statementName" placeholder="搜索报表" class="">
                         <template #prefix>
@@ -39,16 +40,14 @@
             </transition>
 
             <div class="">
-                <img class="w-6 h-6 rounded-full object-cover aspect-square"
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAAXNSR0IArs4c6QAAAotJREFUeF7tmjFqlGEURb/fSQiJaQyIhdmAO0hrZxGyhhSWLknS2ihWdkLAJdgKlnaCkGASJuQX7KYJc5l7zRVO6vedvDmHN2kyXbw9mAc/NQYmgtS0+LsIQbp6EKSsB0EI0magbB/+hhCkzEDZOlwIQcoMlK3DhRCkzEDZOlwIQcoMlK3DhRCkzEDZOlwIQcoMlK3DhRCkzEDZOlwIQcoMlK3DhRCkzEDZOlwIQcoMlK3DhRCkzEDZOlwIQcoMlK3DhRCkzEDZOlwIQdYz8OjJizHtHKw3LE7Ny4tx9/Or+OrfjNdeyP7pjzEWOxkL8924PHuaYW9IJciGAt3PCeI2uiGvNsjeyecx7R/e//G29sa0/Xh15vZqzMvLe9/NN7/G7w9HG6rLPK8Nss7HXTx/OXZfvV8ZvfnyZiy/vVvneeUMQcqyEIQgPgN8ZflcWkgEsWj0QQjic2khEcSi0QchiM+lhUQQi0YfhCA+lxYSQSwafRCC+FxaSASxaPRBCOJzaSERxKLRByGIz6WFRBCLRh+EID6XFhJBLBp9EIL4XFpIBLFo9EEI4nNpIRHEotEHIYjPpYW0eHY0do8/rbCuz1+P2+8fLfyHgPzX/wb0EMLSv5MgacMinyCisPQ4QdKGRT5BRGHpcYKkDYt8gojC0uMESRsW+QQRhaXHCZI2LPIJIgpLjxMkbVjkE0QUlh4nSNqwyCeIKCw9TpC0YZFPEFFYepwgacMinyCisPQ4QdKGRT5BRGHpcYKkDYt8gojC0uMESRsW+QQRhaXHCZI2LPIJIgpLjxMkbVjkE0QUlh4nSNqwyCeIKCw9TpC0YZFPEFFYepwgacMinyCisPQ4QdKGRT5BRGHp8T9jsLz08j0CFAAAAABJRU5ErkJggg=="
-                    alt="">
+                <img class="w-6 h-6 rounded-full object-cover aspect-square" src="../assets/images/avatar.png" alt="">
             </div>
         </div>
 
         <div class="flex flex-1 flex-col justify-center items-start max-w-6xl p-20">
             <div class="flex flex-col justify-center items-start gap-2">
                 <img class="w-11 h-11 rounded-full object-cover aspect-square border-text-200 border-[0.5px]"
-                    src="http://localhost:3000/static/favicon.png" alt="">
+                    src="../assets/images/icon.png" alt="">
                 <p class="text-3xl font-bold">您好,TEC</p>
                 <p class="text-3xl font-bold text-text-400">有什么我能帮您的吗？</p>
             </div>
@@ -83,9 +82,9 @@
                     <el-icon size="18">
                         <Plus />
                     </el-icon>
-                    <p class="text-text-300 font-bold">输入消息</p>
+                    <input v-model="message" @keyup.enter="handleEnter" type="text" placeholder="输入消息"
+                        class="bg-transparent outline-none flex-1 placeholder:text-text-300 placeholder:font-bold text-black" />
                 </div>
-
                 <el-icon size="18">
                     <Microphone />
                 </el-icon>
@@ -100,10 +99,32 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import { suggestions } from '../constant/suggestions'; // 导入建议列表
+import { AIChat } from '../utils/AIChat'; // 导入AIChat
 
 
 let statementVisible = ref(false);
 let statementName = ref('');
+// 定义输入框的内容
+const message = ref('');
+const systemContent = ref('生态环境');
+const relatedData = ref('当前生态环境数据显示：空气质量指数（AQI）为45，空气质量等级为优；PM2.5浓度为15微克/立方米，PM10浓度为30微克/立方米，二氧化硫（SO2）浓度为8微克/立方米，二氧化氮（NO2）浓度为20微克/立方米，一氧化碳（CO）浓度为0.7毫克/立方米，臭氧（O3）浓度为100微克/立方米。​');
+
+
+// 回车事件处理函数
+const handleEnter = async () => {
+    if (message.value.trim()) {
+        console.log('输入的消息:', message.value);
+        const userContent = message.value;
+        message.value = '';
+
+
+        AIChat(systemContent.value, userContent, relatedData.value).then(response => response.json()) // 解析为 JSON
+            .then(data => {
+                console.log(data.choices[0].message.content);
+                // 这里的 `data` 就是你展示的 JSON 对象
+            });
+    }
+};
 
 const showStatement = () => {
     statementVisible.value = !statementVisible.value;
