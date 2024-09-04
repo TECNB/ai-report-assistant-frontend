@@ -51,6 +51,7 @@
             </div>
         </div>
         <MaskLayer ifShow="true"/>
+        <Chart ifShow="true"/>
     </div>
 </template>
 
