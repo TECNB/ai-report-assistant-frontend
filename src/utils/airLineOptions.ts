@@ -10,7 +10,7 @@ const airLineOptions = (xAxisData: string[], seriesData: number[]) => {
         },
         grid: {
             x: 0,
-            y: 0,
+            y: 10,
             x2: 0,
             y2: 20,
             borderWidth: 1,
@@ -18,14 +18,25 @@ const airLineOptions = (xAxisData: string[], seriesData: number[]) => {
         series: [
             {
                 name: 'Series 1',
-                type: 'bar',
+                type: 'line',
+                symbol: 'circle',
+                symbolSize: 6,
                 data: seriesData,
                 color: ['#5DB1FF'],
-                itemStyle: {
-                    normal: {
-                        barBorderRadius: [8, 8, 0, 0],
+                areaStyle: {
+                    color: {
+                        type: 'linear',
+                        x: 0,
+                        y: 0,
+                        x2: 0,
+                        y2: 1,
+                        colorStops: [
+                            { offset: 0, color: 'rgba(93, 177, 255, 0.3)' },
+                            { offset: 1, color: 'rgba(93, 177, 255, 0)' },
+                        ],
                     },
                 },
+                smooth: 0.5,
             },
         ],
     };

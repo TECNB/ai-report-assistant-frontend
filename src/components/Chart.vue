@@ -10,6 +10,8 @@
         </div>
         <p>生态环境监测报告 - 年度空气质量统计</p>
         <div ref="airLineContainer" style="width: 600px; height: 400px;"></div>
+        <p>生态环境评估报告 - 年度水质监测概览</p>
+        <div ref="waterBarContainer" style="width: 600px; height: 400px;"></div>
     </div>
 </template>
 
@@ -18,9 +20,12 @@ import { ref, onMounted, watch } from 'vue';
 import * as echarts from 'echarts';
 
 import airLineOptions from '../utils/airLineOptions';
+import waterBarOption from '../utils/waterBarOption';
 
 const airLineContainer = ref<HTMLElement | null>(null);
 let airLine: echarts.ECharts | null = null;
+const waterBarContainer = ref<HTMLElement | null>(null);
+let waterBar: echarts.ECharts | null = null;
 
 const props = defineProps(['ifShow']);
 const emit = defineEmits();
@@ -32,6 +37,7 @@ const toggleVisibility = () => {
 onMounted(() => {
     if (props.ifShow) {
         initAirLineChart();
+        initWaterBarChart();
     }
 });
 
@@ -39,6 +45,7 @@ onMounted(() => {
 watch(() => props.ifShow, (newValue) => {
     if (newValue) {
         initAirLineChart();
+        initWaterBarChart();
         console.log('init chart');
     }
 });
@@ -51,18 +58,36 @@ const initAirLineChart = () => {
         renderAirLine();
     }
 };
+const initWaterBarChart = () => {
+    if (waterBarContainer.value) {
+        waterBar = echarts.init(waterBarContainer.value);
+        renderWaterBar();
+    }
+};
 
 
 const renderAirLine = () => {
+    // 使用时间段作为横轴的数据
+    const xAxisData = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00'];
+
+    // 使用示例数据
+    const seriesData = [25, 60, 50, 20, 35, 40, 25];
+
+    let options = airLineOptions(xAxisData,seriesData)
+    // 使用 ECharts 实例的 setOption 方法渲染图表
+    airLine?.setOption(options);
+};
+
+const renderWaterBar = () => {
     // 使用一至日作为横轴的数据
     const xAxisData = ['一', '二', '三', '四', '五', '六', '日'];
 
     // 使用示例数据
     const seriesData = [25, 60, 50, 20, 35, 40, 25];
 
-    let options = airLineOptions(xAxisData, seriesData)
+    let options = waterBarOption(xAxisData, seriesData)
     // 使用 ECharts 实例的 setOption 方法渲染图表
-    airLine?.setOption(options);
+    waterBar?.setOption(options);
 };
 
 </script>
