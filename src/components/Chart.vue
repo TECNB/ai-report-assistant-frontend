@@ -12,6 +12,8 @@
         <div ref="airLineContainer" style="width: 600px; height: 400px;"></div>
         <p>生态环境评估报告 - 年度水质监测概览</p>
         <div ref="waterBarContainer" style="width: 600px; height: 400px;"></div>
+        <p>生态环境变化分析 - 森林覆盖率年度报告</p>
+        <div ref="forestPieContainer" style="width: 600px; height: 400px;"></div>
     </div>
 </template>
 
@@ -21,11 +23,14 @@ import * as echarts from 'echarts';
 
 import airLineOptions from '../utils/airLineOptions';
 import waterBarOption from '../utils/waterBarOption';
+import forestPieOption from '../utils/forestPieOption';
 
 const airLineContainer = ref<HTMLElement | null>(null);
 let airLine: echarts.ECharts | null = null;
 const waterBarContainer = ref<HTMLElement | null>(null);
 let waterBar: echarts.ECharts | null = null;
+const forestPieContainer = ref<HTMLElement | null>(null);
+let forestPie: echarts.ECharts | null = null;
 
 const props = defineProps(['ifShow']);
 const emit = defineEmits();
@@ -38,6 +43,7 @@ onMounted(() => {
     if (props.ifShow) {
         initAirLineChart();
         initWaterBarChart();
+        initForestPieChart();
     }
 });
 
@@ -46,6 +52,7 @@ watch(() => props.ifShow, (newValue) => {
     if (newValue) {
         initAirLineChart();
         initWaterBarChart();
+        initForestPieChart();
         console.log('init chart');
     }
 });
@@ -62,6 +69,12 @@ const initWaterBarChart = () => {
     if (waterBarContainer.value) {
         waterBar = echarts.init(waterBarContainer.value);
         renderWaterBar();
+    }
+};
+const initForestPieChart = () => {
+    if (forestPieContainer.value) {
+        forestPie = echarts.init(forestPieContainer.value);
+        renderForestPie();
     }
 };
 
@@ -89,6 +102,19 @@ const renderWaterBar = () => {
     // 使用 ECharts 实例的 setOption 方法渲染图表
     waterBar?.setOption(options);
 };
+const renderForestPie = () =>{
+    // 使用示例数据
+    const seriesData = [
+        { value: 1048, name: '男' },
+        { value: 735, name: '女' },
+        { value: 580, name: '未知' }
+    ];
+
+    let options = forestPieOption(seriesData);
+
+    // 使用 setOption 方法设置图表配置
+    forestPie?.setOption(options);
+}
 
 </script>
 
