@@ -43,21 +43,31 @@
             </div>
 
             <div
-                class="fixed bottom-5 w-64 flex justify-start items-center gap-3  p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition">
+                class="fixed bottom-5 w-56 flex justify-start items-center gap-3  p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition" @click="showChart">
                 <img class="w-8 h-8 rounded-full object-cover aspect-square"
                     src="../assets/images/avatar.png"
                     alt="">
                 <p class="text-sm font-bold">TEC</p>
             </div>
         </div>
-        <!-- <MaskLayer ifShow="true"/>
-        <Chart ifShow="true"/> -->
+        <MaskLayer :ifShow="chartVisible"/>
+        <Chart :ifShow="chartVisible" @updateIfShow="updateChartVisible"/>
     </div>
 </template>
 
 <script setup lang="ts">
-import { } from "vue"
+import { ref } from "vue"
 import { reportContent } from '../constant/reportContent';
+
+let chartVisible = ref(false);
+
+const showChart = () => {
+    console.log('show chart');
+    chartVisible.value = !chartVisible.value;
+}
+const updateChartVisible = (value: boolean) => {
+    chartVisible.value = value;
+}
 </script>
 
 <style lang="scss" scoped>
