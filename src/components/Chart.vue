@@ -15,7 +15,8 @@
                     <el-checkbox v-model="checked1" size="large" />
                     <p class="font-bold text-center">生态环境监测报告 - 年度空气质量统计</p>
                     <div class="">
-                        <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1" v-if="ifAdd">
+                        <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1"
+                            v-if="ifAdd">
                             <el-icon color="#54a358">
                                 <CircleCheck />
                             </el-icon>
@@ -34,7 +35,8 @@
                     <el-checkbox v-model="checked2" size="large" />
                     <p class="font-bold text-center">生态环境评估报告 - 年度水质监测概览</p>
                     <div class="">
-                        <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1" v-if="ifAdd">
+                        <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1"
+                            v-if="ifAdd">
                             <el-icon color="#54a358">
                                 <CircleCheck />
                             </el-icon>
@@ -53,7 +55,8 @@
                     <el-checkbox v-model="checked3" size="large" />
                     <p class="font-bold text-center">生态环境变化分析 - 森林覆盖率年度报告</p>
                     <div class="">
-                        <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1" v-if="ifAdd">
+                        <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1"
+                            v-if="ifAdd">
                             <el-icon color="#54a358">
                                 <CircleCheck />
                             </el-icon>
@@ -82,11 +85,11 @@
             </div>
 
             <div class="flex flex-1 justify-end items-center">
-                <div class="flex justify-between items-center gap-3 cursor-pointer">
-                    <el-icon>
+                <div class="flex justify-between items-center gap-3 cursor-pointer rounded-xl hover:bg-gray-200 transition p-2">
+                    <el-icon color="#999999">
                         <Delete />
                     </el-icon>
-                    <p>全部删除</p>
+                    <p class="text-text-300">全部删除</p>
                 </div>
                 <div class="">
 
@@ -120,6 +123,7 @@ let checked1 = ref(true);
 let checked2 = ref(true);
 let checked3 = ref(true);
 let checkedAll = ref(true);
+let isUpdating = false; // 用于避免循环更新
 
 let ifAdd = ref(false);
 
@@ -144,6 +148,27 @@ watch(() => props.ifShow, async (newValue) => {
         initWaterBarChart();
         initForestPieChart();
     }
+});
+
+// 监听 checkedAll 的变化
+watch(checkedAll, (newVal) => {
+    checked1.value = newVal;
+    checked2.value = newVal;
+    checked3.value = newVal;
+});
+
+// 监听单选项的变化
+watch([checked1, checked2, checked3], ([newChecked1, newChecked2, newChecked3]) => {
+    // 如果所有单选项都未被选中，则将全选设为 false
+    if(!newChecked1&&!newChecked2&&!newChecked3){
+        isUpdating = false;
+        checkedAll.value = false;
+    }else if(newChecked1&&newChecked2&&newChecked3){
+        isUpdating = false;
+        checkedAll.value = true;
+    }
+    if (!isUpdating) return; // 如果是内部更新，跳过
+
 });
 
 const addChart = () => {

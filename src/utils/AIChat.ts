@@ -12,7 +12,7 @@ export async function AIChat(systemContent: string, userContent: string, related
                 content: userContent
             }
         ],
-        // stream: true
+        stream: true
     });
     
     const response = await fetch('https://api.gptapi.us/v1/chat/completions', {
