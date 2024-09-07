@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch,nextTick } from 'vue';
 import * as echarts from 'echarts';
 
 import airLineOptions from '../utils/airLineOptions';
@@ -39,29 +39,26 @@ const toggleVisibility = () => {
     emit('updateIfShow', false);
 };
 
-onMounted(() => {
-    if (props.ifShow) {
-        initAirLineChart();
-        initWaterBarChart();
-        initForestPieChart();
-    }
-});
 
 // 监听 ifShow 的变化，只有在为 true 时才初始化图表
-watch(() => props.ifShow, (newValue) => {
+watch(() => props.ifShow, async(newValue) => {
     if (newValue) {
+        // 等待 DOM 挂载完成
+        await nextTick();
         initAirLineChart();
         initWaterBarChart();
         initForestPieChart();
-        console.log('init chart');
+        console.log('init chart2');
     }
 });
 
 
 // 初始化图表方法
 const initAirLineChart = () => {
+    console.log('init airLine1');
     if (airLineContainer.value) {
         airLine = echarts.init(airLineContainer.value);
+        console.log('init airLine2');
         renderAirLine();
     }
 };
