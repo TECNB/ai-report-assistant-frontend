@@ -11,7 +11,7 @@ import * as ElIcons from '@element-plus/icons-vue'
 import { createPinia } from 'pinia'
 // ② 拿到pinia实例
 const pinia = createPinia()
-
+import '@fortawesome/fontawesome-free/css/all.min.css';
 // import * as echarts from "echarts";            // 全局引入echarts
 
 import "tailwindcss/tailwind.css"

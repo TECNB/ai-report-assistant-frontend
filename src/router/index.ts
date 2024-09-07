@@ -16,6 +16,11 @@ const routes: Array<RouteRecordRaw> = [
         name:'RegisterView',
         path:"/register",
         component:()=>import("../views/RegisterView.vue")
+    },
+    {
+        name:'JobChoiceView',
+        path:"/jobChoice",
+        component:()=>import("../views/JobChoiceView.vue")
     }
 ];
 // 1.返回一个 router 实列，为函数，里面有配置项（对象） history
