@@ -2,9 +2,10 @@ const forestPieOption = (seriesData: { value: number; name: string }[]) => {
     return {
         tooltip: {
             trigger: 'item',
+            formatter: '{a} <br/>{b}: {c}% ({d}%)',  // 提示框显示名称、数值和百分比
         },
         legend: {
-            data: ['男', '女', '未知'],
+            data: seriesData.map(item => item.name),  // 动态生成图例数据
             orient: 'vertical',
             left: '70%',
             y: 'center',
@@ -13,7 +14,7 @@ const forestPieOption = (seriesData: { value: number; name: string }[]) => {
         },
         series: [
             {
-                name: 'Access From',
+                name: '森林覆盖率',
                 type: 'pie',
                 radius: ['40%', '70%'],
                 center: ['30%', '50%'],
@@ -30,7 +31,7 @@ const forestPieOption = (seriesData: { value: number; name: string }[]) => {
                 emphasis: {
                     label: {
                         show: true,
-                        fontSize: 30,
+                        fontSize: 20,
                         fontWeight: 'bold',
                     },
                 },

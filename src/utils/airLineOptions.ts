@@ -6,18 +6,21 @@ const airLineOptions = (xAxisData: string[], seriesData: number[]) => {
         },
         yAxis: {
             type: 'value',
-            position: 'right',
+            position: 'left',
+            name: 'AQI',  // 添加 y 轴标签
+            nameTextStyle: {
+                padding: [0, 0, 10, -30],  // 调整 AQI 标签位置
+            },
         },
         grid: {
-            x: 0,
-            y: 10,
-            x2: 0,
-            y2: 20,
-            borderWidth: 1,
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true,
         },
         series: [
             {
-                name: 'Series 1',
+                name: 'AQI',
                 type: 'line',
                 symbol: 'circle',
                 symbolSize: 6,

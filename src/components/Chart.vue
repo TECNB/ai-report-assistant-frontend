@@ -153,34 +153,35 @@ const initForestPieChart = () => {
 
 
 const renderAirLine = () => {
-    // 使用时间段作为横轴的数据
-    const xAxisData = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00'];
+    // 使用月份作为横轴的数据
+    const xAxisData = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    // 使用示例数据
-    const seriesData = [25, 60, 50, 20, 35, 40, 25];
+    // 使用示例数据 (假设是各月份的 AQI 数据)
+    const seriesData = [45, 50, 55, 60, 65, 70, 75, 80, 70, 65, 55, 50];
 
-    let options = airLineOptions(xAxisData, seriesData)
+    let options = airLineOptions(xAxisData, seriesData);
     // 使用 ECharts 实例的 setOption 方法渲染图表
     airLine?.setOption(options);
 };
 
 const renderWaterBar = () => {
-    // 使用一至日作为横轴的数据
-    const xAxisData = ['一', '二', '三', '四', '五', '六', '日'];
+    // 使用月份作为横轴的数据
+    const xAxisData = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-    // 使用示例数据
-    const seriesData = [25, 60, 50, 20, 35, 40, 25];
+    // 使用示例数据 (假设是每月水质监测指标，如化学需氧量 COD)
+    const seriesData = [15, 20, 18, 25, 30, 22, 17, 19, 24, 29, 31, 23];
 
-    let options = waterBarOption(xAxisData, seriesData)
+    let options = waterBarOption(xAxisData, seriesData);
     // 使用 ECharts 实例的 setOption 方法渲染图表
     waterBar?.setOption(options);
 };
 const renderForestPie = () => {
-    // 使用示例数据
+    // 使用示例数据，假设为不同地区的森林覆盖率（单位为百分比）
     const seriesData = [
-        { value: 1048, name: '男' },
-        { value: 735, name: '女' },
-        { value: 580, name: '未知' }
+        { value: 45, name: '东部地区' },
+        { value: 30, name: '西部地区' },
+        { value: 15, name: '中部地区' },
+        { value: 10, name: '北部地区' }
     ];
 
     let options = forestPieOption(seriesData);
