@@ -8,33 +8,43 @@
                 </el-icon>
             </div>
         </div>
-        <el-scrollbar height="87%" wrap-style="width:90%;" class="flex justify-center">
+        <el-scrollbar height="86%" wrap-style="width:90%;" class="flex justify-center">
             <div class="w-full flex flex-col justify-center items-center self-center">
                 <div
                     class="w-full h-10 flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
                     <el-checkbox v-model="checked1" size="large" />
                     <p class="font-bold text-center">生态环境监测报告 - 年度空气质量统计</p>
                     <div class="">
-                        
+                        <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1" v-if="ifAdd">
+                            <el-icon color="#54a358">
+                                <CircleCheck />
+                            </el-icon>
+                            <p class="text-green-700 text-sm">已添加</p>
+                        </div>
                     </div>
                 </div>
 
 
                 <div
                     class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                    <div ref="airLineContainer" style="width: 600px; height: 220px;"></div>
+                    <div ref="airLineContainer" style="width: 1200px; height: 220px;"></div>
                 </div>
                 <div
                     class="w-full h-10 flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
                     <el-checkbox v-model="checked2" size="large" />
                     <p class="font-bold text-center">生态环境评估报告 - 年度水质监测概览</p>
                     <div class="">
-                        
+                        <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1" v-if="ifAdd">
+                            <el-icon color="#54a358">
+                                <CircleCheck />
+                            </el-icon>
+                            <p class="text-green-700 text-sm">已添加</p>
+                        </div>
                     </div>
                 </div>
                 <div
                     class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                    <div ref="waterBarContainer" style="width: 600px; height: 220px;"></div>
+                    <div ref="waterBarContainer" style="width: 1200px; height: 220px;"></div>
                 </div>
 
 
@@ -43,12 +53,17 @@
                     <el-checkbox v-model="checked3" size="large" />
                     <p class="font-bold text-center">生态环境变化分析 - 森林覆盖率年度报告</p>
                     <div class="">
-                        
+                        <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1" v-if="ifAdd">
+                            <el-icon color="#54a358">
+                                <CircleCheck />
+                            </el-icon>
+                            <p class="text-green-700 text-sm">已添加</p>
+                        </div>
                     </div>
                 </div>
                 <div
                     class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                    <div ref="forestPieContainer" style="width: 600px; height: 220px;"></div>
+                    <div ref="forestPieContainer" style="width: 1200px; height: 220px;"></div>
                 </div>
             </div>
         </el-scrollbar>
@@ -58,7 +73,10 @@
                 <p class="text-text-300 text-sm">勾选的图表将被写入报表</p>
             </div>
             <div class="">
-                <div class="bg-text-100 rounded-xl cursor-pointer py-3 px-8" @click="addChart">
+                <div class="bg-text-100 rounded-xl cursor-pointer py-3 px-8" @click="addChart" v-if="!ifAdd">
+                    <p class="text-white font-bold">立即使用</p>
+                </div>
+                <div class="bg-text-400 rounded-xl cursor-not-allowed py-3 px-8" v-else>
                     <p class="text-white font-bold">立即使用</p>
                 </div>
             </div>
@@ -103,6 +121,8 @@ let checked2 = ref(true);
 let checked3 = ref(true);
 let checkedAll = ref(true);
 
+let ifAdd = ref(false);
+
 const toggleVisibility = () => {
     emit('updateIfShow', false);
 };
@@ -128,6 +148,11 @@ watch(() => props.ifShow, async (newValue) => {
 
 const addChart = () => {
     console.log('add chart');
+    ifAdd.value = true;
+    checked1.value = false;
+    checked2.value = false;
+    checked3.value = false;
+    checkedAll.value = false;
 };
 
 
@@ -194,8 +219,8 @@ const renderForestPie = () => {
 
 <style lang="scss" scoped>
 .Chart {
-    width: 90%;
-    height: 90%;
+    width: 94%;
+    height: 94%;
     position: absolute;
     z-index: 99999;
     // 居中对齐
