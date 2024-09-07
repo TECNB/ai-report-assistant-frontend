@@ -3,14 +3,17 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 // 2. 配置路由
 const routes: Array<RouteRecordRaw> = [
     {
+        name:'IndexView',
         path: "/",
         component: () => import("../views/IndexView.vue"),
     },
     {
+        name:'LoginView',
         path:"/login",
         component:()=>import("../views/LoginView.vue")
     },
     {
+        name:'RegisterView',
         path:"/register",
         component:()=>import("../views/RegisterView.vue")
     }
