@@ -62,7 +62,6 @@ import { reportContent } from '../constant/reportContent';
 let chartVisible = ref(false);
 
 const showChart = () => {
-    console.log('show chart');
     chartVisible.value = !chartVisible.value;
 }
 const updateChartVisible = (value: boolean) => {

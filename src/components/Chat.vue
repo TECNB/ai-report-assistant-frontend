@@ -39,7 +39,7 @@
                 </div>
             </transition>
 
-            <div class="">
+            <div class="" @click="showKnowledge">
                 <img class="w-6 h-6 rounded-full object-cover aspect-square" src="../assets/images/avatar.png" alt="">
             </div>
         </div>
@@ -135,6 +135,10 @@
                 <Headset />
             </el-icon>
         </div>
+
+        <Knowledge :ifShow="knowledgeVisible" @updateIfShow="updateKnowledgeVisible"/>
+        <!-- 遮罩层 -->
+        <MaskLayer :ifShow="knowledgeVisible" />
     </div>
 </template>
 
@@ -144,6 +148,7 @@ import { suggestions } from '../constant/suggestions'; // 导入建议列表
 import { AIChat } from '../utils/AIChat'; // 导入AIChat
 
 let statementVisible = ref(false);
+let knowledgeVisible = ref(false);
 let statementName = ref('');
 const message = ref('');
 const systemContent = ref('生态环境');
@@ -233,6 +238,12 @@ const handleEnter = async () => {
 
 const showStatement = () => {
     statementVisible.value = !statementVisible.value;
+};
+const showKnowledge = () => {
+    knowledgeVisible.value = !knowledgeVisible.value;
+};
+const updateKnowledgeVisible = (newValue: boolean) => {
+    knowledgeVisible.value = newValue;
 };
 </script>
 

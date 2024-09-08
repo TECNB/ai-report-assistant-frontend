@@ -1,13 +1,10 @@
 <template>
     <div class="Knowledge">
-        <!-- 遮罩层 -->
-        <MaskLayer :ifShow="maskVisible" />
-
         <!-- 弹窗 -->
-        <div v-if="knowledgeVisible" class="fixed inset-0 z-50 flex items-center justify-center pointer-events-auto">
+        <div v-if="props.ifShow" class="fixed inset-0 z-50 flex items-center justify-center pointer-events-auto">
             <div class="bg-white rounded-lg shadow-lg p-6 w-96 relative z-50">
                 <div class="flex justify-end">
-                    <button @click="closeModal">
+                    <button @click="toggleVisibility">
                         <el-icon>
                             <Close />
                         </el-icon>
@@ -35,8 +32,8 @@
                         <label class="font-semibold">应用范围</label>
                         <div class="flex flex-wrap gap-2 mt-2">
                             <div v-for="(label, id) in scopeOptions" :key="id">
-                                <input type="checkbox" :id="id" v-model="formData.selectedScopes" :value="id" />
-                                <label :for="id" class="font-semibold text-gray-700">{{ label }}</label>
+                                <input type="checkbox" :id="String(id)" v-model="formData.selectedScopes" :value="id" />
+                                <label :for="String(id)" class="font-semibold text-gray-700">{{ label }}</label>
                             </div>
                         </div>
                     </div>
@@ -73,9 +70,8 @@ import { Close } from '@element-plus/icons-vue';
 // 从数据存储库中导入静态文本和选项数据
 import { connectionOptions, scopeOptions, placeholders } from '../constant/knowledgeCategories.ts';
 
-// 控制弹窗显示的变量
-const knowledgeVisible = ref(true);
-const maskVisible = ref(false);
+const props = defineProps(['ifShow']);
+const emit = defineEmits();
 
 // 封装的表单数据
 const formData = reactive({
@@ -85,21 +81,14 @@ const formData = reactive({
     prompt: ''
 });
 
-// 更新弹窗显示状态的函数
-const updateKnowledgeVisible = (visible: boolean) => {
-    knowledgeVisible.value = visible;
-    maskVisible.value = visible; // 同时控制遮罩层显示
-};
-
-// 关闭弹窗和遮罩层的函数
-const closeModal = () => {
-    updateKnowledgeVisible(false);
+const toggleVisibility = () => {
+    emit('updateIfShow', false);
 };
 
 // 确认按钮处理函数
 const confirm = () => {
     console.log('表单数据：', formData); // 打印表单数据用于调试
-    closeModal();
+    toggleVisibility();
 };
 </script>
 
