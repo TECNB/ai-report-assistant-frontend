@@ -34,7 +34,7 @@
         <div class="px-3">
             <div v-for="(monthData, index) in reportContent" :key="index">
                 <p class="text-text-400 font-bold text-left mt-5 p-2">{{ monthData.month }}</p>
-                <div class="pt-2 flex flex-col gap-3">
+                <div class="pt-2 flex flex-col gap-3" @click="showStatement">
                     <p v-for="(item, idx) in monthData.items" :key="idx"
                         class="text-left whitespace-nowrap overflow-hidden text-text-100 text-sm p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition">
                         {{ item.icon }} {{ item.text }}
@@ -52,6 +52,9 @@
         </div>
         <MaskLayer :ifShow="chartVisible"/>
         <Chart :ifShow="chartVisible" @updateIfShow="updateChartVisible"/>
+
+        <MaskLayer :ifShow="statementVisible"/>
+        <Statement :ifShow="statementVisible" @updateIfShow="updateStatementVisible"/>
     </div>
 </template>
 
@@ -60,12 +63,19 @@ import { ref } from "vue"
 import { reportContent } from '../constant/reportContent';
 
 let chartVisible = ref(false);
+let statementVisible = ref(false);
 
 const showChart = () => {
     chartVisible.value = !chartVisible.value;
 }
+const showStatement = () => {
+    statementVisible.value = !statementVisible.value;
+}
 const updateChartVisible = (value: boolean) => {
     chartVisible.value = value;
+}
+const updateStatementVisible = (value: boolean) => {
+    statementVisible.value = value;
 }
 </script>
 

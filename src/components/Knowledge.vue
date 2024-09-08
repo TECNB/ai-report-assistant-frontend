@@ -65,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { reactive } from 'vue';
 import { Close } from '@element-plus/icons-vue';
 // 从数据存储库中导入静态文本和选项数据
 import { connectionOptions, scopeOptions, placeholders } from '../constant/knowledgeCategories.ts';
