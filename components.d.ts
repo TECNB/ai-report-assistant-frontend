@@ -15,9 +15,11 @@ declare module 'vue' {
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     JobCategory: typeof import('./src/components/JobCategory.vue')['default']
+    Knowledge: typeof import('./src/components/Knowledge.vue')['default']
     MaskLayer: typeof import('./src/components/MaskLayer.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Sidebar: typeof import('./src/components/Sidebar.vue')['default']
+    Statement: typeof import('./src/components/Statement.vue')['default']
   }
 }
