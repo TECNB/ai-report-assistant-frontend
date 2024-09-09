@@ -8,95 +8,58 @@
                 </el-icon>
             </div>
         </div>
-        <el-scrollbar height="86%" wrap-style="width:90%;" class="flex justify-center">
+        <el-scrollbar height="95%" wrap-style="width:90%;" class="flex justify-center">
             <div class="w-full flex flex-col justify-center items-center self-center">
-                <div
-                    class="w-full h-10 flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
-                    <el-checkbox v-model="checked1" size="large" />
-                    <p class="font-bold text-center">生态环境监测报告 - 年度空气质量统计</p>
-                    <div class="">
-                        <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1"
-                            v-if="ifAdd">
-                            <el-icon color="#54a358">
-                                <CircleCheck />
-                            </el-icon>
-                            <p class="text-green-700 text-sm">已添加</p>
+                <div class="flex justify-center items-center w-full gap-3">
+                    <div class="w-full shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5">
+                        <p class="text-sm font-bold">空气质量优良天数</p>
+                        <div class="h-36 flex justify-center items-center gap-2">
+                            <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">2</p>
+                            <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">8</p>
+                            <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">0</p>
                         </div>
                     </div>
+                    <div class="w-full shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5">
+                        <p class="text-sm font-bold">本年度二氧化碳总排放量</p>
+                        <div class="h-36 flex justify-center items-center gap-2">
+                            <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">1</p>
+                            <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">2</p>
+                            <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">0</p>
+                            <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">0</p>
+                            <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">0</p>
+                            <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">0</p>
+                        </div>
+                    </div>
+
                 </div>
 
 
                 <div
-                    class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
+                    class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
+                    <p class="font-bold text-sm text-center">生态环境监测报告 - 年度空气质量统计</p>
                     <div ref="airLineContainer" style="width: 1200px; height: 220px;"></div>
                 </div>
-                <div
-                    class="w-full h-10 flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
-                    <el-checkbox v-model="checked2" size="large" />
-                    <p class="font-bold text-center">生态环境评估报告 - 年度水质监测概览</p>
-                    <div class="">
-                        <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1"
-                            v-if="ifAdd">
-                            <el-icon color="#54a358">
-                                <CircleCheck />
-                            </el-icon>
-                            <p class="text-green-700 text-sm">已添加</p>
+
+
+                <div class="w-full flex justify-center items-center gap-3 mt-5">
+                    <div class="flex flex-1 flex-col justify-center items-center">
+                        <div
+                            class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
+                            <p class="font-bold text-sm text-center">生态环境评估报告 - 年度水质监测概览</p>
+                            <div ref="waterBarContainer" style="width: 100%; height: 220px;"></div>
+                        </div>
+                    </div>
+                    <div class="flex flex-1 flex-col justify-center items-center">
+                        <div
+                            class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
+                            <p class="font-bold text-sm text-center">生态环境变化分析 - 年度森林覆盖率</p>
+                            <div ref="forestPieContainer" style="width: 100%; height: 220px;"></div>
                         </div>
                     </div>
                 </div>
-                <div
-                    class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                    <div ref="waterBarContainer" style="width: 1200px; height: 220px;"></div>
-                </div>
 
-
-                <div
-                    class="w-full h-10 flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
-                    <el-checkbox v-model="checked3" size="large" />
-                    <p class="font-bold text-center">生态环境变化分析 - 森林覆盖率年度报告</p>
-                    <div class="">
-                        <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1"
-                            v-if="ifAdd">
-                            <el-icon color="#54a358">
-                                <CircleCheck />
-                            </el-icon>
-                            <p class="text-green-700 text-sm">已添加</p>
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                    <div ref="forestPieContainer" style="width: 1200px; height: 220px;"></div>
-                </div>
             </div>
         </el-scrollbar>
-        <div class="w-full flex justify-between items-center absolute bottom-3 border-t pt-3 -mx-5 px-5">
-            <div class="flex flex-1 justify-start items-center gap-3">
-                <el-checkbox v-model="checkedAll" label="全选" size="large" />
-                <p class="text-text-300 text-sm">勾选的图表将被写入报表</p>
-            </div>
-            <div class="">
-                <div class="bg-text-100 rounded-xl cursor-pointer py-3 px-8" @click="addChart" v-if="!ifAdd">
-                    <p class="text-white font-bold">立即使用</p>
-                </div>
-                <div class="bg-text-400 rounded-xl cursor-not-allowed py-3 px-8" v-else>
-                    <p class="text-white font-bold">立即使用</p>
-                </div>
-            </div>
-
-            <div class="flex flex-1 justify-end items-center">
-                <div class="flex justify-between items-center gap-3 cursor-pointer rounded-xl hover:bg-gray-200 transition p-2">
-                    <el-icon color="#999999">
-                        <Delete />
-                    </el-icon>
-                    <p class="text-text-300">全部删除</p>
-                </div>
-                <div class="">
-
-                </div>
-            </div>
-
-        </div>
 
     </div>
 </template>
@@ -160,10 +123,10 @@ watch(checkedAll, (newVal) => {
 // 监听单选项的变化
 watch([checked1, checked2, checked3], ([newChecked1, newChecked2, newChecked3]) => {
     // 如果所有单选项都未被选中，则将全选设为 false
-    if(!newChecked1&&!newChecked2&&!newChecked3){
+    if (!newChecked1 && !newChecked2 && !newChecked3) {
         isUpdating = false;
         checkedAll.value = false;
-    }else if(newChecked1&&newChecked2&&newChecked3){
+    } else if (newChecked1 && newChecked2 && newChecked3) {
         isUpdating = false;
         checkedAll.value = true;
     }
