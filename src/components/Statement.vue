@@ -56,6 +56,13 @@
                             <div ref="forestPieContainer" style="width: 100%; height: 220px;"></div>
                         </div>
                     </div>
+                    <div class="flex flex-1 flex-col justify-center items-center">
+                        <div
+                            class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
+                            <p class="font-bold text-sm text-center">生态环境评估报告 - 各地区年度空气质量对比</p>
+                            <div ref="airHorizontalBarContainer" style="width: 100%; height: 220px;"></div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -71,6 +78,7 @@ import * as echarts from 'echarts';
 import airLineOptions from '../utils/airLineOptions';
 import waterBarOption from '../utils/waterBarOption';
 import forestPieOption from '../utils/forestPieOption';
+import airHorizontalBarOption from '../utils/airHorizontalBarOption';
 
 const airLineContainer = ref<HTMLElement | null>(null);
 let airLine: echarts.ECharts | null = null;
@@ -78,17 +86,11 @@ const waterBarContainer = ref<HTMLElement | null>(null);
 let waterBar: echarts.ECharts | null = null;
 const forestPieContainer = ref<HTMLElement | null>(null);
 let forestPie: echarts.ECharts | null = null;
+const airHorizontalBarContainer = ref<HTMLElement | null>(null);
+let airHorizontalBar: echarts.ECharts | null = null;
 
 const props = defineProps(['ifShow']);
 const emit = defineEmits();
-
-let checked1 = ref(true);
-let checked2 = ref(true);
-let checked3 = ref(true);
-let checkedAll = ref(true);
-let isUpdating = false; // 用于避免循环更新
-
-let ifAdd = ref(false);
 
 const toggleVisibility = () => {
     emit('updateIfShow', false);
@@ -110,38 +112,10 @@ watch(() => props.ifShow, async (newValue) => {
         initAirLineChart();
         initWaterBarChart();
         initForestPieChart();
+        initAirHorizontalBarChart();
     }
 });
 
-// 监听 checkedAll 的变化
-watch(checkedAll, (newVal) => {
-    checked1.value = newVal;
-    checked2.value = newVal;
-    checked3.value = newVal;
-});
-
-// 监听单选项的变化
-watch([checked1, checked2, checked3], ([newChecked1, newChecked2, newChecked3]) => {
-    // 如果所有单选项都未被选中，则将全选设为 false
-    if (!newChecked1 && !newChecked2 && !newChecked3) {
-        isUpdating = false;
-        checkedAll.value = false;
-    } else if (newChecked1 && newChecked2 && newChecked3) {
-        isUpdating = false;
-        checkedAll.value = true;
-    }
-    if (!isUpdating) return; // 如果是内部更新，跳过
-
-});
-
-const addChart = () => {
-    console.log('add chart');
-    ifAdd.value = true;
-    checked1.value = false;
-    checked2.value = false;
-    checked3.value = false;
-    checkedAll.value = false;
-};
 
 
 // 初始化图表方法
@@ -161,6 +135,12 @@ const initForestPieChart = () => {
     if (forestPieContainer.value) {
         forestPie = echarts.init(forestPieContainer.value);
         renderForestPie();
+    }
+};
+const initAirHorizontalBarChart = () => {
+    if (airHorizontalBarContainer.value) {
+        airHorizontalBar = echarts.init(airHorizontalBarContainer.value);
+        renderAirHorizontalBar();
     }
 };
 
@@ -202,6 +182,16 @@ const renderForestPie = () => {
     // 使用 setOption 方法设置图表配置
     forestPie?.setOption(options);
 }
+const renderAirHorizontalBar = () => {
+    // 使用示例数据，假设为不同地区的年度空气质量指数（AQI）
+    const yAxisData = ['东部地区', '西部地区', '中部地区', '北部地区']; // 不同地区
+    const seriesData = [75, 60, 85, 90]; // 各地区的AQI值
+
+    let options = airHorizontalBarOption(yAxisData, seriesData);
+
+    // 使用 setOption 方法设置图表配置
+    airHorizontalBar?.setOption(options);
+};
 
 </script>
 
