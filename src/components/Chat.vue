@@ -60,14 +60,15 @@
             </div>
             <div class="flex justify-center items-center gap-2 mt-1">
                 <div v-for="(suggestion, index) in suggestions" :key="index"
-                    class="w-64 h-36 bg-bg-200 rounded-3xl text-left flex flex-col gap-8 px-5 py-6 hover:bg-bg-300 cursor-pointer transition-bg duration-300" @click="showDataSidebar">
+                    class="w-64 h-36 bg-bg-200 rounded-3xl text-left flex flex-col gap-8 px-5 py-6 hover:bg-bg-300 cursor-pointer transition-bg duration-300"
+                    @click="showDataSidebar">
                     <div class="flex flex-col justify-center items-start">
                         <p class="text-text-100 font-bold">{{ suggestion.title }}</p>
                         <p class="text-text-200 text-sm">{{ suggestion.description }}</p>
                     </div>
 
                     <div class="flex justify-between items-center">
-                        <p class="text-text-200 text-sm ">提示词</p>
+                        <p class="text-text-200 text-sm">提示词</p>
                         <el-icon color="#B4B4B4">
                             <Top />
                         </el-icon>
@@ -75,50 +76,53 @@
                 </div>
             </div>
         </div>
-        <div v-else id="chat-window" class="flex-1 overflow-auto p-20">
-            <div v-for="(msg, index) in displayedMessages" :key="index" class="mb-4 flex items-start">
-                <div v-if="msg.type === 'user'" class="bg-gray-100 rounded-lg p-3 ml-auto max-w-md">
-                    <p class="text-lg font-bold text-gray-600">{{ msg.content }}</p>
-                </div>
-                <div v-if="msg.type === 'loading'" class="skeleton-loader w-full">
-                    <div class="skeleton-line"></div>
-                    <div class="skeleton-line"></div>
-                    <div class="skeleton-line"></div>
-                </div>
-                <div v-if="msg.type === 'ai'" class="flex gap-3 items-start">
-                    <img src="../assets/images/icon.png" alt="AI Avatar"
-                        class="w-6 h-6 rounded-full border border-gray-300 object-cover" />
-                    <div class="flex flex-col">
-                        <!-- Static Title -->
-                        <div class="flex items-center">
-                            <p class="text-lg font-bold text-gray-700 mr-3">gpt-3.5-turbo</p>
-                        </div>
-                        <!-- Dynamic Content -->
-                        <div class="flex items-start">
-                            <p class="text-lg font-bold text-gray-600">{{ msg.content }}</p>
-                        </div>
-                        <!-- Action Icons -->
-                        <div class="action-icons flex gap-3 mt-2 text-sm text-gray-500">
-                            <i class="fas fa-pen"></i>
-                            <!-- 复制文档图标 -->
-                            <i class="fas fa-clipboard"></i>
-                            <!-- 刷新图标 -->
-                            <i class="fas fa-sync-alt"></i>
-                            <!-- 添加图标 -->
-                            <i class="fas fa-headphones"></i>
-                            <!-- 编辑图标 -->
-                            <i class="fas fa-circle-info"></i>
-                            <!-- 消息图标 -->
-                            <i class="fas fa-star"></i>
+        <el-scrollbar v-else height="100%" wrap-style="width:100%;" class="flex justify-center -mx-5">
+            <div id="chat-window" class="flex-1 px-24 py-10">
+                <div v-for="(msg, index) in displayedMessages" :key="index" class="mb-4 flex items-start">
+                    <div v-if="msg.type === 'user'" class="bg-gray-50 rounded-3xl px-5 py-2 ml-auto max-w-md">
+                        <p class="">{{ msg.content }}</p>
+                    </div>
+                    <div v-if="msg.type === 'loading'" class="skeleton-loader w-full">
+                        <div class="skeleton-line"></div>
+                        <div class="skeleton-line"></div>
+                        <div class="skeleton-line"></div>
+                    </div>
+                    <div v-if="msg.type === 'ai'" class="flex gap-3 items-start">
+                        <img src="../assets/images/icon.png" alt="AI Avatar"
+                            class="w-6 h-6 rounded-full border border-gray-300 object-cover" />
+                        <div class="flex flex-col">
+                            <!-- Static Title -->
+                            <div class="flex items-center">
+                                <p class="font-bold mb-0.5">生态环境报表助手</p>
+                            </div>
+                            <!-- Dynamic Content -->
+                            <div class="flex items-start">
+                                <p class="">{{ msg.content }}</p>
+                            </div>
+                            <!-- Action Icons -->
+                            <div class="action-icons flex gap-3 mt-2 text-sm text-gray-500">
+                                <i class="fas fa-pen"></i>
+                                <!-- 复制文档图标 -->
+                                <i class="fas fa-clipboard"></i>
+                                <!-- 刷新图标 -->
+                                <i class="fas fa-sync-alt"></i>
+                                <!-- 添加图标 -->
+                                <i class="fas fa-headphones"></i>
+                                <!-- 编辑图标 -->
+                                <i class="fas fa-circle-info"></i>
+                                <!-- 消息图标 -->
+                                <i class="fas fa-star"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </el-scrollbar>
 
 
 
-        <div class="flex justify-between items-center gap-5 mb-5 mx-5">
+
+        <div class="flex justify-between items-center gap-5 mt-20 mb-5 mx-5">
             <div class="flex flex-1 justify-between items-center bg-bg-200 rounded-3xl p-3">
                 <div class="flex items-center gap-5">
                     <el-icon size="18">
@@ -136,11 +140,11 @@
             </el-icon>
         </div>
 
-        <Knowledge :ifShow="knowledgeVisible" @updateIfShow="updateKnowledgeVisible"/>
+        <Knowledge :ifShow="knowledgeVisible" @updateIfShow="updateKnowledgeVisible" />
         <!-- 遮罩层 -->
         <MaskLayer :ifShow="knowledgeVisible" />
 
-        <DataSidebar :ifShow="dataSidebarVisible" @updateIfShow="updateDataSidebarVisible"/>
+        <DataSidebar :ifShow="dataSidebarVisible" @updateIfShow="updateDataSidebarVisible" />
         <!-- 遮罩层 -->
         <MaskLayer :ifShow="dataSidebarVisible" />
     </div>
@@ -281,7 +285,6 @@ const updateDataSidebarVisible = (newValue: boolean) => {
 
 #chat-window {
     max-height: calc(100vh - 200px);
-    overflow-y: auto;
     padding-bottom: 100px;
     /* 确保聊天记录不会被输入框覆盖 */
 }
