@@ -14,7 +14,7 @@
             </div>
             <transition name="fade">
                 <div v-if="statementVisible"
-                    class="w-96 absolute top-11 shadow-lg rounded-xl border-[0.5px] bg-bg-100 p-5">
+                    class="w-96 absolute top-11 shadow-lg rounded-xl border-[0.5px] bg-bg-100 p-5 z-10">
                     <!-- 下面为藏品名称搜索框 -->
                     <el-input v-model="statementName" placeholder="搜索报表" class="">
                         <template #prefix>
@@ -25,15 +25,15 @@
                     </el-input>
 
                     <div class="w-full flex flex-col justify-center items-start gap-3 mt-5">
-                        <div class="w-full flex justify-between items-center">
+                        <div class="w-full flex justify-between items-center cursor-pointer">
                             <p class="font-bold text-text-200">交通报表</p>
                             <el-icon>
                                 <Check />
                             </el-icon>
                         </div>
 
-                        <p class="font-bold text-text-200">能源报表</p>
-                        <p class="font-bold text-text-200">医院数据报表</p>
+                        <p class="font-bold text-text-200 cursor-pointer">能源报表</p>
+                        <p class="font-bold text-text-200 cursor-pointer">医院数据报表</p>
                     </div>
 
                 </div>
@@ -130,8 +130,11 @@
                                     <div class="flex justify-center items-center gap-1 hover:bg-gray-200 cursor-pointer rounded-lg p-2"
                                         @click="showChartDropDown">
                                         <i class="fa-solid fa-table-list fa-xl" style="color: #9ca3af;"></i>
-                                        <el-icon color="#9ca3af" size="20">
+                                        <el-icon v-if="!chartDropDownVisible" color="#9ca3af" size="20">
                                             <ArrowDownBold />
+                                        </el-icon>
+                                        <el-icon v-else color="#9ca3af" size="20">
+                                            <ArrowUpBold />
                                         </el-icon>
                                     </div>
 
@@ -143,13 +146,16 @@
 
                                 </div>
 
-                                <div class="absolute top-10 right-10 grid grid-rows-3 grid-flow-col gap-4 bg-white rounded-lg z-10 p-5"
-                                    v-if="chartDropDownVisible">
-                                    <div class="" v-for="index in 9">
-                                        <i class="fa-solid fa-chart-pie" style="color: #71c4ef;"></i>
-                                        <p>柱状图</p>
+                                <transition name="fade">
+                                    <div class="absolute top-10 right-10 grid grid-rows-3 grid-flow-col gap-4 bg-white rounded-xl z-10 p-5 shadow-lg"
+                                        v-if="chartDropDownVisible">
+                                        <div class="cursor-pointer" v-for="index in 9">
+                                            <i class="fa-solid fa-chart-pie" style="color: #71c4ef;"></i>
+                                            <p>柱状图</p>
+                                        </div>
                                     </div>
-                                </div>
+                                </transition>
+
 
                             </div>
 
