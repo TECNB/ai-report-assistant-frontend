@@ -115,6 +115,13 @@
                             </div>
                         </div>
                     </div>
+                    <div v-if="msg.type === 'chart'" class="flex gap-3 items-start">
+                        <img src="../assets/images/icon.png" alt="AI Avatar"
+                            class="w-6 h-6 rounded-full border border-gray-300 object-cover" />
+                        <div class="w-[1000px] h-56 bg-gray-100 flex flex-col rounded-xl">
+                            <p>{{ chatExample.description }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </el-scrollbar>
@@ -154,6 +161,7 @@
 import { ref } from "vue";
 import { suggestions } from '../constant/suggestions'; // 导入建议列表
 import { AIChat } from '../utils/AIChat'; // 导入AIChat
+import chatExample from '../constant/chatExample'; // 导入聊天示例
 
 let statementVisible = ref(false);
 let knowledgeVisible = ref(false);
@@ -168,18 +176,48 @@ const displayedMessages = ref<{ type: string; content: string }[]>([]); // 展�
 
 // 打字机效果函数
 const typeEffect = (text: string, speed: number) => {
-    let index = 0;
-    const interval = setInterval(() => {
-        if (index < text.length) {
-            displayedMessages.value[displayedMessages.value.length - 1].content += text[index++];
-        } else {
-            clearInterval(interval);
-        }
-    }, speed); // 控制字符出现速度
+    return new Promise<void>((resolve) => {
+        let index = 0;
+        const interval = setInterval(() => {
+            if (index < text.length) {
+                displayedMessages.value[displayedMessages.value.length - 1].content += text[index++];
+            } else {
+                clearInterval(interval);
+                resolve(); // 在打字完成后，resolve 这个 Promise
+            }
+        }, speed); // 控制字符出现速度
+    });
 };
 
 // 回车事件处理函数
 const handleEnter = async () => {
+    if (message.value === '2023年累计温室气体排放') {
+        const userContent = message.value;
+        displayedMessages.value.push({ type: 'user', content: userContent });
+        message.value = '';
+
+        showSuggestions.value = false; // 隐藏建议列表
+
+
+        let completeMessage = ''; // 用于累积AI的回复内容
+        completeMessage = chatExample.prompt
+
+        // Add a loading placeholder
+        displayedMessages.value.push({ type: 'loading', content: '' });
+        // 移除加载占位符
+        displayedMessages.value.pop();
+        displayedMessages.value.push({ type: 'ai', content: '' });
+
+
+
+        // 添加最终的AI消息并应用打字效果
+        await typeEffect(chatExample.prompt, 50);
+
+        displayedMessages.value.push({ type: 'chart', content: '' });
+
+
+        return;
+    }
     if (message.value.trim()) {
         const userContent = message.value;
         displayedMessages.value.push({ type: 'user', content: userContent });

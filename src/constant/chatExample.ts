@@ -1,6 +1,7 @@
 const chatExample = {
 	"prompt": "好的，以下是根据温室气体排放数据分析为您输出的结果。",
 	"year": 2023,
+    "description":"2023年累计温室气体排放",
 	"total_value": 45000.5,
 	"unit": "ton",
 	"year_on_year_comparison": {
