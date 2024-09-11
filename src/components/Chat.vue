@@ -115,20 +115,23 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- 具体回答数据 -->
                     <div v-if="msg.type === 'chart'" class="flex gap-3 items-start">
                         <img src="../assets/images/icon.png" alt="AI Avatar"
                             class="w-6 h-6 rounded-full border border-gray-300 object-cover" />
                         <div class="w-[1000px] h-64 bg-gray-50 flex flex-col items-start rounded-xl p-5">
-                            <div class="w-full flex justify-between items-center gap-5 mb-6">
+                            <!-- 顶部栏 -->
+                            <div class="w-full flex justify-between items-center gap-5 mb-6 relative">
                                 <p class="text-lg font-bold">{{ chatExample.description }}</p>
 
                                 <div class="flex justify-center items-center gap-2">
                                     <i class="fa-solid fa-table fa-xl" style="color: #9ca3af;"></i>
-                                    <div
-                                        class="flex justify-center items-center gap-1 hover:bg-gray-200 cursor-pointer rounded-lg p-2">
+                                    <div class="flex justify-center items-center gap-1 hover:bg-gray-200 cursor-pointer rounded-lg p-2"
+                                        @click="showChartDropDown">
                                         <i class="fa-solid fa-table-list fa-xl" style="color: #9ca3af;"></i>
                                         <el-icon color="#9ca3af" size="20">
-                                            <ArrowDown />
+                                            <ArrowDownBold />
                                         </el-icon>
                                     </div>
 
@@ -140,8 +143,17 @@
 
                                 </div>
 
+                                <div class="absolute top-10 right-10 grid grid-rows-3 grid-flow-col gap-4 bg-white rounded-lg z-10 p-5"
+                                    v-if="chartDropDownVisible">
+                                    <div class="" v-for="index in 9">
+                                        <i class="fa-solid fa-chart-pie" style="color: #71c4ef;"></i>
+                                        <p>柱状图</p>
+                                    </div>
+                                </div>
+
                             </div>
 
+                            <!-- 主要数据 -->
                             <p>排放值（累计）</p>
                             <div class="flex justify-center items-end gap-3 mt-3">
                                 <p class="text-3xl font-bold">{{ chatExample.total_value }}</p>
@@ -154,6 +166,7 @@
                                     }}%</p>
                             </div>
 
+                            <!-- 底部栏 -->
                             <div class="w-full flex justify-between items-center border-t mt-5">
                                 <div class="text-gray-500 hover:text-gray-900 cursor-pointer mt-3">
                                     <p>查看AI取数过程</p>
@@ -185,9 +198,6 @@
                 </div>
             </div>
         </el-scrollbar>
-
-
-
 
         <div class="flex justify-between items-center gap-5 mt-20 mb-5 mx-5">
             <div class="flex flex-1 justify-between items-center bg-bg-200 rounded-3xl p-3">
@@ -224,6 +234,8 @@ import { AIChat } from '../utils/AIChat'; // 导入AIChat
 import chatExample from '../constant/chatExample'; // 导入聊天示例
 
 let statementVisible = ref(false);
+let chartDropDownVisible = ref(false);
+
 let knowledgeVisible = ref(false);
 let dataSidebarVisible = ref(false);
 
@@ -353,6 +365,10 @@ const showKnowledge = () => {
 const showDataSidebar = () => {
     dataSidebarVisible.value = !dataSidebarVisible.value;
 };
+const showChartDropDown = () => {
+    chartDropDownVisible.value = !chartDropDownVisible.value;
+};
+
 const updateKnowledgeVisible = (newValue: boolean) => {
     knowledgeVisible.value = newValue;
 };
