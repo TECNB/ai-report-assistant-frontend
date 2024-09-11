@@ -3,7 +3,7 @@ const chatExample = {
 	"year": 2023,
     "description":"2023年累计温室气体排放",
 	"total_value": 45000.5,
-	"unit": "ton",
+	"unit": "吨",
 	"year_on_year_comparison": {
 		"previous_year": 2022,
 		"value_previous_year": 43000.2,
