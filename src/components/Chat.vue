@@ -60,7 +60,7 @@
             </div>
             <div class="flex justify-center items-center gap-2 mt-1">
                 <div v-for="(suggestion, index) in suggestions" :key="index"
-                    class="w-64 h-36 bg-bg-200 rounded-3xl text-left flex flex-col gap-8 px-5 py-6 hover:bg-bg-300 cursor-pointer transition-bg duration-300">
+                    class="w-64 h-36 bg-bg-200 rounded-3xl text-left flex flex-col gap-8 px-5 py-6 hover:bg-bg-300 cursor-pointer transition-bg duration-300" @click="showDataSidebar">
                     <div class="flex flex-col justify-center items-start">
                         <p class="text-text-100 font-bold">{{ suggestion.title }}</p>
                         <p class="text-text-200 text-sm">{{ suggestion.description }}</p>
@@ -139,6 +139,10 @@
         <Knowledge :ifShow="knowledgeVisible" @updateIfShow="updateKnowledgeVisible"/>
         <!-- 遮罩层 -->
         <MaskLayer :ifShow="knowledgeVisible" />
+
+        <DataSidebar :ifShow="dataSidebarVisible" @updateIfShow="updateDataSidebarVisible"/>
+        <!-- 遮罩层 -->
+        <MaskLayer :ifShow="dataSidebarVisible" />
     </div>
 </template>
 
@@ -149,6 +153,8 @@ import { AIChat } from '../utils/AIChat'; // 导入AIChat
 
 let statementVisible = ref(false);
 let knowledgeVisible = ref(false);
+let dataSidebarVisible = ref(false);
+
 let statementName = ref('');
 const message = ref('');
 const systemContent = ref('生态环境');
@@ -242,8 +248,14 @@ const showStatement = () => {
 const showKnowledge = () => {
     knowledgeVisible.value = !knowledgeVisible.value;
 };
+const showDataSidebar = () => {
+    dataSidebarVisible.value = !dataSidebarVisible.value;
+};
 const updateKnowledgeVisible = (newValue: boolean) => {
     knowledgeVisible.value = newValue;
+};
+const updateDataSidebarVisible = (newValue: boolean) => {
+    dataSidebarVisible.value = newValue;
 };
 </script>
 

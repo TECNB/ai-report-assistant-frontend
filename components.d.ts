@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     Chart: typeof import('./src/components/Chart.vue')['default']
     Chat: typeof import('./src/components/Chat.vue')['default']
+    DataSidebar: typeof import('./src/components/DataSidebar.vue')['default']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
