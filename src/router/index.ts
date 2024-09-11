@@ -22,6 +22,11 @@ const routes: Array<RouteRecordRaw> = [
         path:"/jobChoice",
         component:()=>import("../views/JobChoiceView.vue")
     },
+    {
+        name:'DataSidebar',
+        path:"/DataSidebar",
+        component:()=>import("../components/DataSidebar.vue")
+    }
 ];
 // 1.返回一个 router 实列，为函数，里面有配置项（对象） history
 const router = createRouter({
