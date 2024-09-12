@@ -149,9 +149,10 @@
                                 <transition name="fade">
                                     <div class="absolute top-10 right-10 grid grid-rows-3 grid-flow-col gap-4 bg-white rounded-xl z-10 p-5 shadow-lg"
                                         v-if="chartDropDownVisible">
-                                        <div class="cursor-pointer" v-for="index in 9">
-                                            <i class="fa-solid fa-chart-pie" style="color: #71c4ef;"></i>
-                                            <p>柱状图</p>
+                                        <div v-for="(option, index) in chartOptions" :key="index"
+                                            class="cursor-pointer">
+                                            <i :class="`fa-regular ${option.icon} fa-xl`" style="color: #71c4ef;"></i>
+                                            <p class="text-gray-600 mt-1">{{ option.label }}</p>
                                         </div>
                                     </div>
                                 </transition>
@@ -242,6 +243,7 @@ import { ref } from "vue";
 import { suggestions } from '../constant/suggestions'; // 导入建议列表
 import { AIChat } from '../utils/AIChat'; // 导入AIChat
 import chatExample from '../constant/chatExample'; // 导入聊天示例
+import { chartOptions } from '../constant/chartOptions';
 
 let statementVisible = ref(false);
 let chartDropDownVisible = ref(false);
