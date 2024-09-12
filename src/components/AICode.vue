@@ -4,7 +4,7 @@
       <p class="text-3xl font-bold text-blue-600">AI取数过程</p>
       <div class="cursor-pointer" @click="toggleVisibility">
         <el-icon size="20">
-          <Close />
+          <Close/>
         </el-icon>
       </div>
     </div>
@@ -24,7 +24,7 @@
     </div>
 
     <!-- 分割线 -->
-    <hr class="my-4 border-gray-300" />
+    <hr class="my-4 border-gray-300"/>
     <!-- "确定"按钮固定在右下角 -->
     <div class="btn-container">
       <button class="btn-confirm" @click="toggleVisibility">确定</button>
@@ -33,10 +33,10 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { getHighlighter } from 'shiki';
+import {onMounted, ref} from 'vue';
+import {getHighlighter} from 'shiki';
 import chatExample from '../constant/chatExample.ts'; // 请替换为chatExample.ts的实际路径
-import { ElScrollbar } from 'element-plus'; // 导入 Element Plus 的 el-scrollbar 组件
+import {ElScrollbar} from 'element-plus'; // 导入 Element Plus 的 el-scrollbar 组件
 
 const props = defineProps({
   ifShow: Boolean,
@@ -59,7 +59,7 @@ onMounted(async () => {
   const codeExample = JSON.stringify(chatExample, null, 2); // 格式化 JSON
 
   // 使用 Shiki 的 codeToHtml 方法高亮 JSON 字符串并添加行号
-  const highlightedHtml = highlighter.codeToHtml(codeExample, { lang: 'json', theme: 'nord' });
+  const highlightedHtml = highlighter.codeToHtml(codeExample, {lang: 'json', theme: 'nord'});
 
   // 处理 \n 符号并分割每行，添加行号和自定义颜色
   const lines = highlightedHtml.split('\n').map(line => line.replace(/\\n/g, '<br/>')); // 将 \n 转换为 <br/>
@@ -86,46 +86,46 @@ onMounted(async () => {
 
 <style scoped>
 .AICode {
-    @apply w-3/5 h-4/5 absolute z-[99999] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl text-left p-5 overflow-hidden;
+  @apply w-3/5 h-4/5 absolute z-[99999] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl text-left p-5 overflow-hidden;
 }
 
 .code-container {
-    width: 90%;
-    height: 72%;
-    margin: 0 auto;
-    overflow: hidden;
-    /* 防止代码框超出 */
+  width: 90%;
+  height: 72%;
+  margin: 0 auto;
+  overflow: hidden;
+  /* 防止代码框超出 */
 }
 
 .scrollbar-container {
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    /* 启用水平和垂直滚动 */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  /* 启用水平和垂直滚动 */
 }
 
 .fixed-size {
-    width: 100%;
-    /* 固定代码块的宽度 */
-    min-height: 100%;
-    /* 确保最小高度不小于容器 */
-    overflow: hidden;
-    /* 防止代码内容超出代码块 */
+  width: 100%;
+  /* 固定代码块的宽度 */
+  min-height: 100%;
+  /* 确保最小高度不小于容器 */
+  overflow: hidden;
+  /* 防止代码内容超出代码块 */
 }
 
 .code-block {
-    @apply pl-8 whitespace-pre-wrap text-xl leading-relaxed;
+  @apply pl-8 whitespace-pre-wrap text-xl leading-relaxed;
 }
 
 .line-number {
-    @apply inline-block w-8 text-right mr-2 text-blue-500 font-bold select-none;
+  @apply inline-block w-8 text-right mr-2 text-blue-500 font-bold select-none;
 }
 
 .btn-container {
-    @apply fixed bottom-4 right-4;
+  @apply fixed bottom-4 right-4;
 }
 
 .btn-confirm {
-    @apply bg-blue-500 text-white text-lg font-bold py-2 px-4 rounded hover:bg-blue-600 cursor-pointer transition duration-300;
+  @apply bg-blue-500 text-white text-lg font-bold py-2 px-4 rounded hover:bg-blue-600 cursor-pointer transition duration-300;
 }
 </style>
