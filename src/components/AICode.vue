@@ -1,26 +1,35 @@
 <template>
-    <div class="AICode" v-if="props.ifShow">
-        <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2">
-            <p class="text-3xl font-bold text-blue-600">AI取数过程</p>
-            <div class="Close" @click="toggleVisibility">
-                <el-icon size="20" class="cursor-pointer">
-                    <Close />
-                </el-icon>
-            </div>
-        </div>
-        <!-- 使用 el-scrollbar 组件来显示带行号的高亮代码 -->
-        <div class="code-container">
-            <el-scrollbar height="100%" wrap-style="width:100%;" class="scrollbar-container">
-                <pre class="code-block fixed-size rounded-lg p-6 bg-gray-800">
+  <div class="AICode" v-if="props.ifShow">
+    <div class="flex justify-between items-center border-b border-gray-200 pb-2">
+      <p class="text-3xl font-bold text-blue-600">AI取数过程</p>
+      <div class="cursor-pointer" @click="toggleVisibility">
+        <el-icon size="20">
+          <Close />
+        </el-icon>
+      </div>
+    </div>
+
+    <!-- 添加描述性文字 -->
+    <p class="text-lg font-semibold text-gray-600 my-4">
+      2023年累计温室气体排放情况：
+    </p>
+
+    <!-- 使用 el-scrollbar 组件来显示带行号的高亮代码 -->
+    <div class="code-container">
+      <el-scrollbar height="100%" wrap-style="width:100%;" class="scrollbar-container">
+        <pre class="code-block fixed-size rounded-lg p-6 bg-gray-50">
           <code v-html="highlightedCode"></code>
         </pre>
-            </el-scrollbar>
-        </div>
-        <!-- "确定"按钮固定在右下角 -->
-        <div class="btn-container">
-            <button class="btn-confirm" @click="toggleVisibility">确定</button>
-        </div>
+      </el-scrollbar>
     </div>
+
+    <!-- 分割线 -->
+    <hr class="my-4 border-gray-300" />
+    <!-- "确定"按钮固定在右下角 -->
+    <div class="btn-container">
+      <button class="btn-confirm" @click="toggleVisibility">确定</button>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -30,47 +39,48 @@ import chatExample from '../constant/chatExample.ts'; // 请替换为chatExample
 import { ElScrollbar } from 'element-plus'; // 导入 Element Plus 的 el-scrollbar 组件
 
 const props = defineProps({
-    ifShow: Boolean,
+  ifShow: Boolean,
 });
 const emit = defineEmits();
 const highlightedCode = ref('');
 
 const toggleVisibility = () => {
-    emit('updateIfShow', false);
+  emit('updateIfShow', false);
 };
 
 onMounted(async () => {
-    // 初始化 Shiki 高亮器
-    const highlighter = await getHighlighter({
-        themes: ['nord'], // 使用 Nord 主题
-        langs: ['json'], // 使用 json 作为语言来高亮
-    });
+  // 初始化 Shiki 高亮器
+  const highlighter = await getHighlighter({
+    themes: ['nord'], // 使用 Nord 主题
+    langs: ['json'], // 使用 json 作为语言来高亮
+  });
 
-    // 将 chatExample 对象转换为格式化的 JSON 字符串
-    const codeExample = JSON.stringify(chatExample, null, 2); // 格式化 JSON
+  // 将 chatExample 对象转换为格式化的 JSON 字符串
+  const codeExample = JSON.stringify(chatExample, null, 2); // 格式化 JSON
 
-    // 使用 Shiki 的 codeToHtml 方法高亮 JSON 字符串并添加行号
-    const highlightedHtml = highlighter.codeToHtml(codeExample, { lang: 'json', theme: 'nord' });
+  // 使用 Shiki 的 codeToHtml 方法高亮 JSON 字符串并添加行号
+  const highlightedHtml = highlighter.codeToHtml(codeExample, { lang: 'json', theme: 'nord' });
 
-    // 处理 \n 符号并分割每行，添加行号和自定义颜色
-    const lines = highlightedHtml.split('\n').map(line => line.replace(/\\n/g, '<br/>')); // 将 \n 转换为 <br/>
-    const numberedHtml = lines
-        .map((line, index) => {
-            // 为每行添加行号
-            return `<span class="line-number text-gray-400">${index + 1}</span> ${line
-                .replace(/"(.*?)":/g, '<span class="text-purple-700 font-bold text-lg">"$1"</span>:') // 为JSON属性名称添加颜色
-                .replace(/:\s*"([^"]*)"/g, function (match, p1) {
-                    // 为JSON中的字符串值添加颜色，同时匹配和高亮字符串中的数字
-                    const highlightedString = p1.replace(/([0-9.]+)/g, '<span class="text-purple-600 font-semibold">$1</span>');
-                    return `: "<span class="text-green-600 font-semibold">${highlightedString}</span>"`;
-                })
-                .replace(/:\s*([0-9.]+)/g, ': <span class="text-green-600 font-semibold">$1</span>') // 为数字值添加颜色
-                .replace(/:\s*(true|false|null)/g, ': <span class="text-red-600 font-semibold">$1</span>')}`; // 为布尔值和null添加颜色
-        })
-        .join('\n');
+  // 处理 \n 符号并分割每行，添加行号和自定义颜色
+  const lines = highlightedHtml.split('\n').map(line => line.replace(/\\n/g, '<br/>')); // 将 \n 转换为 <br/>
+  const numberedHtml = lines
+      .filter(line => line.trim() !== '')  // 移除空行
+      .map((line, index) => {
+        // 为每行添加行号
+        return `<span class="line-number text-gray-400">${index + 1}</span> ${line
+            .replace(/"(.*?)":/g, '<span class="text-purple-700 font-bold text-lg">"$1"</span>:') // 为JSON属性名称添加颜色
+            .replace(/:\s*"([^"]*)"/g, function (p1) {
+              // 为JSON中的字符串值添加颜色，同时匹配和高亮字符串中的数字
+              const highlightedString = p1.replace(/([0-9.]+)/g, '<span class="text-purple-600 font-semibold">$1</span>');
+              return `: "<span class="text-green-600 font-semibold">${highlightedString}</span>"`;
+            })
+            .replace(/:\s*([0-9.]+)/g, ': <span class="text-green-600 font-semibold">$1</span>') // 为数字值添加颜色
+            .replace(/:\s*(true|false|null)/g, ': <span class="text-red-600 font-semibold">$1</span>')}`; // 为布尔值和null添加颜色
+      })
+      .join('\n');
 
-    // 更新带有行号的代码
-    highlightedCode.value = `<pre>${numberedHtml}</pre>`;
+  // 更新带有行号的代码
+  highlightedCode.value = `<pre>${numberedHtml}</pre>`;
 });
 </script>
 
@@ -81,7 +91,7 @@ onMounted(async () => {
 
 .code-container {
     width: 90%;
-    height: 85%;
+    height: 72%;
     margin: 0 auto;
     overflow: hidden;
     /* 防止代码框超出 */
