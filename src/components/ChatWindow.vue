@@ -43,7 +43,7 @@
                 <div v-if="msg.type === 'chart'" class="flex gap-3 items-start">
                     <img src="../assets/images/icon.png" alt="AI Avatar"
                         class="w-6 h-6 rounded-full border border-gray-300 object-cover" />
-                    <div class="w-[1000px] h-64 bg-gray-50 flex flex-col items-start rounded-xl p-5">
+                    <div :class="`w-[1000px] ${heightClass} bg-gray-50 flex flex-col items-start rounded-xl p-5`">
                         <!-- 顶部栏 -->
                         <div class="w-full flex justify-between items-center gap-5 mb-6 relative">
                             <p class="text-lg font-bold">{{ chatExample.description }}</p>
@@ -67,7 +67,6 @@
                                         <FullScreen />
                                     </el-icon>
                                 </div>
-
                             </div>
 
                             <transition name="fade">
@@ -79,22 +78,33 @@
                                     </div>
                                 </div>
                             </transition>
-
-
                         </div>
 
                         <!-- 主要数据 -->
-                        <p>排放值（累计）</p>
-                        <div class="flex justify-center items-end gap-3 mt-3">
-                            <p class="text-3xl font-bold">{{ chatExample.total_value }}</p>
-                            <p>{{ chatExample.unit }}</p>
+                        <div class="text-left h-full flex flex-col justify-center" v-if="ifChangeTable">
+                            <p>排放值（累计）</p>
+                            <div class="flex justify-center items-end gap-3 mt-3">
+                                <p class="text-3xl font-bold">{{ chatExample.total_value }}</p>
+                                <p>{{ chatExample.unit }}</p>
+                            </div>
+
+                            <div class="flex justify-start items-center gap-3 mt-3">
+                                <p class="text-gray-400">年同比</p>
+                                <p class="text-green-500">+{{ chatExample.year_on_year_comparison.year_on_year_change
+                                    }}%</p>
+                            </div>
                         </div>
 
-                        <div class="flex justify-center items-end gap-3 mt-3">
-                            <p class="text-gray-400">年同比</p>
-                            <p class="text-green-500">+{{ chatExample.year_on_year_comparison.year_on_year_change
-                                }}%</p>
+                        <!-- 切换表格数据 -->
+                        <div class="w-full h-[65%]" v-else>
+                            <el-table :data="gasEmissionsTableData" style="width: 100%;height: 100%;" stripe
+                                class="tableBox">
+                                <el-table-column prop="date" width="500" label="日期"></el-table-column>
+                                <el-table-column prop="greenhouseGasEmissions" label="排放量(吨)"></el-table-column>
+                            </el-table>
                         </div>
+
+
 
                         <!-- 底部栏 -->
                         <div class="w-full flex justify-between items-center border-t mt-5">
@@ -122,7 +132,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -139,10 +148,14 @@
 import { ref } from 'vue';
 import chatExample from '../constant/chatExample'; // 导入聊天示例
 import { chartOptions } from '../constant/chartOptions';
+import { gasEmissionsTableData } from '../constant/gasEmissionsTableData';
 
-const props = defineProps({
-    displayedMessages: Array,
-});
+const props = defineProps<{
+    displayedMessages: { type: string; content: string }[];
+}>();
+
+// 定义一个变量，用于动态控制类名
+const heightClass = ref('h-96');
 
 let ifChangeTable = ref(false);
 
@@ -150,6 +163,7 @@ let aiCodeVisible = ref(false);
 let chartDropDownVisible = ref(false);
 
 const changeTable = () => {
+    heightClass.value = ifChangeTable.value ? 'h-96' : 'h-64';
     ifChangeTable.value = !ifChangeTable.value;
 };
 
@@ -191,5 +205,9 @@ const updateAICodeVisible = (newValue: boolean) => {
     background-color: #e0e0e0;
     border-radius: 4px;
     animation: pulse 1.5s infinite ease-in-out;
+}
+
+.tableBox {
+ 
 }
 </style>
