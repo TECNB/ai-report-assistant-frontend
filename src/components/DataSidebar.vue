@@ -14,13 +14,13 @@
                     <span class="text-sm text-gray-500">可用数据</span>
                     <span class="text-lg font-bold text-gray-800">/ 生态环境数据分析</span>
                 </div>
-              <div @click="toggleVisibility" class="cursor-pointer text-gray-500 hover:text-gray-700">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </div>
+                <div @click="toggleVisibility" class="cursor-pointer text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
             </div>
 
             <!-- 分割线 -->
@@ -35,9 +35,9 @@
                         class="w-6 h-6 rounded-full border-2 border-black" />
                     <p class="text-sm text-black font-bold mx-4">TEC</p> <!-- 使用 mx-4 来调整 TEC 的左右距离 -->
                     <p class="text-sm text-gray-500 mx-3">上次学习时间: 23/09/17 14:27:11</p> <!-- 使用 ml-auto 将这个元素推到右侧 -->
-                  <div class="bg-gray-800 text-white font-bold py-1 px-5 rounded ml-auto cursor-pointer">
-                    提问
-                  </div>
+                    <div class="bg-gray-800 text-white font-bold py-1 px-5 rounded ml-auto cursor-pointer">
+                        提问
+                    </div>
                     <!-- 添加 ml-4 来调整按钮与前面元素的距离 -->
                 </div>
             </div>
@@ -51,25 +51,26 @@
                     </svg> <!-- 问号图标 -->
 
                     <div class="flex items-center space-x-2 ml-auto">
-                      <div @click="yourClickFunction" class="flex items-center text-gray-800 cursor-pointer">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M10 3a1 1 0 011 1v4h4a1 1 0 110 2h-4v4a1 1 0 11-2 0v-4H6a1 1 0 110-2h4V4a1 1 0 011-1z" />
-                        </svg> <!-- 更新图标 -->
-                        <span class="ml-auto">换一换</span>
-                      </div>
+                        <div @click="yourClickFunction" class="flex items-center text-gray-800 cursor-pointer">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 3a1 1 0 011 1v4h4a1 1 0 110 2h-4v4a1 1 0 11-2 0v-4H6a1 1 0 110-2h4V4a1 1 0 011-1z" />
+                            </svg> <!-- 更新图标 -->
+                            <span class="ml-auto">换一换</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- 快捷提问列表 -->
                 <div class="question-list flex flex-wrap gap-4 mt-4">
-                  <div v-for="(item, index) in quickQuestionsData" :key="index"
-                       class="question-btn bg-gray-100 text-black py-2 px-4 rounded flex items-center space-x-2 cursor-pointer">
-                    <span>{{ item.question }}</span>
-                    <span v-if="item.isCommon"
-                          class="ml-2 px-2 py-0.5 border border-green-500 text-green-500 rounded-full text-xs">
-        常见
-    </span>
-                  </div>
+                    <div v-for="(item, index) in quickQuestionsData" :key="index"
+                        class="question-btn bg-gray-100 text-black py-2 px-4 rounded flex items-center space-x-2 cursor-pointer">
+                        <span>{{ item.question }}</span>
+                        <span v-if="item.isCommon"
+                            class="ml-2 px-2 py-0.5 border border-green-500 text-green-500 rounded-full text-xs">
+                            常见
+                        </span>
+                    </div>
                 </div>
             </div>
 
@@ -78,42 +79,42 @@
             <hr class="my-4 border-gray-300" />
             <!-- 字段预览/数据预览 选择 -->
             <div class="tab-selection mt-8 flex items-center">
-              <div class="relative inline-block">
-                <!-- 字段预览 -->
-                <div @click="activeTab = 'fieldPreview'" class="font-semibold text-left pb-2 mr-5 cursor-pointer">
-                  字段预览
+                <div class="relative inline-block">
+                    <!-- 字段预览 -->
+                    <div @click="activeTab = 'fieldPreview'" class="font-semibold text-left pb-2 mr-5 cursor-pointer">
+                        字段预览
+                    </div>
+
+                    <!-- 蓝色横杠 -->
+                    <div v-if="activeTab === 'fieldPreview'"
+                        class="absolute left-1/4 right-2/4 bottom-0 h-1 bg-blue-500"></div> <!-- 缩小横杠长度 -->
                 </div>
 
-                <!-- 蓝色横杠 -->
-                <div v-if="activeTab === 'fieldPreview'"
-                     class="absolute left-1/4 right-2/4 bottom-0 h-1 bg-blue-500"></div> <!-- 缩小横杠长度 -->
-              </div>
+                <div class="relative inline-block">
+                    <!-- 数据预览 -->
+                    <div @click="activeTab = 'dataPreview'" class="font-semibold text-left pb-2 cursor-pointer">
+                        数据预览
+                    </div>
 
-              <div class="relative inline-block">
-                <!-- 数据预览 -->
-                <div @click="activeTab = 'dataPreview'" class="font-semibold text-left pb-2 cursor-pointer">
-                  数据预览
+                    <!-- 蓝色横杠 -->
+                    <div v-if="activeTab === 'dataPreview'"
+                        class="absolute left-1/4 right-1/4 bottom-0 h-1 bg-blue-500"></div> <!-- 缩小横杠长度 -->
                 </div>
-
-                <!-- 蓝色横杠 -->
-                <div v-if="activeTab === 'dataPreview'"
-                     class="absolute left-1/4 right-1/4 bottom-0 h-1 bg-blue-500"></div> <!-- 缩小横杠长度 -->
-              </div>
 
 
 
                 <!-- 缩小后的搜索字段框 -->
                 <div class="ml-auto">
-                  <div class="relative">
-                    <input type="text" placeholder="搜索字段"
-                           class="search-input w-32 p-0.5 bg-white border border-gray-300 text-black rounded-full pl-10 shadow-sm focus:outline-none" />
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                         class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" fill="none"
-                         viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M11 4a7 7 0 100 14 7 7 0 000-14zm0 0l6 6" /> <!-- 替换为搜索图标 -->
-                    </svg>
-                  </div>
+                    <div class="relative">
+                        <input type="text" placeholder="搜索字段"
+                            class="search-input w-32 p-0.5 bg-white border border-gray-300 text-black rounded-full pl-10 shadow-sm focus:outline-none" />
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M11 4a7 7 0 100 14 7 7 0 000-14zm0 0l6 6" /> <!-- 替换为搜索图标 -->
+                        </svg>
+                    </div>
                 </div>
             </div>
 

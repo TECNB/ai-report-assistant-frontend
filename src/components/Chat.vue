@@ -174,7 +174,7 @@
 
                             <!-- 底部栏 -->
                             <div class="w-full flex justify-between items-center border-t mt-5">
-                                <div class="text-gray-500 hover:text-gray-900 cursor-pointer mt-3">
+                                <div class="text-gray-500 hover:text-gray-900 cursor-pointer mt-3" @click="showAICode">
                                     <p>查看AI取数过程</p>
                                 </div>
                                 <div class="flex justify-center items-center gap-5 mt-3">
@@ -230,6 +230,10 @@
         <DataSidebar :ifShow="dataSidebarVisible" @updateIfShow="updateDataSidebarVisible" />
         <!-- 遮罩层 -->
         <MaskLayer :ifShow="dataSidebarVisible" />
+
+        <AICode :ifShow="aiCodeVisible" @updateIfShow="updateAICodeVisible" />
+        <!-- 遮罩层 -->
+        <MaskLayer :ifShow="aiCodeVisible" />
     </div>
 </template>
 
@@ -244,6 +248,7 @@ let chartDropDownVisible = ref(false);
 
 let knowledgeVisible = ref(false);
 let dataSidebarVisible = ref(false);
+let aiCodeVisible = ref(false);
 
 let statementName = ref('');
 const message = ref('');
@@ -374,12 +379,18 @@ const showDataSidebar = () => {
 const showChartDropDown = () => {
     chartDropDownVisible.value = !chartDropDownVisible.value;
 };
+const showAICode = () => {
+    aiCodeVisible.value = !aiCodeVisible.value;
+};
 
 const updateKnowledgeVisible = (newValue: boolean) => {
     knowledgeVisible.value = newValue;
 };
 const updateDataSidebarVisible = (newValue: boolean) => {
     dataSidebarVisible.value = newValue;
+};
+const updateAICodeVisible = (newValue: boolean) => {
+    aiCodeVisible.value = newValue;
 };
 </script>
 
