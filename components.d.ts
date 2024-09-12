@@ -10,6 +10,7 @@ declare module 'vue' {
     AICode: typeof import('./src/components/AICode.vue')['default']
     Chart: typeof import('./src/components/Chart.vue')['default']
     Chat: typeof import('./src/components/Chat.vue')['default']
+    ChatWindow: typeof import('./src/components/ChatWindow.vue')['default']
     DataSidebar: typeof import('./src/components/DataSidebar.vue')['default']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElIcon: typeof import('element-plus/es')['ElIcon']
