@@ -72,7 +72,7 @@
                             <transition name="fade">
                                 <div class="absolute top-10 right-10 grid grid-rows-3 grid-flow-col gap-4 bg-white rounded-xl z-10 p-5 shadow-lg"
                                     v-if="chartDropDownVisible">
-                                    <div v-for="(option, index) in chartOptions" :key="index" class="cursor-pointer">
+                                    <div v-for="(option, index) in chartOptions" :key="index" class="cursor-pointer" @click="changeChart">
                                         <i :class="`fa-regular ${option.icon} fa-xl`" style="color: #71c4ef;"></i>
                                         <p class="text-gray-600 mt-1">{{ option.label }}</p>
                                     </div>
@@ -105,7 +105,7 @@
                         </div>
 
                         <div class="w-full h-[65%]" v-if="chatType == 'lineChart'">
-                            
+                            <LineContainer width="100%" height="200px" :data="airLineData" :chartOption="airLineOptions" />
                         </div>
 
 
@@ -154,6 +154,11 @@ import chatExample from '../constant/chatExample'; // 导入聊天示例
 import { chartOptions } from '../constant/chartOptions';
 import { gasEmissionsTableData } from '../constant/gasEmissionsTableData';
 
+import airLineOptions from '../utils/airLineOptions';
+import LineContainer from './charts/LineContainer.vue';
+import { airLineData } from '../constant/airLineData';
+
+
 const props = defineProps<{
     displayedMessages: { type: string; content: string }[];
 }>();
@@ -172,6 +177,11 @@ const changeTable = () => {
     ifChangeTable.value = !ifChangeTable.value;
     heightClass.value = ifChangeTable.value ? 'h-64' : 'h-96';
     chatType.value = ifChangeTable.value ? 'chat' : 'table';
+};
+const changeChart = () => {
+    chartDropDownVisible.value = false;
+    heightClass.value = 'h-96';
+    chatType.value = 'lineChart';
 };
 
 const showChartDropDown = () => {
