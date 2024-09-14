@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from 'vue-router';
-import { ElMessage } from 'element-plus'
+// import { ElMessage } from 'element-plus'
 
 import { login } from '../api/user'
 
@@ -37,8 +37,8 @@ const password = ref("");
 const handleLogin = async () => {
     try {
         const params = {
-            phone: email.value,
-            passwordHash: password.value // 这里假设密码需要在前端直接传递明文，后端负责哈希处理
+            email: email.value,
+            password: password.value // 这里假设密码需要在前端直接传递明文，后端负责哈希处理
         };
 
         const response = await login(params);

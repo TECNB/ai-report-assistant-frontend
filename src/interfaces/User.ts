@@ -1,18 +1,8 @@
 export interface User {
-    userId: string;
+    objectId: string;
     username: string;
-    passwordHash: string;
-    avatarUrl: string | null;
-    age: number;
-    city: string;
-    province: string;
-    signature: string | null;
-    aboutMe: string | null;
-    starRating: number;
-    token: string;
-    salt: string;
-    lastLogin: string;
-    phone: string;
+    email: string;
+    sessionToken: string;
     createdAt: string;
     updatedAt: string;
 }
