@@ -14,29 +14,26 @@ const chatExample2 = {
         {
             "cause": "交通运输",
             "contribution": 1200.5, // 单位：吨
-            "sub_factors": [
-                { "sub_factor": "汽车排放", "contribution": 800.3 },
-                { "sub_factor": "飞机排放", "contribution": 300.2 },
-                { "sub_factor": "货运排放", "contribution": 100.0 }
-            ]
+            "sub_factors": {
+                "yAxisData": ['汽车排放', '飞机排放', '货运排放'], // 不同子因素
+                "seriesData": [100.0, 300.2, 800.3] // 对应的排放量
+            }
         },
         {
             "cause": "工业生产",
             "contribution": 900.7, // 单位：吨
-            "sub_factors": [
-                { "sub_factor": "钢铁制造", "contribution": 500.5 },
-                { "sub_factor": "化工厂", "contribution": 250.2 },
-                { "sub_factor": "水泥生产", "contribution": 150.0 }
-            ]
+            "sub_factors": {
+                "yAxisData": ['钢铁制造', '化工厂', '水泥生产'], // 不同子因素
+                "seriesData": [500.5, 250.2, 150.0] // 对应的排放量
+            }
         },
         {
             "cause": "能源消耗",
             "contribution": 800.3, // 单位：吨
-            "sub_factors": [
-                { "sub_factor": "煤炭发电", "contribution": 600.1 },
-                { "sub_factor": "天然气发电", "contribution": 150.2 },
-                { "sub_factor": "油气开采", "contribution": 50.0 }
-            ]
+            "sub_factors": {
+                "yAxisData": ['煤炭发电', '天然气发电', '油气开采'], // 不同子因素
+                "seriesData": [600.1, 150.2, 50.0] // 对应的排放量
+            }
         }
     ]
 };
