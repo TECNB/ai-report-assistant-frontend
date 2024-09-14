@@ -1,4 +1,7 @@
-const forestPieOption = (seriesData: { value: number; name: string }[]) => {
+import { ECBasicOption } from 'echarts/types/dist/shared';
+
+
+const forestPieOption = (seriesData: { value: number; name: string }[]):ECBasicOption => {
     return {
         tooltip: {
             trigger: 'item',

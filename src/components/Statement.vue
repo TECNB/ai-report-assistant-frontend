@@ -37,7 +37,7 @@
                 <div
                     class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
                     <p class="font-bold text-sm text-center">生态环境监测报告 - 年度空气质量统计</p>
-                    <LineContainer :data="airLineData" :airLineOptions="airLineOptions" />
+                    <LineContainer width="1200px" height="220px" :data="airLineData" :chartOption="airLineOptions" />
                 </div>
 
 
@@ -53,7 +53,8 @@
                         <div
                             class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
                             <p class="font-bold text-sm text-center">生态环境变化分析 - 年度森林覆盖率</p>
-                            <div ref="forestPieContainer" style="width: 100%; height: 220px;"></div>
+
+                            <PieContainer width="100%" height="220px" :data="forestPieData" :chartOption="forestPieOption"/>
                         </div>
                     </div>
                     <div class="flex flex-1 flex-col justify-center items-center">
@@ -75,19 +76,19 @@
 import { ref, onMounted, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
 
-import LineContainer from './charts/LineContainer.vue';
-
 import airLineOptions from '../utils/airLineOptions';
 import waterBarOption from '../utils/waterBarOption';
 import forestPieOption from '../utils/forestPieOption';
 import airHorizontalBarOption from '../utils/airHorizontalBarOption';
 
+import LineContainer from './charts/LineContainer.vue';
+import PieContainer from './charts/PieContainer.vue';
+
 import { airLineData } from '../constant/airLineData';
+import { forestPieData } from '../constant/forestPieData';
 
 const waterBarContainer = ref<HTMLElement | null>(null);
 let waterBar: echarts.ECharts | null = null;
-const forestPieContainer = ref<HTMLElement | null>(null);
-let forestPie: echarts.ECharts | null = null;
 const airHorizontalBarContainer = ref<HTMLElement | null>(null);
 let airHorizontalBar: echarts.ECharts | null = null;
 
@@ -101,7 +102,6 @@ const toggleVisibility = () => {
 onMounted(() => {
     if (props.ifShow) {
         initWaterBarChart();
-        initForestPieChart();
     }
 });
 
@@ -111,7 +111,6 @@ watch(() => props.ifShow, async (newValue) => {
         // 等待 DOM 挂载完成
         await nextTick();
         initWaterBarChart();
-        initForestPieChart();
         initAirHorizontalBarChart();
     }
 });
@@ -122,12 +121,6 @@ const initWaterBarChart = () => {
     if (waterBarContainer.value) {
         waterBar = echarts.init(waterBarContainer.value);
         renderWaterBar();
-    }
-};
-const initForestPieChart = () => {
-    if (forestPieContainer.value) {
-        forestPie = echarts.init(forestPieContainer.value);
-        renderForestPie();
     }
 };
 const initAirHorizontalBarChart = () => {
@@ -149,20 +142,6 @@ const renderWaterBar = () => {
     // 使用 ECharts 实例的 setOption 方法渲染图表
     waterBar?.setOption(options);
 };
-const renderForestPie = () => {
-    // 使用示例数据，假设为不同地区的森林覆盖率（单位为百分比）
-    const seriesData = [
-        { value: 45, name: '东部地区' },
-        { value: 30, name: '西部地区' },
-        { value: 15, name: '中部地区' },
-        { value: 10, name: '北部地区' }
-    ];
-
-    let options = forestPieOption(seriesData);
-
-    // 使用 setOption 方法设置图表配置
-    forestPie?.setOption(options);
-}
 const renderAirHorizontalBar = () => {
     // 使用示例数据，假设为不同地区的年度空气质量指数（AQI）
     const yAxisData = ['东部地区', '西部地区', '中部地区', '北部地区']; // 不同地区

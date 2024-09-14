@@ -24,6 +24,7 @@ declare module 'vue' {
     Knowledge: typeof import('./src/components/Knowledge.vue')['default']
     LineContainer: typeof import('./src/components/charts/LineContainer.vue')['default']
     MaskLayer: typeof import('./src/components/MaskLayer.vue')['default']
+    PieContainer: typeof import('./src/components/charts/PieContainer.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Sidebar: typeof import('./src/components/Sidebar.vue')['default']

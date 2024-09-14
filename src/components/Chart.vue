@@ -27,7 +27,7 @@
 
                 <div
                     class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                    <LineContainer :data="airLineData" :airLineOptions="airLineOptions" />
+                    <LineContainer width="1200px" height="220px" :data="airLineData" :chartOption="airLineOptions" />
                 </div>
                 <div
                     class="w-full h-10 flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
@@ -65,7 +65,7 @@
                 </div>
                 <div
                     class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                    <div ref="forestPieContainer" style="width: 1200px; height: 220px;"></div>
+                    <PieContainer width="1200px" height="220px" :data="forestPieData" :chartOption="forestPieOption"/>
                 </div>
             </div>
         </el-scrollbar>
@@ -105,19 +105,21 @@
 import { ref, onMounted, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
 
-import LineContainer from './charts/LineContainer.vue';
-
 import airLineOptions from '../utils/airLineOptions';
 import waterBarOption from '../utils/waterBarOption';
 import forestPieOption from '../utils/forestPieOption';
 
+import LineContainer from './charts/LineContainer.vue';
+import PieContainer from './charts/PieContainer.vue';
+
 import { airLineData } from '../constant/airLineData';
+import { forestPieData } from '../constant/forestPieData';
+
 
 
 const waterBarContainer = ref<HTMLElement | null>(null);
 let waterBar: echarts.ECharts | null = null;
-const forestPieContainer = ref<HTMLElement | null>(null);
-let forestPie: echarts.ECharts | null = null;
+
 
 const props = defineProps(['ifShow']);
 const emit = defineEmits();
@@ -130,12 +132,6 @@ let isUpdating = false; // 用于避免循环更新
 
 let ifAdd = ref(false);
 
-// 使用月份作为横轴的数据
-const xAxisData = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-// 使用示例数据 (假设是各月份的 AQI 数据)
-const seriesData = [45, 50, 55, 60, 65, 70, 75, 80, 70, 65, 55, 50];
-
 const toggleVisibility = () => {
     emit('updateIfShow', false);
 };
@@ -144,7 +140,6 @@ onMounted(() => {
     if (props.ifShow) {
         // initAirLineChart();
         initWaterBarChart();
-        initForestPieChart();
     }
 });
 
@@ -155,7 +150,6 @@ watch(() => props.ifShow, async (newValue) => {
         await nextTick();
         // initAirLineChart();
         initWaterBarChart();
-        initForestPieChart();
     }
 });
 
@@ -197,12 +191,7 @@ const initWaterBarChart = () => {
         renderWaterBar();
     }
 };
-const initForestPieChart = () => {
-    if (forestPieContainer.value) {
-        forestPie = echarts.init(forestPieContainer.value);
-        renderForestPie();
-    }
-};
+
 
 
 const renderWaterBar = () => {
@@ -216,20 +205,7 @@ const renderWaterBar = () => {
     // 使用 ECharts 实例的 setOption 方法渲染图表
     waterBar?.setOption(options);
 };
-const renderForestPie = () => {
-    // 使用示例数据，假设为不同地区的森林覆盖率（单位为百分比）
-    const seriesData = [
-        { value: 45, name: '东部地区' },
-        { value: 30, name: '西部地区' },
-        { value: 15, name: '中部地区' },
-        { value: 10, name: '北部地区' }
-    ];
 
-    let options = forestPieOption(seriesData);
-
-    // 使用 setOption 方法设置图表配置
-    forestPie?.setOption(options);
-}
 
 </script>
 

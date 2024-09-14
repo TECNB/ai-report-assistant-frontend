@@ -1,4 +1,6 @@
-const airHorizontalBarOption = (yAxisData: string[], seriesData: number[]) => {
+import { ECBasicOption } from 'echarts/types/dist/shared';
+
+const airHorizontalBarOption = (yAxisData: string[], seriesData: number[]):ECBasicOption => {
     return {
         tooltip: {
             trigger: 'axis',

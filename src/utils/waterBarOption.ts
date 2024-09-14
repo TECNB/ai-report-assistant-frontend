@@ -1,4 +1,6 @@
-const waterBarOption = (xAxisData: string[], seriesData: number[]) => {
+import { ECBasicOption } from 'echarts/types/dist/shared';
+
+const waterBarOption = (xAxisData: string[], seriesData: number[]):ECBasicOption => {
     return {
         xAxis: {
             type: 'category',

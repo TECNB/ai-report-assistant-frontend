@@ -1,6 +1,6 @@
 <template>
-    <div class="airLineContainer">
-        <div ref="airLineContainer" style="width: 1200px; height: 220px;"></div>
+    <div class="airLineContainer w-full">
+        <div ref="airLineContainer" :style="{ width: props.width, height: props.height }"></div>
     </div>
 
 </template>
@@ -12,11 +12,13 @@ import { ECBasicOption } from 'echarts/types/dist/shared';
 
 // 接收 airLineOptions 函数和数据作为 prop
 const props = defineProps<{
+    width: string;
+    height: string;
     data: {
         xAxisData: string[];
         seriesData: number[];
     };
-    airLineOptions: (xAxisData: string[], seriesData: number[]) => ECBasicOption
+    chartOption: (xAxisData: string[], seriesData: number[]) => ECBasicOption
 }>();
 
 const airLineContainer = ref<HTMLElement | null>(null);
@@ -38,7 +40,7 @@ const initAirLineChart = () => {
 // 渲染图表
 const renderAirLine = () => {
     // 使用从父组件传入的 airLineOptions 函数生成图表选项
-    const options = props.airLineOptions(props.data.xAxisData, props.data.seriesData);
+    const options = props.chartOption(props.data.xAxisData, props.data.seriesData);
 
     // 使用 ECharts 实例的 setOption 方法渲染图表
     airLine?.setOption(options);
