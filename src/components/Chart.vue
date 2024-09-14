@@ -25,10 +25,9 @@
                     </div>
                 </div>
 
-
                 <div
                     class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                    <div ref="airLineContainer" style="width: 1200px; height: 220px;"></div>
+                    <LineContainer :data="airLineData" :airLineOptions="airLineOptions" />
                 </div>
                 <div
                     class="w-full h-10 flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
@@ -85,7 +84,8 @@
             </div>
 
             <div class="flex flex-1 justify-end items-center">
-                <div class="flex justify-between items-center gap-3 cursor-pointer rounded-xl hover:bg-gray-200 transition p-2">
+                <div
+                    class="flex justify-between items-center gap-3 cursor-pointer rounded-xl hover:bg-gray-200 transition p-2">
                     <el-icon color="#999999">
                         <Delete />
                     </el-icon>
@@ -105,12 +105,15 @@
 import { ref, onMounted, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
 
+import LineContainer from './charts/LineContainer.vue';
+
 import airLineOptions from '../utils/airLineOptions';
 import waterBarOption from '../utils/waterBarOption';
 import forestPieOption from '../utils/forestPieOption';
 
-const airLineContainer = ref<HTMLElement | null>(null);
-let airLine: echarts.ECharts | null = null;
+import { airLineData } from '../constant/airLineData';
+
+
 const waterBarContainer = ref<HTMLElement | null>(null);
 let waterBar: echarts.ECharts | null = null;
 const forestPieContainer = ref<HTMLElement | null>(null);
@@ -127,13 +130,19 @@ let isUpdating = false; // 用于避免循环更新
 
 let ifAdd = ref(false);
 
+// 使用月份作为横轴的数据
+const xAxisData = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// 使用示例数据 (假设是各月份的 AQI 数据)
+const seriesData = [45, 50, 55, 60, 65, 70, 75, 80, 70, 65, 55, 50];
+
 const toggleVisibility = () => {
     emit('updateIfShow', false);
 };
 
 onMounted(() => {
     if (props.ifShow) {
-        initAirLineChart();
+        // initAirLineChart();
         initWaterBarChart();
         initForestPieChart();
     }
@@ -144,7 +153,7 @@ watch(() => props.ifShow, async (newValue) => {
     if (newValue) {
         // 等待 DOM 挂载完成
         await nextTick();
-        initAirLineChart();
+        // initAirLineChart();
         initWaterBarChart();
         initForestPieChart();
     }
@@ -160,10 +169,10 @@ watch(checkedAll, (newVal) => {
 // 监听单选项的变化
 watch([checked1, checked2, checked3], ([newChecked1, newChecked2, newChecked3]) => {
     // 如果所有单选项都未被选中，则将全选设为 false
-    if(!newChecked1&&!newChecked2&&!newChecked3){
+    if (!newChecked1 && !newChecked2 && !newChecked3) {
         isUpdating = false;
         checkedAll.value = false;
-    }else if(newChecked1&&newChecked2&&newChecked3){
+    } else if (newChecked1 && newChecked2 && newChecked3) {
         isUpdating = false;
         checkedAll.value = true;
     }
@@ -182,12 +191,6 @@ const addChart = () => {
 
 
 // 初始化图表方法
-const initAirLineChart = () => {
-    if (airLineContainer.value) {
-        airLine = echarts.init(airLineContainer.value);
-        renderAirLine();
-    }
-};
 const initWaterBarChart = () => {
     if (waterBarContainer.value) {
         waterBar = echarts.init(waterBarContainer.value);
@@ -201,18 +204,6 @@ const initForestPieChart = () => {
     }
 };
 
-
-const renderAirLine = () => {
-    // 使用月份作为横轴的数据
-    const xAxisData = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-    // 使用示例数据 (假设是各月份的 AQI 数据)
-    const seriesData = [45, 50, 55, 60, 65, 70, 75, 80, 70, 65, 55, 50];
-
-    let options = airLineOptions(xAxisData, seriesData);
-    // 使用 ECharts 实例的 setOption 方法渲染图表
-    airLine?.setOption(options);
-};
 
 const renderWaterBar = () => {
     // 使用月份作为横轴的数据

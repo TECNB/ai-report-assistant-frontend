@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AICode: typeof import('./src/components/AICode.vue')['default']
+    AirLineContainer: typeof import('./src/components/charts/airLineContainer.vue')['default']
     Chart: typeof import('./src/components/Chart.vue')['default']
     Chat: typeof import('./src/components/Chat.vue')['default']
     ChatWindow: typeof import('./src/components/ChatWindow.vue')['default']
@@ -21,6 +22,7 @@ declare module 'vue' {
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     JobCategory: typeof import('./src/components/JobCategory.vue')['default']
     Knowledge: typeof import('./src/components/Knowledge.vue')['default']
+    LineContainer: typeof import('./src/components/charts/LineContainer.vue')['default']
     MaskLayer: typeof import('./src/components/MaskLayer.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

@@ -37,7 +37,7 @@
                 <div
                     class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
                     <p class="font-bold text-sm text-center">生态环境监测报告 - 年度空气质量统计</p>
-                    <div ref="airLineContainer" style="width: 1200px; height: 220px;"></div>
+                    <LineContainer :data="airLineData" :airLineOptions="airLineOptions" />
                 </div>
 
 
@@ -75,13 +75,15 @@
 import { ref, onMounted, watch, nextTick } from 'vue';
 import * as echarts from 'echarts';
 
+import LineContainer from './charts/LineContainer.vue';
+
 import airLineOptions from '../utils/airLineOptions';
 import waterBarOption from '../utils/waterBarOption';
 import forestPieOption from '../utils/forestPieOption';
 import airHorizontalBarOption from '../utils/airHorizontalBarOption';
 
-const airLineContainer = ref<HTMLElement | null>(null);
-let airLine: echarts.ECharts | null = null;
+import { airLineData } from '../constant/airLineData';
+
 const waterBarContainer = ref<HTMLElement | null>(null);
 let waterBar: echarts.ECharts | null = null;
 const forestPieContainer = ref<HTMLElement | null>(null);
@@ -98,7 +100,6 @@ const toggleVisibility = () => {
 
 onMounted(() => {
     if (props.ifShow) {
-        initAirLineChart();
         initWaterBarChart();
         initForestPieChart();
     }
@@ -109,7 +110,6 @@ watch(() => props.ifShow, async (newValue) => {
     if (newValue) {
         // 等待 DOM 挂载完成
         await nextTick();
-        initAirLineChart();
         initWaterBarChart();
         initForestPieChart();
         initAirHorizontalBarChart();
@@ -118,13 +118,6 @@ watch(() => props.ifShow, async (newValue) => {
 
 
 
-// 初始化图表方法
-const initAirLineChart = () => {
-    if (airLineContainer.value) {
-        airLine = echarts.init(airLineContainer.value);
-        renderAirLine();
-    }
-};
 const initWaterBarChart = () => {
     if (waterBarContainer.value) {
         waterBar = echarts.init(waterBarContainer.value);
@@ -144,18 +137,6 @@ const initAirHorizontalBarChart = () => {
     }
 };
 
-
-const renderAirLine = () => {
-    // 使用月份作为横轴的数据
-    const xAxisData = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-    // 使用示例数据 (假设是各月份的 AQI 数据)
-    const seriesData = [45, 50, 55, 60, 65, 70, 75, 80, 70, 65, 55, 50];
-
-    let options = airLineOptions(xAxisData, seriesData);
-    // 使用 ECharts 实例的 setOption 方法渲染图表
-    airLine?.setOption(options);
-};
 
 const renderWaterBar = () => {
     // 使用月份作为横轴的数据

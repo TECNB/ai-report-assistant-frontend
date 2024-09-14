@@ -1,4 +1,6 @@
-const airLineOptions = (xAxisData: string[], seriesData: number[]) => {
+import { ECBasicOption } from 'echarts/types/dist/shared';
+
+const airLineOptions = (xAxisData: string[], seriesData: number[]): ECBasicOption => {
     return {
         xAxis: {
             type: 'category',

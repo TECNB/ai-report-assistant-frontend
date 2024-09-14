@@ -81,7 +81,7 @@
                         </div>
 
                         <!-- 主要数据 -->
-                        <div class="text-left h-full flex flex-col justify-center" v-if="ifChangeTable">
+                        <div class="text-left h-full flex flex-col justify-center" v-if="chatType == 'chat'">
                             <p>排放值（累计）</p>
                             <div class="flex justify-center items-end gap-3 mt-3">
                                 <p class="text-3xl font-bold">{{ chatExample.total_value }}</p>
@@ -96,12 +96,16 @@
                         </div>
 
                         <!-- 切换表格数据 -->
-                        <div class="w-full h-[65%]" v-else>
+                        <div class="w-full h-[65%]" v-if="chatType == 'table'">
                             <el-table :data="gasEmissionsTableData" style="width: 100%;height: 100%;" stripe
                                 class="tableBox">
                                 <el-table-column prop="date" width="500" label="日期"></el-table-column>
                                 <el-table-column prop="greenhouseGasEmissions" label="排放量(吨)"></el-table-column>
                             </el-table>
+                        </div>
+
+                        <div class="w-full h-[65%]" v-if="chatType == 'lineChart'">
+                            
                         </div>
 
 
@@ -155,16 +159,19 @@ const props = defineProps<{
 }>();
 
 // 定义一个变量，用于动态控制类名
-const heightClass = ref('h-96');
+const heightClass = ref('h-64');
 
+// 定义状态
+let chatType = ref("chat");
 let ifChangeTable = ref(false);
 
 let aiCodeVisible = ref(false);
 let chartDropDownVisible = ref(false);
 
 const changeTable = () => {
-    heightClass.value = ifChangeTable.value ? 'h-96' : 'h-64';
     ifChangeTable.value = !ifChangeTable.value;
+    heightClass.value = ifChangeTable.value ? 'h-64' : 'h-96';
+    chatType.value = ifChangeTable.value ? 'chat' : 'table';
 };
 
 const showChartDropDown = () => {
@@ -207,7 +214,5 @@ const updateAICodeVisible = (newValue: boolean) => {
     animation: pulse 1.5s infinite ease-in-out;
 }
 
-.tableBox {
- 
-}
+.tableBox {}
 </style>
