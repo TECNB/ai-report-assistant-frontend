@@ -100,9 +100,8 @@
                 </div>
             </div>
         </div>
-
-
     </div>
+    
     <AICode :ifShow="aiCodeVisible" @updateIfShow="updateAICodeVisible" />
     <!-- 遮罩层 -->
     <MaskLayer :ifShow="aiCodeVisible" />

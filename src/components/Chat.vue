@@ -186,7 +186,7 @@ const handleEnter = async () => {
         displayedMessages.value.push({ type: 'loading', content: '' });
         // 移除加载占位符
         displayedMessages.value.pop();
-        displayedMessages.value.push({ type: 'ai', content: '' });
+        // displayedMessages.value.push({ type: 'ai', content: '' });
 
 
 

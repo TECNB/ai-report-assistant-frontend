@@ -40,8 +40,8 @@
                 </div>
 
                 <NumberQuestion v-if="msg.type === 'numberQuestion'" :content="chatExample" />
-                <AttributionQuestion v-if="msg.type === 'attributionQuestion'" :content="chatExample" />
-                
+                <AttributionQuestion v-if="msg.type === 'attributionQuestion'" :content="chatExample2" />
+
             </div>
         </div>
     </el-scrollbar>
@@ -50,16 +50,14 @@
 </template>
 
 <script setup lang="ts">
-import {  } from 'vue';
+import { } from 'vue';
 import chatExample from '../constant/chatExample'; // 导入聊天示例
-
+import chatExample2 from '../constant/chatExample2'; // 导入聊天示例
 
 
 const props = defineProps<{
     displayedMessages: { type: string; content: string }[];
 }>();
-
-
 
 
 </script>
@@ -88,5 +86,4 @@ const props = defineProps<{
     border-radius: 4px;
     animation: pulse 1.5s infinite ease-in-out;
 }
-
 </style>
