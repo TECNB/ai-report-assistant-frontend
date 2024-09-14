@@ -45,7 +45,7 @@
                 </div>
                 <div
                     class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                    <div ref="waterBarContainer" style="width: 1200px; height: 220px;"></div>
+                    <BarContainer width="1200px" height="220px" :data="waterBarData" :chartOption="waterBarOption"/>
                 </div>
 
 
@@ -66,6 +66,7 @@
                 <div
                     class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
                     <PieContainer width="1200px" height="220px" :data="forestPieData" :chartOption="forestPieOption"/>
+                    
                 </div>
             </div>
         </el-scrollbar>
@@ -102,8 +103,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, nextTick } from 'vue';
-import * as echarts from 'echarts';
+import { ref, watch, nextTick } from 'vue';
 
 import airLineOptions from '../utils/airLineOptions';
 import waterBarOption from '../utils/waterBarOption';
@@ -111,14 +111,11 @@ import forestPieOption from '../utils/forestPieOption';
 
 import LineContainer from './charts/LineContainer.vue';
 import PieContainer from './charts/PieContainer.vue';
+import BarContainer from './charts/BarContainer.vue';
 
 import { airLineData } from '../constant/airLineData';
 import { forestPieData } from '../constant/forestPieData';
-
-
-
-const waterBarContainer = ref<HTMLElement | null>(null);
-let waterBar: echarts.ECharts | null = null;
+import { waterBarData } from '../constant/waterBarData';
 
 
 const props = defineProps(['ifShow']);
@@ -136,20 +133,12 @@ const toggleVisibility = () => {
     emit('updateIfShow', false);
 };
 
-onMounted(() => {
-    if (props.ifShow) {
-        // initAirLineChart();
-        initWaterBarChart();
-    }
-});
 
 // 监听 ifShow 的变化，只有在为 true 时才初始化图表
 watch(() => props.ifShow, async (newValue) => {
     if (newValue) {
         // 等待 DOM 挂载完成
         await nextTick();
-        // initAirLineChart();
-        initWaterBarChart();
     }
 });
 
@@ -182,31 +171,6 @@ const addChart = () => {
     checked3.value = false;
     checkedAll.value = false;
 };
-
-
-// 初始化图表方法
-const initWaterBarChart = () => {
-    if (waterBarContainer.value) {
-        waterBar = echarts.init(waterBarContainer.value);
-        renderWaterBar();
-    }
-};
-
-
-
-const renderWaterBar = () => {
-    // 使用月份作为横轴的数据
-    const xAxisData = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-    // 使用示例数据 (假设是每月水质监测指标，如化学需氧量 COD)
-    const seriesData = [15, 20, 18, 25, 30, 22, 17, 19, 24, 29, 31, 23];
-
-    let options = waterBarOption(xAxisData, seriesData);
-    // 使用 ECharts 实例的 setOption 方法渲染图表
-    waterBar?.setOption(options);
-};
-
-
 </script>
 
 <style lang="scss" scoped>

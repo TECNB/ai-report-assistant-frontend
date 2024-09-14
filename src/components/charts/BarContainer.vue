@@ -1,6 +1,6 @@
 <template>
-    <div class="lineContainer w-full">
-        <div ref="lineContainer" :style="{ width: props.width, height: props.height }"></div>
+    <div class="barContainer w-full">
+        <div ref="barContainer" :style="{ width: props.width, height: props.height }"></div>
     </div>
 
 </template>
@@ -21,29 +21,29 @@ const props = defineProps<{
     chartOption: (xAxisData: string[], seriesData: number[]) => ECBasicOption
 }>();
 
-const lineContainer = ref<HTMLElement | null>(null);
-let line: echarts.ECharts | null = null;
+const barContainer = ref<HTMLElement | null>(null);
+let bar: echarts.ECharts | null = null;
 
 onMounted(async () => {
     await nextTick();
-    initAirLineChart();
+    initWaterBarChart();
 });
 
 // 初始化图表方法
-const initAirLineChart = () => {
-    if (lineContainer.value) {
-        line = echarts.init(lineContainer.value);
-        renderAirLine();
+const initWaterBarChart = () => {
+    if (barContainer.value) {
+        bar = echarts.init(barContainer.value);
+        renderWaterBar();
     }
 };
 
 // 渲染图表
-const renderAirLine = () => {
+const renderWaterBar = () => {
     // 使用从父组件传入的 airLineOptions 函数生成图表选项
     const options = props.chartOption(props.data.xAxisData, props.data.seriesData);
 
     // 使用 ECharts 实例的 setOption 方法渲染图表
-    line?.setOption(options);
+    bar?.setOption(options);
 };
 </script>
 

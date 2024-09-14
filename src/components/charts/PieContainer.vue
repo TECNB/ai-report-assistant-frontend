@@ -1,6 +1,6 @@
 <template>
-    <div class="forestPieContainer w-full">
-        <div ref="forestPieContainer" :style="{ width: props.width, height: props.height }"></div>
+    <div class="pieContainer w-full">
+        <div ref="pieContainer" :style="{ width: props.width, height: props.height }"></div>
     </div>
 </template>
 
@@ -18,8 +18,8 @@ const props = defineProps<{
     chartOption: (seriesData: { value: number; name: string }[]) => ECBasicOption
 }>();
 
-const forestPieContainer = ref<HTMLElement | null>(null);
-let forestPie: echarts.ECharts | null = null;
+const pieContainer = ref<HTMLElement | null>(null);
+let pie: echarts.ECharts | null = null;
 
 onMounted(async () => {
     await nextTick();
@@ -27,8 +27,8 @@ onMounted(async () => {
 });
 
 const initForestPieChart = () => {
-    if (forestPieContainer.value) {
-        forestPie = echarts.init(forestPieContainer.value);
+    if (pieContainer.value) {
+        pie = echarts.init(pieContainer.value);
         renderForestPie();
     }
 };
@@ -38,7 +38,7 @@ const renderForestPie = () => {
     let options = props.chartOption(props.data.seriesData);
 
     // 使用 setOption 方法设置图表配置
-    forestPie?.setOption(options);
+    pie?.setOption(options);
 }
 </script>
 

@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AICode: typeof import('./src/components/AICode.vue')['default']
     AirLineContainer: typeof import('./src/components/charts/airLineContainer.vue')['default']
+    BarContainer: typeof import('./src/components/charts/BarContainer.vue')['default']
     Chart: typeof import('./src/components/Chart.vue')['default']
     Chat: typeof import('./src/components/Chat.vue')['default']
     ChatWindow: typeof import('./src/components/ChatWindow.vue')['default']
