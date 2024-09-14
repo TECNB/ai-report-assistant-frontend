@@ -113,6 +113,8 @@ import { ref } from "vue";
 import { suggestions } from '../constant/suggestions'; // 导入建议列表
 import { AIChat } from '../utils/AIChat'; // 导入AIChat
 import chatExample from '../constant/chatExample'; // 导入聊天示例
+import chatExample2 from '../constant/chatExample2'; // 导入聊天示例2
+
 
 let statementVisible = ref(false);
 
@@ -167,7 +169,31 @@ const handleEnter = async () => {
 
         displayedMessages.value.push({ type: 'numberQuestion', content: '' });
 
+        return;
+    }
+    if (message.value === '为我归因2023年温室气体排放') {
+        const userContent = message.value;
+        displayedMessages.value.push({ type: 'user', content: userContent });
+        message.value = '';
 
+        showSuggestions.value = false; // 隐藏建议列表
+
+
+        let completeMessage = ''; // 用于累积AI的回复内容
+        completeMessage = chatExample2.prompt
+
+        // Add a loading placeholder
+        displayedMessages.value.push({ type: 'loading', content: '' });
+        // 移除加载占位符
+        displayedMessages.value.pop();
+        displayedMessages.value.push({ type: 'ai', content: '' });
+
+
+
+        // 添加最终的AI消息并应用打字效果
+        // await typeEffect(chatExample2.prompt, 50);
+
+        displayedMessages.value.push({ type: 'attributionQuestion', content: '' });
         return;
     }
     if (message.value.trim()) {

@@ -40,7 +40,7 @@
                 </div>
 
                 <NumberQuestion v-if="msg.type === 'numberQuestion'" :content="chatExample" />
-                
+                <AttributionQuestion v-if="msg.type === 'attributionQuestion'" :content="chatExample" />
                 
             </div>
         </div>

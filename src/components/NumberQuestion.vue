@@ -162,5 +162,6 @@ const updateAICodeVisible = (newValue: boolean) => {
 .NumberQuestion {
     width: 100%;
     height: 100%;
+    margin-bottom: 1.25rem;
 }
 </style>
