@@ -46,7 +46,7 @@
                         <div
                             class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
                             <p class="font-bold text-sm text-center">生态环境评估报告 - 年度水质监测概览</p>
-                            <div ref="waterBarContainer" style="width: 100%; height: 220px;"></div>
+                            <BarContainer width="100%" height="220px" :data="waterBarData" :chartOption="waterBarOption"/>
                         </div>
                     </div>
                     <div class="flex flex-1 flex-col justify-center items-center">
@@ -61,7 +61,8 @@
                         <div
                             class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
                             <p class="font-bold text-sm text-center">生态环境评估报告 - 各地区年度空气质量对比</p>
-                            <div ref="airHorizontalBarContainer" style="width: 100%; height: 220px;"></div>
+                            
+                            <HorizontalBarContainer width="100%" height="220px" :data="horizontalBarData" :chartOption="airHorizontalBarOption"/>
                         </div>
                     </div>
                 </div>
@@ -73,8 +74,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, nextTick } from 'vue';
-import * as echarts from 'echarts';
+// import { ref } from 'vue';
+// import * as echarts from 'echarts';
 
 import airLineOptions from '../utils/airLineOptions';
 import waterBarOption from '../utils/waterBarOption';
@@ -83,14 +84,13 @@ import airHorizontalBarOption from '../utils/airHorizontalBarOption';
 
 import LineContainer from './charts/LineContainer.vue';
 import PieContainer from './charts/PieContainer.vue';
+import BarContainer from './charts/BarContainer.vue';
+import HorizontalBarContainer from './charts/HorizontalBarContainer.vue';
 
 import { airLineData } from '../constant/airLineData';
 import { forestPieData } from '../constant/forestPieData';
-
-const waterBarContainer = ref<HTMLElement | null>(null);
-let waterBar: echarts.ECharts | null = null;
-const airHorizontalBarContainer = ref<HTMLElement | null>(null);
-let airHorizontalBar: echarts.ECharts | null = null;
+import { waterBarData } from '../constant/waterBarData';
+import { horizontalBarData } from '../constant/horizontalBarData';
 
 const props = defineProps(['ifShow']);
 const emit = defineEmits();
@@ -98,61 +98,6 @@ const emit = defineEmits();
 const toggleVisibility = () => {
     emit('updateIfShow', false);
 };
-
-onMounted(() => {
-    if (props.ifShow) {
-        initWaterBarChart();
-    }
-});
-
-// 监听 ifShow 的变化，只有在为 true 时才初始化图表
-watch(() => props.ifShow, async (newValue) => {
-    if (newValue) {
-        // 等待 DOM 挂载完成
-        await nextTick();
-        initWaterBarChart();
-        initAirHorizontalBarChart();
-    }
-});
-
-
-
-const initWaterBarChart = () => {
-    if (waterBarContainer.value) {
-        waterBar = echarts.init(waterBarContainer.value);
-        renderWaterBar();
-    }
-};
-const initAirHorizontalBarChart = () => {
-    if (airHorizontalBarContainer.value) {
-        airHorizontalBar = echarts.init(airHorizontalBarContainer.value);
-        renderAirHorizontalBar();
-    }
-};
-
-
-const renderWaterBar = () => {
-    // 使用月份作为横轴的数据
-    const xAxisData = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-    // 使用示例数据 (假设是每月水质监测指标，如化学需氧量 COD)
-    const seriesData = [15, 20, 18, 25, 30, 22, 17, 19, 24, 29, 31, 23];
-
-    let options = waterBarOption(xAxisData, seriesData);
-    // 使用 ECharts 实例的 setOption 方法渲染图表
-    waterBar?.setOption(options);
-};
-const renderAirHorizontalBar = () => {
-    // 使用示例数据，假设为不同地区的年度空气质量指数（AQI）
-    const yAxisData = ['东部地区', '西部地区', '中部地区', '北部地区']; // 不同地区
-    const seriesData = [75, 60, 85, 90]; // 各地区的AQI值
-
-    let options = airHorizontalBarOption(yAxisData, seriesData);
-
-    // 使用 setOption 方法设置图表配置
-    airHorizontalBar?.setOption(options);
-};
-
 </script>
 
 <style lang="scss" scoped>

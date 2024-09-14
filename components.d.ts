@@ -25,6 +25,7 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    HorizontalBarContainer: typeof import('./src/components/charts/HorizontalBarContainer.vue')['default']
     JobCategory: typeof import('./src/components/JobCategory.vue')['default']
     Knowledge: typeof import('./src/components/Knowledge.vue')['default']
     LineContainer: typeof import('./src/components/charts/LineContainer.vue')['default']
