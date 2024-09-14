@@ -80,7 +80,7 @@ onMounted(async () => {
 .AICode {
   width: 60%;
   height: 80%;
-  position: absolute;
+  position: fixed;
   z-index: 99999;
   top: 50%;
   left: 50%;

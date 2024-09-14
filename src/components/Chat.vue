@@ -165,7 +165,7 @@ const handleEnter = async () => {
         // 添加最终的AI消息并应用打字效果
         await typeEffect(chatExample.prompt, 50);
 
-        displayedMessages.value.push({ type: 'chart', content: '' });
+        displayedMessages.value.push({ type: 'numberQuestion', content: '' });
 
 
         return;
