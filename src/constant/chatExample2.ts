@@ -1,7 +1,7 @@
 const chatExample2 = {
     "prompt": "为您归因2023年温室气体排放的原因。",
     "year": 2023,
-    "description": "2023年累计温室气体排放",
+    "description": "温室气体排放归因",
     "total_value": 45000.5,
     "unit": "吨",
     "year_on_year_comparison": {
