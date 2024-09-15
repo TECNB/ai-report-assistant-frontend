@@ -46,8 +46,44 @@
                     </div>
                 </div>
 
+                <div v-if="msg.type === 'imageQuestion'" class="">
+                    <img src="../assets/images/icon.png" alt="AI Avatar"
+                        class="w-6 h-6 rounded-full border border-gray-300 object-cover" />
+                    <div class="flex flex-col">
+                        <!-- Static Title -->
+                        <div class="flex items-center">
+                            <p class="font-bold mb-0.5">生态环境报表助手</p>
+                        </div>
+                        <!-- Dynamic Content -->
+                        <div class="flex items-start">
+                            <p class="">{{ msg.content }}</p>
+                        </div>
+
+                        <div class="flex items-start font-bold text-sm cursor-pointer" @click="showStatement">
+                            <p class="text-gray-400 hover:text-black">点击查看报表</p>
+                        </div>
+                        <!-- Action Icons -->
+                        <div class="action-icons flex gap-3 mt-2 text-sm text-gray-500">
+                            <i class="fas fa-pen"></i>
+                            <!-- 复制文档图标 -->
+                            <i class="fas fa-clipboard"></i>
+                            <!-- 刷新图标 -->
+                            <i class="fas fa-sync-alt"></i>
+                            <!-- 添加图标 -->
+                            <i class="fas fa-headphones"></i>
+                            <!-- 编辑图标 -->
+                            <i class="fas fa-circle-info"></i>
+                            <!-- 消息图标 -->
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+
                 <NumberQuestion v-if="msg.type === 'numberQuestion'" :content="chatExample" />
                 <AttributionQuestion v-if="msg.type === 'attributionQuestion'" :content="chatExample2" />
+
+                <MaskLayer backgroundColor="rgba(0, 0, 0, 0.3)" :ifShow="statementVisible" />
+                <Statement :ifShow="statementVisible" @updateIfShow="updateStatementVisible" />
 
             </div>
         </div>
@@ -57,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import { } from 'vue';
+import { ref,watch,onMounted } from 'vue';
 import chatExample from '../constant/chatExample'; // 导入聊天示例
 import chatExample2 from '../constant/chatExample2'; // 导入聊天示例
 
@@ -66,6 +102,21 @@ const props = defineProps<{
     displayedMessages: { type: string; content: string }[];
 }>();
 
+let statementVisible = ref(false);
+
+// 如果props.displayedMessages数组的最后一个元素的type是imageQuestion，就触发showStatement
+onMounted(() => {
+    if (props.displayedMessages[props.displayedMessages.length - 1].type === 'imageQuestion') {
+        showStatement();
+    }
+});
+
+const showStatement = () => {
+    statementVisible.value = !statementVisible.value;
+}
+const updateStatementVisible = (value: boolean) => {
+    statementVisible.value = value;
+}
 
 </script>
 

@@ -104,7 +104,7 @@ const toggleVisibility = () => {
 .Statement {
     width: 94%;
     height: 94%;
-    position: absolute;
+    position: fixed;
     z-index: 99999;
     // 居中对齐
     top: 50%;

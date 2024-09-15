@@ -191,7 +191,33 @@ const handleEnter = async () => {
             type: 'image',
             content: imageUrl.value
         });
+
+        const userContent = message.value;
+        displayedMessages.value.push({ type: 'user', content: userContent });
+        message.value = '';
+
+        showSuggestions.value = false; // 隐藏建议列表
+
+
+        let completeMessage = ''; // 用于累积AI的回复内容
+        completeMessage = chatExample2.prompt
+        
+
+        // Add a loading placeholder
+        displayedMessages.value.push({ type: 'loading', content: '' });
+        // 移除加载占位符
+        displayedMessages.value.pop();
+        // displayedMessages.value.push({ type: 'ai', content: '' });
+
+
+        // 添加最终的AI消息并应用打字效果
+        // await typeEffect(chatExample2.prompt, 50);
+
+        displayedMessages.value.push({ type: 'imageQuestion', content: '以下是为您所转化的报表' });
+
         imageUrl.value = ''; // 清空图片 URL
+
+        return;
     }
 
     if (message.value === '2023年累计温室气体排放') {
