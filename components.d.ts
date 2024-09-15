@@ -25,6 +25,7 @@ declare module 'vue' {
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     HorizontalBarContainer: typeof import('./src/components/charts/HorizontalBarContainer.vue')['default']
     JobCategory: typeof import('./src/components/JobCategory.vue')['default']

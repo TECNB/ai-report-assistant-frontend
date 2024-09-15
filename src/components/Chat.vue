@@ -79,23 +79,33 @@
 
         <ChatWindow :displayedMessages="displayedMessages" v-else />
 
-        <div class="flex justify-between items-center gap-5 mt-20 mb-5 mx-5">
-            <div class="flex flex-1 justify-between items-center bg-bg-200 rounded-3xl p-3">
-                <div class="flex items-center gap-5">
-                    <el-icon size="18">
-                        <Plus />
-                    </el-icon>
-                    <input v-model="message" @keyup.enter="handleEnter" type="text" placeholder="输入消息"
-                        class="bg-transparent outline-none flex-1 placeholder:text-text-300 placeholder:font-bold text-black" />
-                </div>
-                <el-icon size="18">
-                    <Microphone />
-                </el-icon>
-            </div>
-            <el-icon size="18">
-                <Headset />
-            </el-icon>
+      <div class="flex justify-between items-center gap-5 mt-20 mb-5 mx-5">
+        <div class="flex flex-1 justify-between items-center bg-bg-200 rounded-3xl p-3">
+          <div class="flex items-center gap-5">
+            <!-- 使用 FontAwesome 的上传图标，点击图标时触发文件选择 -->
+            <el-upload
+                class="upload-demo"
+                action="your-upload-url"
+            :on-success="handleUploadSuccess"
+            :on-error="handleUploadError"
+            :show-file-list="false"
+            accept="image/*"
+            >
+            <!-- 上传文件的 FontAwesome 图标，用户点击时会弹出文件选择窗口 -->
+            <i class="fa-solid fa-folder-arrow-up cursor-pointer text-lg"></i>
+            </el-upload>
+
+            <input v-model="message" @keyup.enter="handleEnter" type="text" placeholder="输入消息"
+                   class="bg-transparent outline-none flex-1 placeholder:text-text-300 placeholder:font-bold text-black" />
+          </div>
+          <el-icon size="18">
+            <Microphone />
+          </el-icon>
         </div>
+        <el-icon size="18">
+          <Headset />
+        </el-icon>
+      </div>
 
         <Knowledge :ifShow="knowledgeVisible" @updateIfShow="updateKnowledgeVisible" />
         <!-- 遮罩层 -->
@@ -127,6 +137,26 @@ const systemContent = ref('生态环境');
 const relatedData = ref('当前生态环境数据显示：空气质量指数（AQI）为45，空气质量等级为优；PM2.5浓度为15微克/立方米，PM10浓度为30微克/立方米，二氧化硫（SO2）浓度为8微克/立方米，二氧化氮（NO2）浓度为20微克/立方米，一氧化碳（CO）浓度为0.7毫克/立方米，臭氧（O3）浓度为100微克/立方米。​');
 const showSuggestions = ref(true); // 控制建议列表显示
 const displayedMessages = ref<{ type: string; content: string }[]>([]); // 展示的消息列表
+
+// 上传图片成功处理函数
+const handleUploadSuccess = (response: any) => {
+  console.log('Upload Success:', response);
+  const imageUrl = response.url;
+
+  // 将图片添加到对话框的消息中
+  displayedMessages.value.push({
+    type: 'user',
+    content: `<img src="${imageUrl}" alt="Uploaded Image" class="w-32 h-32 object-cover rounded-lg"/>`
+  });
+
+  ElMessage.success('图片上传成功！');
+};
+
+// 上传图片失败处理函数
+const handleUploadError = (error: any) => {
+  console.error('Upload Error:', error);
+  ElMessage.error('图片上传失败，请重试！');
+};
 
 // 打字机效果函数
 const typeEffect = (text: string, speed: number) => {
