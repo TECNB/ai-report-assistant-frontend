@@ -2,51 +2,53 @@
   <div class="Knowledge">
     <!-- 弹窗 -->
     <div v-if="props.ifShow" class="fixed inset-0 z-50 flex items-center justify-center pointer-events-auto">
-      <div class="bg-white rounded-lg shadow-lg p-6 w-96 relative z-50 overflow-visible">
-        <div class="flex justify-end">
+      <div class="bg-white rounded-2xl shadow-lg p-6 w-96 relative z-50 overflow-visible">
+        <!-- 顶部工具栏 -->
+        <div class="flex justify-between items-center mb-4">
+          <!-- 模型信息标题和删除按钮 -->
+          <div class="flex items-center">
+            <h2 class="text-xl font-bold">模型信息</h2>
+          </div>
           <div @click="toggleVisibility" class="cursor-pointer">
-            <el-icon>
-              <Close />
-            </el-icon>
+            <i class="fa-solid fa-times text-xs"></i>
           </div>
+
+
         </div>
-        <!-- 模型信息 -->
-        <div>
-          <h2 class="text-xl font-bold mb-4">模型信息</h2>
-          <hr class="my-4" />
 
-          <!-- 模型名称 -->
-          <div class="mb-2">
-            <label class="font-semibold">模型名称</label>
-            <textarea
-                class="w-full border font-semibold border-gray-300 rounded p-2"
-                rows="3"
-                v-model="formData.name"
-                :placeholder="placeholders.name"
-            ></textarea>
-          </div>
+        <hr class="my-4" />
 
-          <!-- 模型描述 -->
-          <div class="mb-2">
-            <label class="font-semibold">模型描述</label>
-            <textarea
-                class="w-full border font-semibold border-gray-300 rounded p-2"
-                rows="3"
-                v-model="formData.modelDescription"
-                :placeholder="placeholders.modelDescription"
-            ></textarea>
-          </div>
+        <!-- 模型名称 -->
+        <div class="mb-2">
+          <label class="font-semibold">模型名称</label>
+          <textarea
+              class="w-full border font-semibold border-gray-300 rounded p-2"
+              rows="1"
+              v-model="formData.name"
+              :placeholder="placeholders.name"
+          ></textarea>
+        </div>
 
-          <!-- 提示词 -->
-          <div class="mb-2">
-            <label class="font-semibold">ChatBI提示词</label>
-            <textarea
-                class="w-full border font-semibold border-gray-300 rounded p-2"
-                rows="5"
-                v-model="formData.prompt"
-                :placeholder="placeholders.prompt"
-            ></textarea>
-          </div>
+        <!-- 模型描述 -->
+        <div class="mb-2">
+          <label class="font-semibold">模型描述</label>
+          <textarea
+              class="w-full border font-semibold border-gray-300 rounded p-2"
+              rows="3"
+              v-model="formData.modelDescription"
+              :placeholder="placeholders.modelDescription"
+          ></textarea>
+        </div>
+
+        <!-- 提示词 -->
+        <div class="mb-2">
+          <label class="font-semibold">ChatBI提示词</label>
+          <textarea
+              class="w-full border font-semibold border-gray-300 rounded p-2"
+              rows="5"
+              v-model="formData.prompt"
+              :placeholder="placeholders.prompt"
+          ></textarea>
         </div>
 
         <!-- 确定按钮和 Dropdown 菜单 -->
@@ -93,7 +95,7 @@
           <!-- 确定按钮 -->
           <button
               @click="confirm"
-              class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+              class="bg-black text-white px-4 py-2 rounded-lg hover:bg-blue-600"
           >
             确定
           </button>
@@ -105,8 +107,8 @@
 
 <script setup lang="ts">
 import { reactive, ref, computed } from 'vue';
-import { Close, ArrowDown as ElIconArrowDown } from '@element-plus/icons-vue';
-import { modelData, initialFormData,placeholders } from '../constant/knowledgeCategories.ts';
+import {  ArrowDown as ElIconArrowDown } from '@element-plus/icons-vue';
+import { modelData, initialFormData, placeholders } from '../constant/knowledgeCategories.ts';
 
 const props = defineProps(['ifShow']);
 const emit = defineEmits();
@@ -190,5 +192,17 @@ button {
 
 button:hover {
   cursor: pointer;
+}
+
+.bg-white {
+  background-color: #fff;
+}
+
+.border-gray-300 {
+  border-color: #d1d5db;
+}
+
+.hover\:bg-gray-100:hover {
+  background-color: #f3f4f6;
 }
 </style>
