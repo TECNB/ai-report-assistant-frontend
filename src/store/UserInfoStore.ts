@@ -19,6 +19,8 @@ export const userInfoStore = defineStore({
         setSessionToken(sessionToken: string) {
             this.sessionToken = sessionToken;
             localStorage.setItem('sessionToken', sessionToken);
+            // 打印 sessionToken 到控制台
+            console.log('Session Token:', sessionToken);
         },
         setUser(user: User) {
             this.user = user;
