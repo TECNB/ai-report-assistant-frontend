@@ -11,7 +11,7 @@
                         <Edit />
                     </el-icon>
                 </div>
-                <el-icon class=" hover:bg-bg-300 cursor-pointer rounded-xl" size="20" color="#676767 transition">
+                <el-icon class=" hover:bg-bg-300 cursor-pointer rounded-xl" size="20" color="#676767 transition" @click="showDataSource">
                     <Operation />
                 </el-icon>
             </div>
@@ -55,6 +55,10 @@
 
         <MaskLayer :ifShow="statementVisible"/>
         <Statement :ifShow="statementVisible" @updateIfShow="updateStatementVisible"/>
+
+        <DataSource :ifShow="dataSourceVisible" @updateIfShow="updateDataSourceVisible" />
+        <!-- 遮罩层 -->
+        <MaskLayer :ifShow="dataSourceVisible" />
     </div>
 </template>
 
@@ -64,6 +68,7 @@ import { reportContent } from '../constant/reportContent';
 
 let chartVisible = ref(false);
 let statementVisible = ref(false);
+let dataSourceVisible = ref(false);
 
 const showChart = () => {
     chartVisible.value = !chartVisible.value;
@@ -71,11 +76,17 @@ const showChart = () => {
 const showStatement = () => {
     statementVisible.value = !statementVisible.value;
 }
+const showDataSource = () => {
+    dataSourceVisible.value = !dataSourceVisible.value;
+}
 const updateChartVisible = (value: boolean) => {
     chartVisible.value = value;
 }
 const updateStatementVisible = (value: boolean) => {
     statementVisible.value = value;
+}
+const updateDataSourceVisible = (value: boolean) => {
+    dataSourceVisible.value = value;
 }
 </script>
 

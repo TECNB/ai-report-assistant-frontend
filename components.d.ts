@@ -15,6 +15,7 @@ declare module 'vue' {
     Chat: typeof import('./src/components/Chat.vue')['default']
     ChatWindow: typeof import('./src/components/ChatWindow.vue')['default']
     DataSidebar: typeof import('./src/components/DataSidebar.vue')['default']
+    DataSource: typeof import('./src/components/DataSource.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
