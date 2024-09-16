@@ -28,6 +28,11 @@ const airLineOptions = (xAxisData: string[], seriesData: number[]): ECBasicOptio
                 symbolSize: 6,
                 data: seriesData,
                 color: ['#5DB1FF'],
+                markLine: {
+                    symbol: ['none', 'none'],
+                    label: { show: false },
+                    data: [{ xAxis: 8 }, { xAxis: 11 }]
+                },
                 areaStyle: {
                     color: {
                         type: 'linear',

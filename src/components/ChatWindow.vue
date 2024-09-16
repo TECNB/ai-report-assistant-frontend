@@ -85,6 +85,9 @@
                 <MaskLayer backgroundColor="rgba(0, 0, 0, 0.3)" :ifShow="statementVisible" />
                 <Statement :ifShow="statementVisible" @updateIfShow="updateStatementVisible" />
 
+                <LineContainer v-if="msg.type === 'predictQuestion'" width="100%" height="320px" :data="airLineData"
+                    :chartOption="airLineOptions" />
+
             </div>
         </div>
     </el-scrollbar>
@@ -93,9 +96,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref,watch,onMounted } from 'vue';
+import { ref,onMounted } from 'vue';
 import chatExample from '../constant/chatExample'; // 导入聊天示例
 import chatExample2 from '../constant/chatExample2'; // 导入聊天示例
+
+import airLineOptions from '../utils/airLineOptions';
+import LineContainer from './charts/LineContainer.vue';
+import { airLineData } from '../constant/airLineData';
 
 
 const props = defineProps<{

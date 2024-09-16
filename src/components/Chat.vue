@@ -245,6 +245,30 @@ const handleEnter = async () => {
 
         return;
     }
+    if(message.value === '预测接下来三个月的温室气体排放'){
+        const userContent = message.value;
+        displayedMessages.value.push({ type: 'user', content: userContent });
+        message.value = '';
+
+        showSuggestions.value = false; // 隐藏建议列表
+
+        let completeMessage = ''; // 用于累积AI的回复内容
+        completeMessage = chatExample.prompt
+
+        // Add a loading placeholder
+        displayedMessages.value.push({ type: 'loading', content: '' });
+        // 移除加载占位符
+        displayedMessages.value.pop();
+        displayedMessages.value.push({ type: 'ai', content: '' });
+
+
+        // 添加最终的AI消息并应用打字效果
+        await typeEffect(chatExample.prompt, 50);
+
+        displayedMessages.value.push({ type: 'predictQuestion', content: '' });
+
+        return;
+    }
     if (message.value === '为我归因2023年温室气体排放') {
         const userContent = message.value;
         displayedMessages.value.push({ type: 'user', content: userContent });
