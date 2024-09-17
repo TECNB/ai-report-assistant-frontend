@@ -12,7 +12,7 @@
     "@fortawesome/fontawesome-free": "file:./fontawesome-pro-6.6.0-web.tgz",
     "axios": "^1.7.7",
     "echarts": "^5.5.1",
-    "element-plus": "^2.8.1",
+    "element-plus": "^2.8.3",
     "highlight": "^0.2.4",
     "highlight.js": "^11.10.0",
     "pinia": "^2.2.2",

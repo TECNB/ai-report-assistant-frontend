@@ -6,6 +6,7 @@ import ElementPlus from 'element-plus'
 // 自定义全局css
 import './assets/styles/global.css'
 import * as ElIcons from '@element-plus/icons-vue'
+import 'element-plus/dist/index.css';
 
 // ① 引入createPinia方法从pinia
 import { createPinia } from 'pinia'
