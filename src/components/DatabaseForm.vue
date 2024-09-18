@@ -1,11 +1,11 @@
 <template>
   <div class="w-3/4 bg-white rounded-lg p-1 shadow-md h-full">
-    <div v-if="selectedDatabase" class="w-full h-full bg-white rounded-lg p-5 shadow-md">
-      <h2 class="text-xl font-bold mb-5">{{ selectedDatabase }} 数据源</h2>
+
+      <h2 class="text-xl font-bold mb-5 p-5">{{ props.selectedDatabase }} 数据源</h2>
 
       <!-- 数据源类型 -->
-      <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 whitespace-nowrap w-1/4 text-right !important">数据源类型</label>
+      <div class="mb-5 flex items-center ">
+        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right  ">数据源类型</label>
         <el-select v-model="selectedSource" placeholder="请点击选择分类" size="large" clearable :teleported="false">
           <el-option v-for="item in allType" :key="item.objectId" :label="item.name" :value="item.objectId" />
         </el-select>
@@ -15,7 +15,7 @@
       <!-- 省略表单字段... -->
       <!-- 显示名称 -->
       <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 whitespace-nowrap w-1/4 text-right" for="databaseName">
+        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right" for="databaseName">
           显示名称
         </label>
         <el-input id="databaseName" v-model="databaseName" placeholder="Demo数据源" class="flex-grow" />
@@ -23,7 +23,7 @@
 
       <!-- 数据库地址 -->
       <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 whitespace-nowrap w-1/4 text-right" for="databaseUrl">
+        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right" for="databaseUrl">
           数据库地址
         </label>
         <el-input id="databaseUrl" v-model="databaseUrl" placeholder="rm-xxxxx.mysql.rds.aliyuncs.com"
@@ -32,7 +32,7 @@
 
       <!-- 端口 -->
       <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 whitespace-nowrap w-1/4 text-right" for="port">
+        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right" for="port">
           端口
         </label>
         <el-input id="port" v-model="port" placeholder="3306" class="flex-grow" />
@@ -40,7 +40,7 @@
 
       <!-- 数据库 -->
       <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 whitespace-nowrap w-1/4 text-right" for="database">
+        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right" for="database">
           数据库
         </label>
         <el-input id="database" v-model="database" placeholder="quickbi_online_demo" class="flex-grow" />
@@ -48,7 +48,7 @@
 
       <!-- 用户名 -->
       <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 whitespace-nowrap w-1/4 text-right" for="username">
+        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right" for="username">
           用户名
         </label>
         <el-input id="username" v-model="username" placeholder="quickbi_train" class="flex-grow" />
@@ -56,7 +56,7 @@
 
       <!-- 密码 -->
       <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 whitespace-nowrap w-1/4 text-right" for="password">
+        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right" for="password">
           密码
         </label>
         <el-input id="password" v-model="password" show-password placeholder="请输入密码" class="flex-grow" />
@@ -64,17 +64,16 @@
 
       <!-- 数据库版本 -->
       <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 whitespace-nowrap w-1/4 text-right" for="dbVersion">
+        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right" for="dbVersion">
           数据库版本
         </label>
-        <el-select id="dbVersion" v-model="dbVersion" placeholder="请选择数据库版本" class="flex-grow">
-          <el-option label="5.7" value="5.7"></el-option>
-          <el-option label="8.0" value="8.0"></el-option>
+        <el-select id="dbVersion" v-model="dbVersion" placeholder="请选择数据库版本" class="flex-grow" clearable :teleported="false">
+          <el-option v-for="item in allVersions" :key="item.versionId" :label="item.name" :value="item.versionId"></el-option>
         </el-select>
       </div>
 
       <!-- 操作按钮 -->
-      <div class="flex justify-end">
+      <div class="flex justify-center">
         <el-button @click="$emit('cancel')">取消</el-button>
         <el-button class="border border-blue-500 text-blue-500 hover:bg-blue-100"
           @click="testConnection">连接测试</el-button>
@@ -82,15 +81,13 @@
       </div>
     </div>
 
-    <div v-else class="flex justify-center items-center h-full">
-      <p class="text-gray-500">请选择左侧的数据库类型以继续</p>
-    </div>
-  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import { ElMessage } from 'element-plus';
+import { h } from 'vue';
+
 const props = defineProps({
   selectedDatabase: String,  // 接收父组件传递的选中数据库类型
 });
@@ -101,6 +98,11 @@ const allType = ref([
   { objectId: 'huawei', name: '华为云' },
   { objectId: 'aws', name: 'AWS' },
   { objectId: 'gcp', name: 'GCP' },
+]);
+
+const allVersions =  ref([
+  {versionId: '5.7',name:'5.7'},
+  {versionId:'8.0',name:'8.0'},
 ]);
 
 // 选中的数据源类型
@@ -120,13 +122,14 @@ const testConnection = () => {
   ElMessage({
     message: '数据源连通性正常',
     type: 'success',
-    iconClass: 'fas fa-check-circle', // 使用 FontAwesome 图标
+    icon: h('i', { class: 'fas fa-check-circle' }), // 使用 h 函数来传递自定义图标
     duration: 3000, // 消息3秒后消失
     showClose: true,
-
+    zIndex: 9999, // 设置 zIndex 为 2000
   });
 };
 
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

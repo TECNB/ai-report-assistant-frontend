@@ -1,5 +1,5 @@
 <template>
-    <div class="Chart" v-if="ifShow">
+    <div class="Chart" v-if="props.ifShow">
         <!-- 合并后的标题和步骤条 -->
         <div class="flex justify-between items-center  mb-5">
             <!-- 标题 -->
@@ -96,19 +96,10 @@ const submitForm = () => {
 </script>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.5s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
-}
 
 .Chart {
     width: 90%;
-    height: 90%;
+    height: 86%;
     position: absolute;
     z-index: 99999;
     top: 50%;
