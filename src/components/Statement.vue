@@ -10,10 +10,12 @@
         </div>
         <el-scrollbar height="95%" wrap-style="width:100%;" class="flex justify-center">
             <div class="w-full flex flex-col justify-center items-center self-center relative overflow-visible">
-                <div class="w-[600px] shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5 overflow-visible transform translate-x-0 absolute top-0 left-12 z-0"
-                    @mouseenter="showDesign" @mouseleave="hiddenDesign">
+                <div ref="parentEl"
+                    class="w-[600px] shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5 overflow-visible absolute bg-white"
+                    @mouseenter="showDesign" @mouseleave="hiddenDesign" :style="parentStyle">
                     <!-- 悬浮按钮 -->
                     <div v-if="designVisible" @mouseenter="showDesign" @mouseleave="hiddenDesign"
+                        @mousedown="onMouseDown"
                         class="absolute w-5 h-8 top-1 -left-6 bg-gray-100 flex justify-center items-center gap-1 rounded-md cursor-pointer">
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
@@ -86,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 // import * as echarts from 'echarts';
 
 import airLineOptions from '../utils/airLineOptions';
@@ -109,6 +111,10 @@ const emit = defineEmits();
 let hideTimeout: ReturnType<typeof setTimeout> | null = null;
 
 let designVisible = ref(false);
+const isDragging = ref(false);
+const startPosition = reactive({ x: 0, y: 0 });
+const offset = reactive({ x: 0, y: 0 });
+const parentStyle = reactive({ top: "0px", left: "48px" });
 
 const toggleVisibility = () => {
     emit('updateIfShow', false);
@@ -122,6 +128,30 @@ const hiddenDesign = () => {
     hideTimeout = setTimeout(() => {
         designVisible.value = false;
     }, 200); // 延迟隐藏
+};
+
+const onMouseDown = (event: MouseEvent) => {
+    isDragging.value = true;
+    startPosition.x = event.clientX - offset.x;
+    startPosition.y = event.clientY - offset.y;
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+};
+
+const onMouseMove = (event: MouseEvent) => {
+    designVisible.value = true;
+    if (isDragging.value) {
+        offset.x = event.clientX - startPosition.x;
+        offset.y = event.clientY - startPosition.y;
+        parentStyle.top = `${offset.y}px`;
+        parentStyle.left = `${offset.x}px`;
+    }
+};
+
+const onMouseUp = () => {
+    isDragging.value = false;
+    window.removeEventListener("mousemove", onMouseMove);
+    window.removeEventListener("mouseup", onMouseUp);
 };
 </script>
 
