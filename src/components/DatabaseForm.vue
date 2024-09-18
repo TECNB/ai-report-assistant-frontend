@@ -6,9 +6,8 @@
       <!-- 数据源类型 -->
       <div class="mb-5 flex items-center">
         <label class="block text-gray-700 font-bold mr-4 whitespace-nowrap w-1/4 text-right !important">数据源类型</label>
-        <el-select v-model="selectedSource" placeholder="请选择数据源类型" style="width: 200px;">
-          <el-option label="阿里云" value="aliyun"></el-option>
-          <el-option label="手动连接" value="manual"></el-option>
+        <el-select v-model="selectedSource" placeholder="请点击选择分类" size="large" clearable :teleported="false">
+          <el-option v-for="item in allType" :key="item.objectId" :label="item.name" :value="item.objectId" />
         </el-select>
       </div>
 
@@ -27,7 +26,8 @@
         <label class="block text-gray-700 font-bold mr-4 whitespace-nowrap w-1/4 text-right" for="databaseUrl">
           数据库地址
         </label>
-        <el-input id="databaseUrl" v-model="databaseUrl" placeholder="rm-xxxxx.mysql.rds.aliyuncs.com" class="flex-grow" />
+        <el-input id="databaseUrl" v-model="databaseUrl" placeholder="rm-xxxxx.mysql.rds.aliyuncs.com"
+          class="flex-grow" />
       </div>
 
       <!-- 端口 -->
@@ -76,7 +76,8 @@
       <!-- 操作按钮 -->
       <div class="flex justify-end">
         <el-button @click="$emit('cancel')">取消</el-button>
-        <el-button class="border border-blue-500 text-blue-500 hover:bg-blue-100" @click="testConnection">连接测试</el-button>
+        <el-button class="border border-blue-500 text-blue-500 hover:bg-blue-100"
+          @click="testConnection">连接测试</el-button>
         <el-button type="primary" @click="$emit('confirm')">确定</el-button>
       </div>
     </div>
@@ -93,6 +94,14 @@ import { ElMessage } from 'element-plus';
 const props = defineProps({
   selectedDatabase: String,  // 接收父组件传递的选中数据库类型
 });
+
+const allType = ref([
+  { objectId: 'aliyun', name: '阿里云' },
+  { objectId: 'tencent', name: '腾讯云' },
+  { objectId: 'huawei', name: '华为云' },
+  { objectId: 'aws', name: 'AWS' },
+  { objectId: 'gcp', name: 'GCP' },
+]);
 
 // 选中的数据源类型
 const selectedSource = ref('aliyun');
@@ -120,6 +129,4 @@ const testConnection = () => {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
