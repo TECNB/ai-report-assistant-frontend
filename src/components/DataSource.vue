@@ -74,7 +74,7 @@ const expandedIndex = ref<number | null>(null); // 控制当前展开的索引
 // 函数
 const selectDatabase = (db: string) => {
     selectedDatabase.value = db;
-    currentStep.value = 2; // 进入下一步，配置连接
+
 };
 
 // 函数：切换下拉列表显示与隐藏
