@@ -11,9 +11,10 @@
         <el-scrollbar height="95%" wrap-style="width:100%;" class="flex justify-center">
             <div class="w-full flex flex-col justify-center items-center self-center relative overflow-visible">
                 <div class="w-[600px] shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5 overflow-visible transform translate-x-0 absolute top-0 left-12 z-0"
-                    @mouseover="showDesign" @mouseleave="hiddenDesign">
+                    @mouseenter="showDesign" @mouseleave="hiddenDesign">
                     <!-- 悬浮按钮 -->
-                    <div class="absolute w-5 h-8 top-1 -left-6 bg-gray-100 flex justify-center items-center gap-1 rounded-md cursor-pointer">
+                    <div v-if="designVisible" @mouseenter="showDesign" @mouseleave="hiddenDesign"
+                        class="absolute w-5 h-8 top-1 -left-6 bg-gray-100 flex justify-center items-center gap-1 rounded-md cursor-pointer">
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
                     </div>
@@ -26,7 +27,8 @@
                     </div>
                 </div>
 
-                <div class="w-[600px] shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5 overflow-visible transform translate-x-[680px] absolute top-0 left-0 z-0">
+                <div
+                    class="w-[600px] shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5 overflow-visible transform translate-x-[680px] absolute top-0 left-0 z-0">
                     <p class="text-sm font-bold">本年度二氧化碳总排放量</p>
                     <div class="h-36 flex justify-center items-center gap-2">
                         <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">1</p>
@@ -47,7 +49,8 @@
                 </div>
 
 
-                <div class="w-[1230px] flex justify-center items-center gap-3 mt-5 absolute transform translate-x-0 translate-y-[690px]">
+                <div
+                    class="w-[1230px] flex justify-center items-center gap-3 mt-5 absolute transform translate-x-0 translate-y-[690px]">
                     <div class="flex flex-1 flex-col justify-center items-center">
                         <div
                             class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
@@ -103,6 +106,7 @@ import { horizontalBarData } from '../constant/horizontalBarData';
 
 const props = defineProps(['ifShow']);
 const emit = defineEmits();
+let hideTimeout: ReturnType<typeof setTimeout> | null = null;
 
 let designVisible = ref(false);
 
@@ -111,11 +115,13 @@ const toggleVisibility = () => {
 };
 
 const showDesign = () => {
+    if (hideTimeout) clearTimeout(hideTimeout); // 清除隐藏的延迟
     designVisible.value = true;
 };
 const hiddenDesign = () => {
-    designVisible.value = false;
-    console.log('hidden');
+    hideTimeout = setTimeout(() => {
+        designVisible.value = false;
+    }, 200); // 延迟隐藏
 };
 </script>
 
