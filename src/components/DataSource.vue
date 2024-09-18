@@ -36,6 +36,7 @@
     <div class="flex p-2 rounded-lg h-5/6">
       <!-- 左侧导航 -->
       <div class="w-1/4 bg-white rounded-lg p-5 shadow-md mr-2 h-full">
+        <!-- 搜索框 -->
         <div class="relative mb-4">
           <svg class="absolute left-2 top-3 text-gray-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -44,9 +45,16 @@
         </div>
 
         <!-- SQL 类型列表 -->
-        <div v-for="(dataSource, index) in dataSourceTypes" :key="index" class="mb-4">
-          <p class="font-bold text-gray-700 mb-2">{{ dataSource.category }}</p>
-          <div class="border border-gray-300 rounded">
+          <div v-for="(dataSource, index) in dataSourceTypes" :key="index" class="mb-4">
+            <!-- 数据源分类名称和下拉图标 -->
+            <div class="flex justify-between items-center cursor-pointer" @click="toggleDropdown(index)">
+              <p class="font-bold text-gray-700">{{ dataSource.category }}</p>
+              <!-- 图标：根据展开状态切换图标方向 -->
+              <i :class="expandedIndex === index ? 'fa-solid fa-caret-up' : 'fa-regular fa-caret-down'"></i>
+            </div>
+
+          <!-- 下拉内容，点击数据源时显示/隐藏 -->
+          <div v-show="expandedIndex === index" class="border border-gray-300 rounded">
             <div
                 class="p-2 bg-gray-50 cursor-pointer flex items-center"
                 v-for="(option, idx) in dataSource.options"
@@ -76,10 +84,17 @@ const emit = defineEmits();
 const selectedDatabase = ref('');
 const currentStep = ref(1); // 当前步骤
 
+const expandedIndex = ref<number | null>(null); // 控制当前展开的索引
+
 // 函数
 const selectDatabase = (db: string) => {
   selectedDatabase.value = db;
   currentStep.value = 2; // 进入下一步，配置连接
+};
+
+// 函数：切换下拉列表显示与隐藏
+const toggleDropdown = (index: number) => {
+  expandedIndex.value = expandedIndex.value === index ? null : index; // 切换展开/收回
 };
 
 const toggleVisibility = () => {
