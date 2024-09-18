@@ -17,7 +17,7 @@
             </div>
 
             <div
-                class="flex justify-start items-center gap-3  p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition">
+                class="flex justify-start items-center gap-3  p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition" @click="showUserData">
                 <el-icon size="24">
                     <Postcard />
                 </el-icon>
@@ -57,8 +57,10 @@
         <Statement :ifShow="statementVisible" @updateIfShow="updateStatementVisible"/>
 
         <DataSource :ifShow="dataSourceVisible" @updateIfShow="updateDataSourceVisible" />
-        <!-- 遮罩层 -->
         <MaskLayer :ifShow="dataSourceVisible" />
+
+        <UserData :ifShow="userDataVisible" @updateIfShow="updateUserDataVisible" />
+        <MaskLayer :ifShow="userDataVisible" />
     </div>
 </template>
 
@@ -69,6 +71,7 @@ import { reportContent } from '../constant/reportContent';
 let chartVisible = ref(false);
 let statementVisible = ref(false);
 let dataSourceVisible = ref(false);
+let userDataVisible = ref(false);
 
 const showChart = () => {
     chartVisible.value = !chartVisible.value;
@@ -79,6 +82,9 @@ const showStatement = () => {
 const showDataSource = () => {
     dataSourceVisible.value = !dataSourceVisible.value;
 }
+const showUserData = () => {
+    userDataVisible.value = !userDataVisible.value;
+}
 const updateChartVisible = (value: boolean) => {
     chartVisible.value = value;
 }
@@ -87,6 +93,9 @@ const updateStatementVisible = (value: boolean) => {
 }
 const updateDataSourceVisible = (value: boolean) => {
     dataSourceVisible.value = value;
+}
+const updateUserDataVisible = (value: boolean) => {
+    userDataVisible.value = value;
 }
 </script>
 
