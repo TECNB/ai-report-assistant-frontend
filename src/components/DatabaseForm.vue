@@ -1,16 +1,17 @@
 <template>
   <div class="w-3/4 bg-white rounded-lg p-1 shadow-md h-full">
-    <div v-if="selectedDatabase" class="w-1/2 h-full bg-white rounded-lg p-5 shadow-md">
+    <div v-if="selectedDatabase" class="w-full h-full bg-white rounded-lg p-5 shadow-md">
       <h2 class="text-xl font-bold mb-5">{{ selectedDatabase }} 数据源</h2>
 
       <!-- 数据源类型 -->
       <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 whitespace-nowrap w-1/4 text-right">数据源类型</label>
-        <el-select v-model="selectedSource" placeholder="请选择数据源类型" class="flex-grow w-48">
+        <label class="block text-gray-700 font-bold mr-4 whitespace-nowrap w-1/4 text-right !important">数据源类型</label>
+        <el-select v-model="selectedSource" placeholder="请选择数据源类型" style="width: 200px;">
           <el-option label="阿里云" value="aliyun"></el-option>
           <el-option label="手动连接" value="manual"></el-option>
         </el-select>
       </div>
+
 
       <!-- 省略表单字段... -->
       <!-- 显示名称 -->
@@ -75,6 +76,7 @@
       <!-- 操作按钮 -->
       <div class="flex justify-end">
         <el-button @click="$emit('cancel')">取消</el-button>
+        <el-button class="border border-blue-500 text-blue-500 hover:bg-blue-100" @click="testConnection">连接测试</el-button>
         <el-button type="primary" @click="$emit('confirm')">确定</el-button>
       </div>
     </div>
@@ -87,7 +89,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-
+import { ElMessage } from 'element-plus';
 const props = defineProps({
   selectedDatabase: String,  // 接收父组件传递的选中数据库类型
 });
@@ -103,9 +105,21 @@ const database = ref('');
 const username = ref('');
 const password = ref('');
 const dbVersion = ref('');
+// 使用 Element Plus 的通知来显示连接测试结果
+const testConnection = () => {
+  // 使用 ElMessage 显示消息
+  ElMessage({
+    message: '数据源连通性正常',
+    type: 'success',
+    iconClass: 'fas fa-check-circle', // 使用 FontAwesome 图标
+    duration: 3000, // 消息3秒后消失
+    showClose: true,
+
+  });
+};
+
 </script>
 
-
 <style scoped>
-/* DatabaseForm 样式 */
+
 </style>

@@ -1,28 +1,10 @@
 <template>
   <div class="Chart" v-if="ifShow">
     <!-- 合并后的标题和步骤条 -->
-    <div class="flex justify-between items-center bg-gray-100 p-5 mb-5">
+    <div class="flex justify-between items-center  mb-5">
       <!-- 标题 -->
       <div class="flex items-center">
-        <p class="text-2xl font-bold mr-5">创建数据源</p>
-        <!-- 步骤条 -->
-        <div class="flex items-center space-x-5">
-          <div class="flex items-center" :class="{ 'text-green-500': currentStep >= 1, 'text-gray-500': currentStep < 1 }">
-            <div class="w-8 h-8 flex items-center justify-center rounded-full"
-                 :class="{ 'bg-green-500 text-white': currentStep >= 1, 'bg-gray-300': currentStep < 1 }">1</div>
-            <p class="ml-2 text-sm">选择数据源</p>
-          </div>
-          <div class="flex items-center" :class="{ 'text-green-500': currentStep >= 2, 'text-gray-500': currentStep < 2 }">
-            <div class="w-8 h-8 flex items-center justify-center rounded-full"
-                 :class="{ 'bg-green-500 text-white': currentStep >= 2, 'bg-gray-300': currentStep < 2 }">2</div>
-            <p class="ml-2 text-sm">配置连接</p>
-          </div>
-          <div class="flex items-center" :class="{ 'text-green-500': currentStep >= 3, 'text-gray-500': currentStep < 3 }">
-            <div class="w-8 h-8 flex items-center justify-center rounded-full"
-                 :class="{ 'bg-green-500 text-white': currentStep >= 3, 'bg-gray-300': currentStep < 3 }">3</div>
-            <p class="ml-2 text-sm">完成</p>
-          </div>
-        </div>
+        <p class="text-2xl font-bold ">创建数据源</p>
       </div>
       <!-- 关闭按钮 -->
       <div class="Close cursor-pointer" @click="toggleVisibility">
@@ -31,7 +13,7 @@
         </svg>
       </div>
     </div>
-
+    <hr class="my-4 bg-black" />
     <!-- 主体内容 -->
     <div class="flex p-2 rounded-lg h-5/6">
       <!-- 左侧导航 -->
@@ -54,18 +36,21 @@
             </div>
 
           <!-- 下拉内容，点击数据源时显示/隐藏 -->
-          <div v-show="expandedIndex === index" class="border border-gray-300 rounded">
-            <div
-                class="p-2 bg-gray-50 cursor-pointer flex items-center"
-                v-for="(option, idx) in dataSource.options"
-                :key="idx"
-                @click="selectDatabase(option.name)"
-            >
-              <i :class="option.icon + ' mr-2'"></i>
-              <span class="font-bold text-gray-600">{{ option.name }}</span>
-            </div>
-          </div>
+            <transition name="fade">
+              <div v-show="expandedIndex === index" class="border border-gray-300 rounded">
+                <div
+                    class="p-2 bg-gray-50 cursor-pointer flex items-center"
+                    v-for="(option, idx) in dataSource.options"
+                    :key="idx"
+                    @click="selectDatabase(option.name)"
+                >
+                  <i :class="option.icon + ' mr-2'"></i>
+                  <span class="font-bold text-gray-600">{{ option.name }}</span>
+                </div>
+              </div>
+            </transition>
         </div>
+
       </div>
 
       <!-- 右侧内容 -->
@@ -111,6 +96,15 @@ const submitForm = () => {
 </script>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 .Chart {
   width: 90%;
   height: 90%;
