@@ -12,13 +12,12 @@
             <div class="w-full flex flex-col justify-center items-center self-center relative overflow-visible">
                 <!-- 动态渲染可拖动的元素 -->
                 <div v-for="(item, index) in items" :key="index" :data-id="index"
-                    :style="{ top: `${item.top}px`, left: `${item.left}px`, width: item.type === 'chart'? 'auto' :`${item.width}px`, height: item.type === 'chart'? 'auto' :`${item.height}px`, position: 'absolute' }"
+                    :style="{ top: `${item.top}px`, left: `${item.left}px`, width: item.type === 'chart' ? 'auto' : `${item.width}px`, height: item.type === 'chart' ? 'auto' : `${item.height}px`, position: 'absolute' }"
                     class="shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5 overflow-visible bg-white"
-                    @mousedown="startDrag($event, index)" @mouseenter="showDesign" @mouseleave="hiddenDesign">
+                    @mousedown="" @mouseenter="showDesign(index)" @mouseleave="hiddenDesign">
                     <!-- 悬浮按钮 -->
-                    <div v-if="designVisible" @mouseenter="showDesign" @mouseleave="hiddenDesign"
-                        class="absolute w-5 h-8 top-1 -left-6 bg-gray-100 flex justify-center items-center gap-1 rounded-md cursor-pointer"
-                        @mousedown="onMouseDown">
+                    <div v-if="hoveredItem === index" @mouseenter="showDesign(index)" @mouseleave="hiddenDesign" @mousedown="onMouseDown($event, index)"
+                        class="absolute w-5 h-8 top-1 -left-6 bg-gray-100 flex justify-center items-center gap-1 rounded-md cursor-pointer">
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
                     </div>
@@ -78,11 +77,14 @@ let hideTimeout: ReturnType<typeof setTimeout> | null = null;
 const parentEl = ref<HTMLElement | null>(null);
 const otherEls = ref<HTMLElement[]>([]);
 
-let designVisible = ref(false);
-const isDragging = ref(false);
-const startPosition = reactive({ x: 0, y: 0 });
-const offset = reactive({ x: 0, y: 0 });
-const parentStyle = reactive({ top: "0px", left: "48px" });
+let isDragging = ref(false); // 是否正在拖拽
+let startX = ref(0); // 鼠标初始X位置
+let startY = ref(0); // 鼠标初始Y位置
+let initialTop = ref(0); // 父元素初始的top位置
+let initialLeft = ref(0); // 父元素初始的left位置
+
+
+const hoveredItem = ref<number | null>(null); // 用来存储当前悬浮的元素索引
 
 interface Item {
     top: number;
@@ -106,45 +108,54 @@ const items = ref<Item[]>([
     { top: 550, left: 890, height: 240, width: 350, label: '空气质量对比', type: 'chart', chart: 'horizontalBar', data: horizontalBarData, chartOption: airHorizontalBarOption }
 ]);
 
-let draggingItem = ref<number | null>(null);
 
 const toggleVisibility = () => {
     emit('updateIfShow', false);
 };
 
-const showDesign = () => {
+const showDesign = (index: number) => {
     if (hideTimeout) clearTimeout(hideTimeout); // 清除隐藏的延迟
-    designVisible.value = true;
+    hoveredItem.value = index; // 设置当前悬浮的元素索引
 };
+
 const hiddenDesign = () => {
     hideTimeout = setTimeout(() => {
-        designVisible.value = false;
+        hoveredItem.value = null; // 重置悬浮的元素索引
     }, 200); // 延迟隐藏
 };
 
-const onMouseDown = (event: MouseEvent) => {
+const onMouseDown = (event: MouseEvent, index: number) => {
     isDragging.value = true;
-    startPosition.x = event.clientX - offset.x;
-    startPosition.y = event.clientY - offset.y;
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("mouseup", onMouseUp);
+    startX.value = event.clientX;
+    startY.value = event.clientY;
+    initialTop.value = items.value[index].top;
+    initialLeft.value = items.value[index].left;
+    
+    // 添加全局鼠标移动和释放监听
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
 };
 
 const onMouseMove = (event: MouseEvent) => {
-    designVisible.value = true;
-    if (isDragging.value) {
-        offset.x = event.clientX - startPosition.x;
-        offset.y = event.clientY - startPosition.y;
-        parentStyle.top = `${offset.y}px`;
-        parentStyle.left = `${offset.x}px`;
-    }
-    checkOverlap();
+    if (!isDragging.value) return;
+    
+    const deltaX = event.clientX - startX.value;
+    const deltaY = event.clientY - startY.value;
+
+    const newTop = initialTop.value + deltaY;
+    const newLeft = initialLeft.value + deltaX;
+
+    // 更新当前被拖拽元素的位置
+    items.value[hoveredItem.value!].top = newTop;
+    items.value[hoveredItem.value!].left = newLeft;
 };
 
 const onMouseUp = () => {
     isDragging.value = false;
-    window.removeEventListener("mousemove", onMouseMove);
-    window.removeEventListener("mouseup", onMouseUp);
+
+    // 移除全局鼠标事件监听
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
 };
 
 
