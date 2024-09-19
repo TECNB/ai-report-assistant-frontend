@@ -5,7 +5,7 @@
 
       <!-- 数据源类型 -->
       <div class="mb-5 flex items-center ">
-        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right  ">数据源类型</label>
+        <label class="block text-gray-700 font-bold mr-4  whitespace-nowrap w-1/5 text-right  ">数据源类型</label>
         <el-select v-model="selectedSource" placeholder="请点击选择分类" size="large" clearable :teleported="false">
           <el-option v-for="item in allType" :key="item.objectId" :label="item.name" :value="item.objectId" />
         </el-select>
@@ -15,7 +15,7 @@
       <!-- 省略表单字段... -->
       <!-- 显示名称 -->
       <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right" for="databaseName">
+        <label class="block text-gray-700 font-bold mr-4 whitespace-nowrap w-1/5 text-right" for="databaseName">
           显示名称
         </label>
         <el-input id="databaseName" v-model="databaseName" placeholder="Demo数据源" class="flex-grow" />
@@ -23,7 +23,7 @@
 
       <!-- 数据库地址 -->
       <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right" for="databaseUrl">
+        <label class="block text-gray-700 font-bold mr-4  whitespace-nowrap w-1/5 text-right" for="databaseUrl">
           数据库地址
         </label>
         <el-input id="databaseUrl" v-model="databaseUrl" placeholder="rm-xxxxx.mysql.rds.aliyuncs.com"
@@ -32,7 +32,7 @@
 
       <!-- 端口 -->
       <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right" for="port">
+        <label class="block text-gray-700 font-bold mr-4  whitespace-nowrap w-1/5 text-right" for="port">
           端口
         </label>
         <el-input id="port" v-model="port" placeholder="3306" class="flex-grow" />
@@ -40,7 +40,7 @@
 
       <!-- 数据库 -->
       <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right" for="database">
+        <label class="block text-gray-700 font-bold mr-4  whitespace-nowrap w-1/5 text-right" for="database">
           数据库
         </label>
         <el-input id="database" v-model="database" placeholder="quickbi_online_demo" class="flex-grow" />
@@ -48,7 +48,7 @@
 
       <!-- 用户名 -->
       <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right" for="username">
+        <label class="block text-gray-700 font-bold mr-4  whitespace-nowrap w-1/5 text-right" for="username">
           用户名
         </label>
         <el-input id="username" v-model="username" placeholder="quickbi_train" class="flex-grow" />
@@ -56,7 +56,7 @@
 
       <!-- 密码 -->
       <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right" for="password">
+        <label class="block text-gray-700 font-bold mr-4  whitespace-nowrap w-1/5 text-right" for="password">
           密码
         </label>
         <el-input id="password" v-model="password" show-password placeholder="请输入密码" class="flex-grow" />
@@ -64,7 +64,7 @@
 
       <!-- 数据库版本 -->
       <div class="mb-5 flex items-center">
-        <label class="block text-gray-700 font-bold mr-4 p-2 whitespace-nowrap w-1/5 text-right" for="dbVersion">
+        <label class="block text-gray-700 font-bold mr-4  whitespace-nowrap w-1/5 text-right" for="dbVersion">
           数据库版本
         </label>
         <el-select id="dbVersion" v-model="dbVersion" placeholder="请选择数据库版本" class="flex-grow" clearable :teleported="false">
