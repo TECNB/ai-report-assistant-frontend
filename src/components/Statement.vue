@@ -12,7 +12,7 @@
             <div class="w-full flex flex-col justify-center items-center self-center relative overflow-visible">
                 <!-- 动态渲染可拖动的元素 -->
                 <div v-for="(item, index) in items" :key="index" :data-id="index"
-                    :style="{ top: `${item.top}px`, left: `${item.left}px`, width: `${item.width}px`, height: `${item.height}px`, position: 'absolute' }"
+                    :style="{ top: `${item.top}px`, left: `${item.left}px`, width: item.type === 'chart'? 'auto' :`${item.width}px`, height: item.type === 'chart'? 'auto' :`${item.height}px`, position: 'absolute' }"
                     class="shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5 overflow-visible bg-white"
                     @mousedown="startDrag($event, index)" @mouseenter="showDesign" @mouseleave="hiddenDesign">
                     <!-- 悬浮按钮 -->
@@ -98,12 +98,12 @@ interface Item {
 }
 
 const items = ref<Item[]>([
-    { top: 100, left: 100, height: 100, width: 600, label: '空气质量优良天数', type: 'numbers', numbers: [2, 8, 0] },
-    { top: 250, left: 680, height: 100, width: 600, label: '本年度二氧化碳总排放量', type: 'numbers', numbers: [1, 2, 0, 0, 0, 0] },
-    { top: 400, left: 0, height: 240, width: 1230, label: '年度空气质量统计', type: 'chart', chart: 'line', data: airLineData, chartOption: airLineOptions },
-    { top: 690, left: 0, height: 240, width: 390, label: '年度水质监测概览', type: 'chart', chart: 'bar', data: waterBarData, chartOption: waterBarOption },
-    { top: 690, left: 420, height: 240, width: 390, label: '年度森林覆盖率', type: 'chart', chart: 'pie', data: forestPieData, chartOption: forestPieOption },
-    { top: 690, left: 840, height: 240, width: 390, label: '空气质量对比', type: 'chart', chart: 'horizontalBar', data: horizontalBarData, chartOption: airHorizontalBarOption }
+    { top: 0, left: 50, height: 200, width: 600, label: '空气质量优良天数', type: 'numbers', numbers: [2, 8, 0] },
+    { top: 0, left: 680, height: 200, width: 600, label: '本年度二氧化碳总排放量', type: 'numbers', numbers: [1, 2, 0, 0, 0, 0] },
+    { top: 220, left: 50, height: 240, width: 1190, label: '年度空气质量统计', type: 'chart', chart: 'line', data: airLineData, chartOption: airLineOptions },
+    { top: 550, left: 50, height: 240, width: 350, label: '年度水质监测概览', type: 'chart', chart: 'bar', data: waterBarData, chartOption: waterBarOption },
+    { top: 550, left: 470, height: 240, width: 350, label: '年度森林覆盖率', type: 'chart', chart: 'pie', data: forestPieData, chartOption: forestPieOption },
+    { top: 550, left: 890, height: 240, width: 350, label: '空气质量对比', type: 'chart', chart: 'horizontalBar', data: horizontalBarData, chartOption: airHorizontalBarOption }
 ]);
 
 let draggingItem = ref<number | null>(null);
