@@ -52,16 +52,14 @@
 
 
                 <div
-                    class="w-[1230px] flex justify-center items-center gap-3 mt-5 absolute transform translate-x-0 translate-y-[690px]">
-                    <div class="flex flex-1 flex-col justify-center items-center">
-                        <div
-                            class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                            <p class="font-bold text-sm text-center">生态环境评估报告 - 年度水质监测概览</p>
-                            <BarContainer width="100%" height="220px" :data="waterBarData"
-                                :chartOption="waterBarOption" />
-                        </div>
+                    class="w-[390px] flex flex-1 flex-col justify-center items-center absolute left-12 transform translate-x-0 translate-y-[690px]">
+                    <div
+                        class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
+                        <p class="font-bold text-sm text-center">生态环境评估报告 - 年度水质监测概览</p>
+                        <BarContainer width="100%" height="220px" :data="waterBarData" :chartOption="waterBarOption" />
                     </div>
-                    <div class="flex flex-1 flex-col justify-center items-center">
+                </div>
+                <div class="w-[390px] flex flex-1 flex-col justify-center items-center absolute transform translate-x-0 translate-y-[690px]">
                         <div
                             class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
                             <p class="font-bold text-sm text-center">生态环境变化分析 - 年度森林覆盖率</p>
@@ -70,7 +68,7 @@
                                 :chartOption="forestPieOption" />
                         </div>
                     </div>
-                    <div class="flex flex-1 flex-col justify-center items-center">
+                    <div class="w-[390px] flex flex-1 flex-col justify-center items-center absolute transform translate-x-[420px] translate-y-[690px]">
                         <div
                             class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
                             <p class="font-bold text-sm text-center">生态环境评估报告 - 各地区年度空气质量对比</p>
@@ -79,6 +77,11 @@
                                 :chartOption="airHorizontalBarOption" />
                         </div>
                     </div>
+                <div
+                    class="w-[1230px] flex justify-center items-center gap-3 mt-5 absolute transform translate-x-0 translate-y-[690px]">
+
+                    
+                    
                 </div>
 
             </div>
