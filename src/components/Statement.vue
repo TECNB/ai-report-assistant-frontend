@@ -18,9 +18,15 @@
                     <!-- 悬浮按钮 -->
                     <div v-if="hoveredItem === index" @mouseenter="showDesign(index)" @mouseleave="hiddenDesign"
                         @mousedown="onMouseDown($event, index)"
-                        class="absolute w-5 h-8 top-1 -left-6 bg-gray-100 flex justify-center items-center gap-1 rounded-md cursor-pointer">
+                        class="absolute w-5 h-8 top-1 -left-6 bg-gray-100 flex justify-center items-center gap-1 rounded-md cursor-move">
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
+                    </div>
+                    <!-- 控制大小按钮 -->
+                    <div v-if="hoveredItem === index"
+                        class="absolute w-5 h-8 -bottom-3 -right-2 flex cursor-nwse-resize"
+                        @mousedown="onResizeMouseDown($event, index)">
+                        <i class="fa-solid fa-corner fa-rotate-90" style="color: #4b5563;"></i>
                     </div>
 
                     <!-- 根据不同的类型渲染不同内容 -->
@@ -52,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, nextTick } from 'vue';
+import { ref } from 'vue';
 // import * as echarts from 'echarts';
 
 import airLineOptions from '../utils/airLineOptions';
@@ -74,15 +80,19 @@ const props = defineProps(['ifShow']);
 const emit = defineEmits();
 let hideTimeout: ReturnType<typeof setTimeout> | null = null;
 
-// 绑定 DOM 元素
-const parentEl = ref<HTMLElement | null>(null);
-const otherEls = ref<HTMLElement[]>([]);
 
 let isDragging = ref(false); // 是否正在拖拽
 let startX = ref(0); // 鼠标初始X位置
 let startY = ref(0); // 鼠标初始Y位置
 let initialTop = ref(0); // 父元素初始的top位置
 let initialLeft = ref(0); // 父元素初始的left位置
+
+let isResizing = ref(false); // 是否正在调整大小
+let resizeStartX = ref(0); // 调整大小时鼠标初始X位置
+let resizeStartY = ref(0); // 调整大小时鼠标初始Y位置
+let initialWidth = ref(0); // 元素初始宽度
+let initialHeight = ref(0); // 元素初始高度
+let resizingIndex = ref<number | null>(null); // 当前调整大小的元素索引
 
 
 const hoveredItem = ref<number | null>(null); // 用来存储当前悬浮的元素索引
@@ -140,6 +150,9 @@ const onMouseDown = (event: MouseEvent, index: number) => {
 const onMouseMove = (event: MouseEvent) => {
     if (!isDragging.value || hoveredItem.value === null) return;
 
+    // 禁用文本选择
+    document.body.style.userSelect = 'none';
+
     const index = hoveredItem.value;
     const deltaX = event.clientX - startX.value;
     const deltaY = event.clientY - startY.value;
@@ -158,11 +171,53 @@ const onMouseMove = (event: MouseEvent) => {
 const onMouseUp = () => {
     isDragging.value = false;
 
+    // 恢复文本选择
+    document.body.style.userSelect = '';
+
     // 移除全局鼠标事件监听
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
 };
 
+const onResizeMouseDown = (event: MouseEvent, index: number) => {
+    isResizing.value = true;
+    resizeStartX.value = event.clientX;
+    resizeStartY.value = event.clientY;
+    resizingIndex.value = index;
+
+    // 获取初始宽度和高度
+    const item = items.value[index];
+    initialWidth.value = item.width;
+    initialHeight.value = item.height;
+
+    // 禁用文本选择
+    document.body.style.userSelect = 'none';
+
+    // 添加全局鼠标移动和释放监听
+    document.addEventListener('mousemove', onResizeMouseMove);
+    document.addEventListener('mouseup', onResizeMouseUp);
+};
+const onResizeMouseMove = (event: MouseEvent) => {
+    if (!isResizing.value || resizingIndex.value === null) return;
+
+    const index = resizingIndex.value;
+    const deltaX = event.clientX - resizeStartX.value;
+    const deltaY = event.clientY - resizeStartY.value;
+
+    // 更新元素的宽度和高度
+    items.value[index].width = Math.max(100, initialWidth.value + deltaX); // 最小宽度100px
+    items.value[index].height = Math.max(100, initialHeight.value + deltaY); // 最小高度100px
+};
+const onResizeMouseUp = () => {
+    isResizing.value = false;
+
+    // 恢复文本选择
+    document.body.style.userSelect = '';
+
+    // 移除全局鼠标事件监听
+    document.removeEventListener('mousemove', onResizeMouseMove);
+    document.removeEventListener('mouseup', onResizeMouseUp);
+};
 
 
 const adjustPositionForCollisions = (draggingIndex: number, newTop: number, newLeft: number) => {
@@ -182,7 +237,7 @@ const adjustPositionForCollisions = (draggingIndex: number, newTop: number, newL
         if (isOverlapping) {
             // 计算新位置
             item.top = newTop + draggingItem.height + padding;
-            
+
         }
     });
 };
