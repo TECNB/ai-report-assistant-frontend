@@ -1,6 +1,6 @@
 <template>
     <div class="horizontalBarContainer w-full">
-        <div ref="horizontalBarContainer" :style="{ width: props.width, height: props.height }"></div>
+        <div ref="horizontalBarContainer" :style="{ width: typeof width === 'string' ? width : `${width}px`, height: `${height}px` }"></div>
     </div>
 
 </template>
@@ -12,8 +12,8 @@ import { ECBasicOption } from 'echarts/types/dist/shared';
 
 // 接收 airLineOptions 函数和数据作为 prop
 const props = defineProps<{
-    width: string;
-    height: string;
+    width: number|string;
+    height: number;
     data: {
         yAxisData: string[];
         seriesData: number[];

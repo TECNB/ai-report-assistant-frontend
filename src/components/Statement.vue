@@ -10,80 +10,41 @@
         </div>
         <el-scrollbar height="95%" wrap-style="width:100%;" class="flex justify-center">
             <div class="w-full flex flex-col justify-center items-center self-center relative overflow-visible">
-                <div ref="parentEl"
-                    class="w-[600px] shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5 overflow-visible absolute bg-white"
-                    @mouseenter="showDesign" @mouseleave="hiddenDesign" :style="parentStyle">
+                <!-- 动态渲染可拖动的元素 -->
+                <div v-for="(item, index) in items" :key="index" :data-id="index"
+                    :style="{ top: `${item.top}px`, left: `${item.left}px`, width: `${item.width}px`, height: `${item.height}px`, position: 'absolute' }"
+                    class="shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5 overflow-visible bg-white"
+                    @mousedown="startDrag($event, index)" @mouseenter="showDesign" @mouseleave="hiddenDesign">
                     <!-- 悬浮按钮 -->
                     <div v-if="designVisible" @mouseenter="showDesign" @mouseleave="hiddenDesign"
-                        @mousedown="onMouseDown"
-                        class="absolute w-5 h-8 top-1 -left-6 bg-gray-100 flex justify-center items-center gap-1 rounded-md cursor-pointer">
+                        class="absolute w-5 h-8 top-1 -left-6 bg-gray-100 flex justify-center items-center gap-1 rounded-md cursor-pointer"
+                        @mousedown="onMouseDown">
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
                     </div>
 
-                    <p class="text-sm font-bold">空气质量优良天数</p>
-                    <div class="h-36 flex justify-center items-center gap-2">
-                        <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">2</p>
-                        <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">8</p>
-                        <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">0</p>
+                    <!-- 根据不同的类型渲染不同内容 -->
+                    <p class="text-sm font-bold">{{ item.label }}</p>
+
+                    <!-- 数字数据类型 -->
+                    <div v-if="item.type === 'numbers'" class="h-36 flex justify-center items-center gap-2">
+                        <p v-for="n in item.numbers" :key="n"
+                            class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">{{ n }}</p>
+                    </div>
+
+                    <!-- 图表类型 -->
+                    <div v-else-if="item.type === 'chart'" class="w-full h-full">
+                        <!-- 根据图表类型，渲染对应的组件 -->
+                        <LineContainer v-if="item.chart === 'line'" :width="item.width" :height="item.height"
+                            :data="item.data" :chartOption="item.chartOption" />
+                        <BarContainer v-if="item.chart === 'bar'" :width="item.width" :height="item.height"
+                            :data="item.data" :chartOption="item.chartOption" />
+                        <PieContainer v-if="item.chart === 'pie'" :width="item.width" :height="item.height"
+                            :data="item.data" :chartOption="item.chartOption" />
+                        <HorizontalBarContainer v-if="item.chart === 'horizontalBar'" :width="item.width"
+                            :height="item.height" :data="item.data" :chartOption="item.chartOption" />
                     </div>
                 </div>
-
-                <div
-                    class="w-[600px] shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5 overflow-visible transform translate-x-[680px] absolute top-0 left-0 z-0">
-                    <p class="text-sm font-bold">本年度二氧化碳总排放量</p>
-                    <div class="h-36 flex justify-center items-center gap-2">
-                        <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">1</p>
-                        <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">2</p>
-                        <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">0</p>
-                        <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">0</p>
-                        <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">0</p>
-                        <p class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">0</p>
-                    </div>
-                </div>
-
-
-
-                <div
-                    class="w-[1230px] absolute transform translate-x-0 translate-y-[270px]  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5 mt-[240px]">
-                    <p class="font-bold text-sm text-center">生态环境监测报告 - 年度空气质量统计</p>
-                    <LineContainer width="1200px" height="220px" :data="airLineData" :chartOption="airLineOptions" />
-                </div>
-
-
-                <div
-                    class="w-[390px] flex flex-1 flex-col justify-center items-center absolute left-12 transform translate-x-0 translate-y-[690px]">
-                    <div
-                        class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                        <p class="font-bold text-sm text-center">生态环境评估报告 - 年度水质监测概览</p>
-                        <BarContainer width="100%" height="220px" :data="waterBarData" :chartOption="waterBarOption" />
-                    </div>
-                </div>
-                <div class="w-[390px] flex flex-1 flex-col justify-center items-center absolute transform translate-x-0 translate-y-[690px]">
-                        <div
-                            class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                            <p class="font-bold text-sm text-center">生态环境变化分析 - 年度森林覆盖率</p>
-
-                            <PieContainer width="100%" height="220px" :data="forestPieData"
-                                :chartOption="forestPieOption" />
-                        </div>
-                    </div>
-                    <div class="w-[390px] flex flex-1 flex-col justify-center items-center absolute transform translate-x-[420px] translate-y-[690px]">
-                        <div
-                            class="w-full  flex flex-col justify-between items-start shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                            <p class="font-bold text-sm text-center">生态环境评估报告 - 各地区年度空气质量对比</p>
-
-                            <HorizontalBarContainer width="100%" height="220px" :data="horizontalBarData"
-                                :chartOption="airHorizontalBarOption" />
-                        </div>
-                    </div>
-                <div
-                    class="w-[1230px] flex justify-center items-center gap-3 mt-5 absolute transform translate-x-0 translate-y-[690px]">
-
-                    
-                    
-                </div>
-
             </div>
         </el-scrollbar>
 
@@ -91,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted, nextTick } from 'vue';
 // import * as echarts from 'echarts';
 
 import airLineOptions from '../utils/airLineOptions';
@@ -113,11 +74,39 @@ const props = defineProps(['ifShow']);
 const emit = defineEmits();
 let hideTimeout: ReturnType<typeof setTimeout> | null = null;
 
+// 绑定 DOM 元素
+const parentEl = ref<HTMLElement | null>(null);
+const otherEls = ref<HTMLElement[]>([]);
+
 let designVisible = ref(false);
 const isDragging = ref(false);
 const startPosition = reactive({ x: 0, y: 0 });
 const offset = reactive({ x: 0, y: 0 });
 const parentStyle = reactive({ top: "0px", left: "48px" });
+
+interface Item {
+    top: number;
+    left: number;
+    height: number;
+    width: number;
+    label: string;
+    type: 'numbers' | 'chart'; // 定义类型为数字或图表
+    numbers?: number[]; // 如果是数字类型，包含数字数组
+    chart?: 'line' | 'bar' | 'pie' | 'horizontalBar'; // 图表类型
+    data?: any; // 图表的数据
+    chartOption?: any; // 图表的配置选项
+}
+
+const items = ref<Item[]>([
+    { top: 100, left: 100, height: 100, width: 600, label: '空气质量优良天数', type: 'numbers', numbers: [2, 8, 0] },
+    { top: 250, left: 680, height: 100, width: 600, label: '本年度二氧化碳总排放量', type: 'numbers', numbers: [1, 2, 0, 0, 0, 0] },
+    { top: 400, left: 0, height: 240, width: 1230, label: '年度空气质量统计', type: 'chart', chart: 'line', data: airLineData, chartOption: airLineOptions },
+    { top: 690, left: 0, height: 240, width: 390, label: '年度水质监测概览', type: 'chart', chart: 'bar', data: waterBarData, chartOption: waterBarOption },
+    { top: 690, left: 420, height: 240, width: 390, label: '年度森林覆盖率', type: 'chart', chart: 'pie', data: forestPieData, chartOption: forestPieOption },
+    { top: 690, left: 840, height: 240, width: 390, label: '空气质量对比', type: 'chart', chart: 'horizontalBar', data: horizontalBarData, chartOption: airHorizontalBarOption }
+]);
+
+let draggingItem = ref<number | null>(null);
 
 const toggleVisibility = () => {
     emit('updateIfShow', false);
@@ -149,12 +138,46 @@ const onMouseMove = (event: MouseEvent) => {
         parentStyle.top = `${offset.y}px`;
         parentStyle.left = `${offset.x}px`;
     }
+    checkOverlap();
 };
 
 const onMouseUp = () => {
     isDragging.value = false;
     window.removeEventListener("mousemove", onMouseMove);
     window.removeEventListener("mouseup", onMouseUp);
+};
+
+
+
+const checkOverlap = () => {
+    // 在 DOM 渲染完成后，访问 DOM 元素
+    nextTick(() => {
+        if (otherEls.value.length === 0) {
+            otherEls.value = Array.from(document.querySelectorAll('.Statement .transform'));
+        }
+    });
+    if (parentEl.value && otherEls.value.length > 0) {
+        const parentRect = parentEl.value.getBoundingClientRect();
+
+        otherEls.value.forEach((otherEl) => {
+            const otherRect = otherEl.getBoundingClientRect();
+
+            // 检测是否重叠
+            if (
+                parentRect.top < otherRect.bottom &&
+                parentRect.bottom > otherRect.top &&
+                parentRect.left < otherRect.right &&
+                parentRect.right > otherRect.left
+            ) {
+                // 移动被遮挡元素
+                const moveHeight = parentRect.height + 40;
+                otherEl.style.transform = `translateY(${moveHeight}px)`;
+            } else {
+                // 重置被移动的元素
+                otherEl.style.transform = "";
+            }
+        });
+    }
 };
 </script>
 

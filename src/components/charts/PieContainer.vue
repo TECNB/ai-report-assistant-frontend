@@ -1,6 +1,6 @@
 <template>
     <div class="pieContainer w-full">
-        <div ref="pieContainer" :style="{ width: props.width, height: props.height }"></div>
+        <div ref="pieContainer" :style="{ width: typeof width === 'string' ? width : `${width}px`, height: `${height}px` }"></div>
     </div>
 </template>
 
@@ -10,8 +10,8 @@ import * as echarts from 'echarts';
 import { ECBasicOption } from 'echarts/types/dist/shared';
 
 const props = defineProps<{
-    width: string;
-    height: string;
+    width: number|string;
+    height: number;
     data: {
         seriesData: { value: number; name: string }[]
     };

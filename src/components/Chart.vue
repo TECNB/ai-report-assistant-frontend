@@ -27,7 +27,7 @@
 
                 <div
                     class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                    <LineContainer width="1200px" height="220px" :data="airLineData" :chartOption="airLineOptions" />
+                    <LineContainer width="1200px" :height="220" :data="airLineData" :chartOption="airLineOptions" />
                 </div>
                 <div
                     class="w-full h-10 flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
@@ -45,7 +45,7 @@
                 </div>
                 <div
                     class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                    <BarContainer width="1200px" height="220px" :data="waterBarData" :chartOption="waterBarOption"/>
+                    <BarContainer width="1200px" :height="220" :data="waterBarData" :chartOption="waterBarOption"/>
                 </div>
 
 
@@ -65,7 +65,7 @@
                 </div>
                 <div
                     class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
-                    <PieContainer width="1200px" height="220px" :data="forestPieData" :chartOption="forestPieOption"/>
+                    <PieContainer width="1200px" :height="220" :data="forestPieData" :chartOption="forestPieOption"/>
                     
                 </div>
             </div>

@@ -85,7 +85,7 @@
                 <MaskLayer backgroundColor="rgba(0, 0, 0, 0.3)" :ifShow="statementVisible" />
                 <Statement :ifShow="statementVisible" @updateIfShow="updateStatementVisible" />
 
-                <LineContainer v-if="msg.type === 'predictQuestion'" width="100%" height="320px" :data="airLineData"
+                <LineContainer v-if="msg.type === 'predictQuestion'" width="100%" :height="320" :data="airLineData"
                     :chartOption="airLineOptions" />
 
             </div>

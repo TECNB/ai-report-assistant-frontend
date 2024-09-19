@@ -51,7 +51,7 @@
                     </div>
                     <div class="text-left bg-white rounded-lg mt-5 p-5">
                         <p class="text-xl font-bold">排放排名</p>
-                        <HorizontalBarContainer width="100%" height="300px" :data="content.causes[clickedIndex].sub_factors" :chartOption="airHorizontalBarOption" />
+                        <HorizontalBarContainer width="100%" :height="300" :data="content.causes[clickedIndex].sub_factors" :chartOption="airHorizontalBarOption" />
                     </div>
                 </div>
 

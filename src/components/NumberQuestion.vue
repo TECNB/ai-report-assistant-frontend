@@ -67,7 +67,7 @@
                 </div>
 
                 <div class="w-full h-[65%]" v-if="chatType == 'lineChart'">
-                    <LineContainer width="100%" height="200px" :data="airLineData" :chartOption="airLineOptions" />
+                    <LineContainer width="100%" :height="200" :data="airLineData" :chartOption="airLineOptions" />
                 </div>
 
 
@@ -101,7 +101,7 @@
             </div>
         </div>
     </div>
-    
+
     <AICode :ifShow="aiCodeVisible" @updateIfShow="updateAICodeVisible" />
     <!-- 遮罩层 -->
     <MaskLayer :ifShow="aiCodeVisible" />
