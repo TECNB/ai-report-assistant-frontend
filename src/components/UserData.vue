@@ -46,7 +46,9 @@
         </div>
 
         <div class="w-3/4 bg-white rounded-lg p-1 shadow-md h-full">
-
+          <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">
+            <p class="text-2xl font-bold">我的数据源</p>
+          </div>
         </div>
 
         </div>

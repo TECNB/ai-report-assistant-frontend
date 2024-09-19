@@ -1,7 +1,7 @@
 <template>
   <div class="w-3/4 bg-white rounded-lg p-1 shadow-md h-full">
 
-      <h2 class="text-xl font-bold mb-5 p-5">{{ props.selectedDatabase }} 数据源</h2>
+      <h2 class="text-xl font-bold mb-5 ">{{ props.selectedDatabase }} 数据源</h2>
 
       <!-- 数据源类型 -->
       <div class="mb-5 flex items-center ">
@@ -73,7 +73,7 @@
       </div>
 
       <!-- 操作按钮 -->
-      <div class="flex justify-center">
+      <div class="flex justify-end">
         <el-button @click="$emit('cancel')">取消</el-button>
         <el-button class="border border-blue-500 text-blue-500 hover:bg-blue-100"
           @click="testConnection">连接测试</el-button>
