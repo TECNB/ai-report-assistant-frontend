@@ -16,7 +16,8 @@
                     class="shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5 overflow-visible bg-white"
                     @mousedown="" @mouseenter="showDesign(index)" @mouseleave="hiddenDesign">
                     <!-- 悬浮按钮 -->
-                    <div v-if="hoveredItem === index" @mouseenter="showDesign(index)" @mouseleave="hiddenDesign" @mousedown="onMouseDown($event, index)"
+                    <div v-if="hoveredItem === index" @mouseenter="showDesign(index)" @mouseleave="hiddenDesign"
+                        @mousedown="onMouseDown($event, index)"
                         class="absolute w-5 h-8 top-1 -left-6 bg-gray-100 flex justify-center items-center gap-1 rounded-md cursor-pointer">
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
@@ -130,24 +131,28 @@ const onMouseDown = (event: MouseEvent, index: number) => {
     startY.value = event.clientY;
     initialTop.value = items.value[index].top;
     initialLeft.value = items.value[index].left;
-    
+
     // 添加全局鼠标移动和释放监听
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
 };
 
 const onMouseMove = (event: MouseEvent) => {
-    if (!isDragging.value) return;
-    
+    if (!isDragging.value || hoveredItem.value === null) return;
+
+    const index = hoveredItem.value;
     const deltaX = event.clientX - startX.value;
     const deltaY = event.clientY - startY.value;
 
     const newTop = initialTop.value + deltaY;
     const newLeft = initialLeft.value + deltaX;
 
-    // 更新当前被拖拽元素的位置
-    items.value[hoveredItem.value!].top = newTop;
-    items.value[hoveredItem.value!].left = newLeft;
+    // 更新当前拖拽元素的位置
+    items.value[index].top = newTop;
+    items.value[index].left = newLeft;
+
+    // 调整遮挡的元素位置
+    adjustPositionForCollisions(index, newTop, newLeft);
 };
 
 const onMouseUp = () => {
@@ -160,35 +165,26 @@ const onMouseUp = () => {
 
 
 
-const checkOverlap = () => {
-    // 在 DOM 渲染完成后，访问 DOM 元素
-    nextTick(() => {
-        if (otherEls.value.length === 0) {
-            otherEls.value = Array.from(document.querySelectorAll('.Statement .transform'));
+const adjustPositionForCollisions = (draggingIndex: number, newTop: number, newLeft: number) => {
+    const draggingItem = items.value[draggingIndex];
+    const padding = 40; // 下移的间距
+
+    // 遍历所有元素
+    items.value.forEach((item, index) => {
+        if (index === draggingIndex) return; // 跳过正在拖拽的元素
+
+        // 检查是否发生遮挡
+        const isOverlapping = (item.top < newTop + draggingItem.height &&
+            item.top + item.height > newTop &&
+            item.left < newLeft + draggingItem.width &&
+            item.left + item.width > newLeft);
+
+        if (isOverlapping) {
+            // 计算新位置
+            item.top = newTop + draggingItem.height + padding;
+            
         }
     });
-    if (parentEl.value && otherEls.value.length > 0) {
-        const parentRect = parentEl.value.getBoundingClientRect();
-
-        otherEls.value.forEach((otherEl) => {
-            const otherRect = otherEl.getBoundingClientRect();
-
-            // 检测是否重叠
-            if (
-                parentRect.top < otherRect.bottom &&
-                parentRect.bottom > otherRect.top &&
-                parentRect.left < otherRect.right &&
-                parentRect.right > otherRect.left
-            ) {
-                // 移动被遮挡元素
-                const moveHeight = parentRect.height + 40;
-                otherEl.style.transform = `translateY(${moveHeight}px)`;
-            } else {
-                // 重置被移动的元素
-                otherEl.style.transform = "";
-            }
-        });
-    }
 };
 </script>
 
