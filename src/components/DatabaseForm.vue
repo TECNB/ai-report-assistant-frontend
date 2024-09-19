@@ -1,10 +1,10 @@
 <template>
-  <div class="w-3/4 bg-white rounded-lg p-1 shadow-md h-full">
+  <div class="w-3/4 bg-white rounded-lg p-5 shadow-md h-full">
 
-      <h2 class="text-xl font-bold mb-5 ">{{ props.selectedDatabase }} 数据源</h2>
+      <h2 class="text-xl font-bold mb-5 pb-3 border-b">{{ props.selectedDatabase }} 数据源</h2>
 
       <!-- 数据源类型 -->
-      <div class="mb-5 flex items-center ">
+      <div class="mb-5 flex items-center">
         <label class="block text-gray-700 font-bold mr-4  whitespace-nowrap w-1/5 text-right  ">数据源类型</label>
         <el-select v-model="selectedSource" placeholder="请点击选择分类" size="large" clearable :teleported="false">
           <el-option v-for="item in allType" :key="item.objectId" :label="item.name" :value="item.objectId" />

@@ -16,9 +16,9 @@
         </div>
         <hr class="my-4 bg-black" />
         <!-- 主体内容 -->
-        <div class="flex p-2 rounded-lg h-5/6">
+        <div class="flex p-2 rounded-lg h-[85%]">
             <!-- 左侧导航 -->
-            <div class="w-1/4 bg-white rounded-lg p-5 shadow-md mr-2 h-full">
+            <div class="w-1/4 bg-white rounded-lg p-5 shadow-md mr-4 h-full">
                 <!-- 搜索框 -->
                 <div class="relative mb-4">
                     <svg class="absolute left-2 top-3 text-gray-400 w-5 h-5" fill="none" stroke="currentColor"
@@ -32,7 +32,7 @@
                 <!-- SQL 类型列表 -->
                 <div v-for="(dataSource, index) in dataSourceTypes" :key="index" class="mb-4">
                     <!-- 数据源分类名称和下拉图标 -->
-                    <div class="flex justify-between items-center cursor-pointer" @click="toggleDropdown(index)">
+                    <div class="flex justify-between items-center cursor-pointer mb-2" @click="toggleDropdown(index)">
                         <p class="font-bold text-gray-700">{{ dataSource.category }}</p>
                         <!-- 图标：根据展开状态切换图标方向 -->
                         <i :class="expandedIndex === index ? 'fa-solid fa-caret-up' : 'fa-regular fa-caret-down'"></i>
