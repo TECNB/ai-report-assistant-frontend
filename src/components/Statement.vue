@@ -41,14 +41,20 @@
                     <!-- 图表类型 -->
                     <div v-else-if="item.type === 'chart'" class="w-full h-full">
                         <!-- 根据图表类型，渲染对应的组件 -->
-                        <LineContainer v-if="item.chart === 'line'" :width="item.width" :height="item.height-50"
+                        <LineContainer v-if="item.chart === 'line'" :width="item.width" :height="item.height - 50"
                             :data="item.data" :chartOption="item.chartOption" />
-                        <BarContainer v-if="item.chart === 'bar'" :width="item.width" :height="item.height-50"
+                        <BarContainer v-if="item.chart === 'bar'" :width="item.width" :height="item.height - 50"
                             :data="item.data" :chartOption="item.chartOption" />
-                        <PieContainer v-if="item.chart === 'pie'" :width="item.width" :height="item.height-50"
+                        <PieContainer v-if="item.chart === 'pie'" :width="item.width" :height="item.height - 50"
                             :data="item.data" :chartOption="item.chartOption" />
                         <HorizontalBarContainer v-if="item.chart === 'horizontalBar'" :width="item.width"
-                            :height="item.height-50" :data="item.data" :chartOption="item.chartOption" />
+                            :height="item.height - 50" :data="item.data" :chartOption="item.chartOption" />
+                    </div>
+
+                    <!-- 移动位置提示 -->
+                    <div v-if="isDragging && currentDraggingIndex === index"
+                        class="absolute top-0 left-0 w-full h-full bg-gray-200 rounded-lg opacity-50 pointer-events-none">
+                        <!-- 显示提示的矩形背景，拖拽时会显示 -->
                     </div>
                 </div>
             </div>
@@ -81,6 +87,8 @@ let hideTimeout: ReturnType<typeof setTimeout> | null = null;
 
 
 let isDragging = ref(false); // 是否正在拖拽
+const currentDraggingIndex = ref<number | null>(null); // 当前拖拽元素的索引
+
 let startX = ref(0); // 鼠标初始X位置
 let startY = ref(0); // 鼠标初始Y位置
 let initialTop = ref(0); // 父元素初始的top位置
@@ -126,11 +134,13 @@ const toggleVisibility = () => {
 const showDesign = (index: number) => {
     if (hideTimeout) clearTimeout(hideTimeout); // 清除隐藏的延迟
     hoveredItem.value = index; // 设置当前悬浮的元素索引
+    
 };
 
 const hiddenDesign = () => {
     hideTimeout = setTimeout(() => {
         hoveredItem.value = null; // 重置悬浮的元素索引
+        
     }, 200); // 延迟隐藏
 };
 
@@ -140,6 +150,8 @@ const onMouseDown = (event: MouseEvent, index: number) => {
     startY.value = event.clientY;
     initialTop.value = items.value[index].top;
     initialLeft.value = items.value[index].left;
+
+    currentDraggingIndex.value = index; // 设置当前拖拽的元素索引
 
     // 添加全局鼠标移动和释放监听
     document.addEventListener('mousemove', onMouseMove);
@@ -172,6 +184,7 @@ const onMouseUp = () => {
 
     // 恢复文本选择
     document.body.style.userSelect = '';
+    currentDraggingIndex.value = null;
 
     // 移除全局鼠标事件监听
     document.removeEventListener('mousemove', onMouseMove);
