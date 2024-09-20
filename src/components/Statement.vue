@@ -85,6 +85,9 @@ let initialStartY = ref(0);
 // 定义第一次event.clientY
 let initialEventY = 0;
 
+// 定义拖动的Y轴距离
+let dragY = 0;
+
 // 定义一个变量用于保存第一个 scrollTop
 let previousScrollTop: number | null = null;
 
@@ -142,12 +145,17 @@ const onMouseMove = (event: MouseEvent) => {
 
     let deltaX = event.clientX - startX.value;
     // 鼠标在Y轴上的移动距离 = 当前鼠标位置 - 初始鼠标位置
-    let deltaY = event.clientY - startY.value;
+    // let deltaY = event.clientY - startY.value;
+    let deltaY = event.clientY + (startY.value - initialStartY.value) - startY.value;
+    // 更新初始位置
+    dragY = deltaY;  // 计算拖动的Y轴距离
 
-    if (isScrolling.value) {
-        // 如果正在滚动，不执行拖拽或调整大小
-        deltaY = event.clientY + (startY.value - initialStartY.value) - startY.value;
-    }
+    // if (isScrolling.value) {
+    //     // 如果正在滚动，不执行拖拽或调整大小
+    //     deltaY = event.clientY + (startY.value - initialStartY.value) - startY.value;
+    //     // 更新初始位置
+    //     dragY = deltaY;  // 计算拖动的Y轴距离
+    // }
 
     console.log('onMouseMove.event.clientY', event.clientY)
     console.log('onMouseMove.startY.value', startY.value)
@@ -174,6 +182,7 @@ const onMouseUp = () => {
     interactionType.value = null;
     previousScrollTop = null; // 重置滚动记录
     isScrolling.value = false; // 重置滚动状态
+    dragY = 0;  // 重置拖动的Y轴距离
     
 
     // 恢复文本选择
@@ -315,8 +324,10 @@ const onScroll = (scroll: { scrollLeft: number, scrollTop: number }) => {
         // 计算当前滚动与第一次滚动的差值
         const scrollDiff = scroll.scrollTop - previousScrollTop;
 
-        // 更新拖拽元素的位置 = 初始位置 + 滚动的差值
-        statementItems.value[activeIndex.value].top = initialPositions[activeIndex.value] + scrollDiff;
+        // 更新拖拽元素的位置 = 初始位置 + 滚动过程中的拖拽值 + 滚动的差值
+        statementItems.value[activeIndex.value].top = initialPositions[activeIndex.value] + dragY + scrollDiff;
+
+        console.log('scroll.initialPositions', initialPositions[activeIndex.value]);
 
         console.log('scroll.scrollTop', scroll.scrollTop);
         console.log('scrollDiff', scrollDiff);
@@ -325,7 +336,7 @@ const onScroll = (scroll: { scrollLeft: number, scrollTop: number }) => {
         initialTop.value = statementItems.value[activeIndex.value].top;
 
         // 实时更新 startX.value，根据 X 轴滚动差值进行调整
-        startY.value = initialStartY.value + scrollDiff;
+        startY.value = initialStartY.value + scrollDiff + dragY;
 
         console.log('onScroll.startY.value', startY.value);
     }
