@@ -11,7 +11,7 @@
         <el-scrollbar height="95%" wrap-style="width:100%;" class="flex justify-center">
             <div class="w-full flex flex-col justify-center items-center self-center relative overflow-visible">
                 <!-- 动态渲染可拖动的元素 -->
-                <div v-for="(item, index) in items" :key="index" :data-id="index"
+                <div v-for="(item, index) in statementItems" :key="index" :data-id="index"
                     :style="{ top: `${item.top}px`, left: `${item.left}px`, width: item.type === 'chart' ? 'auto' : `${item.width}px`, height: `${item.height}px`, position: 'absolute' }"
                     class="shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5 overflow-visible bg-white"
                     @mouseenter="showDesign(index)" @mouseleave="hiddenDesign">
@@ -65,25 +65,16 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import airLineOptions from '../utils/airLineOptions';
-import waterBarOption from '../utils/waterBarOption';
-import forestPieOption from '../utils/forestPieOption';
-import airHorizontalBarOption from '../utils/airHorizontalBarOption';
-
 import LineContainer from './charts/LineContainer.vue';
 import PieContainer from './charts/PieContainer.vue';
 import BarContainer from './charts/BarContainer.vue';
 import HorizontalBarContainer from './charts/HorizontalBarContainer.vue';
 
-import { airLineData } from '../constant/airLineData';
-import { forestPieData } from '../constant/forestPieData';
-import { waterBarData } from '../constant/waterBarData';
-import { horizontalBarData } from '../constant/horizontalBarData';
+import { statementItems } from '../constant/statementItems';
 
 const props = defineProps(['ifShow']);
 const emit = defineEmits();
 let hideTimeout: ReturnType<typeof setTimeout> | null = null;
-
 
 
 let isInteracting = ref(false); // 统一拖拽和调整大小的状态
@@ -96,32 +87,7 @@ let initialWidth = ref(0);
 let initialHeight = ref(0);
 let activeIndex = ref<number | null>(null); // 当前操作的元素索引
 
-
-
 const hoveredItem = ref<number | null>(null); // 用来存储当前悬浮的元素索引
-
-interface Item {
-    top: number;
-    left: number;
-    height: number;
-    width: number;
-    label: string;
-    type: 'numbers' | 'chart'; // 定义类型为数字或图表
-    numbers?: number[]; // 如果是数字类型，包含数字数组
-    chart?: 'line' | 'bar' | 'pie' | 'horizontalBar'; // 图表类型
-    data?: any; // 图表的数据
-    chartOption?: any; // 图表的配置选项
-}
-
-const items = ref<Item[]>([
-    { top: 0, left: 50, height: 200, width: 600, label: '空气质量优良天数', type: 'numbers', numbers: [2, 8, 0] },
-    { top: 0, left: 680, height: 200, width: 600, label: '本年度二氧化碳总排放量', type: 'numbers', numbers: [1, 2, 0, 0, 0, 0] },
-    { top: 220, left: 50, height: 290, width: 1190, label: '年度空气质量统计', type: 'chart', chart: 'line', data: airLineData, chartOption: airLineOptions },
-    { top: 550, left: 50, height: 290, width: 350, label: '年度水质监测概览', type: 'chart', chart: 'bar', data: waterBarData, chartOption: waterBarOption },
-    { top: 550, left: 470, height: 290, width: 350, label: '年度森林覆盖率', type: 'chart', chart: 'pie', data: forestPieData, chartOption: forestPieOption },
-    { top: 550, left: 890, height: 290, width: 350, label: '空气质量对比', type: 'chart', chart: 'horizontalBar', data: horizontalBarData, chartOption: airHorizontalBarOption }
-]);
-
 
 const toggleVisibility = () => {
     emit('updateIfShow', false);
@@ -152,12 +118,12 @@ const onMouseDown = (event: MouseEvent, index: number, handleType: 'drag' | 'res
 
     if (handleType === 'drag') {
         // 拖拽时初始化位置
-        initialTop.value = items.value[index].top;
-        initialLeft.value = items.value[index].left;
+        initialTop.value = statementItems.value[index].top;
+        initialLeft.value = statementItems.value[index].left;
     } else if (handleType === 'resize') {
         // 调整大小时初始化宽高
-        initialWidth.value = items.value[index].width;
-        initialHeight.value = items.value[index].height;
+        initialWidth.value = statementItems.value[index].width;
+        initialHeight.value = statementItems.value[index].height;
     }
 
     // 监听全局鼠标事件
@@ -174,15 +140,15 @@ const onMouseMove = (event: MouseEvent) => {
 
     if (interactionType.value === 'drag') {
         // 拖拽逻辑
-        items.value[index].top = initialTop.value + deltaY;
-        items.value[index].left = initialLeft.value + deltaX;
+        statementItems.value[index].top = initialTop.value + deltaY;
+        statementItems.value[index].left = initialLeft.value + deltaX;
 
         // 调整遮挡的元素位置
-        adjustPositionForCollisions(index, items.value[index].top, items.value[index].left);
+        adjustPositionForCollisions(index, statementItems.value[index].top, statementItems.value[index].left);
     } else if (interactionType.value === 'resize') {
         // 调整大小逻辑
-        items.value[index].width = Math.max(100, initialWidth.value + deltaX); // 最小宽度100px
-        items.value[index].height = Math.max(100, initialHeight.value + deltaY); // 最小高度100px
+        statementItems.value[index].width = Math.max(100, initialWidth.value + deltaX); // 最小宽度100px
+        statementItems.value[index].height = Math.max(100, initialHeight.value + deltaY); // 最小高度100px
     }
 };
 
@@ -201,14 +167,14 @@ const onMouseUp = () => {
 
 
 const adjustPositionForCollisions = (draggingIndex: number, newTop: number, newLeft: number) => {
-    const draggingItem = items.value[draggingIndex];
+    const draggingItem = statementItems.value[draggingIndex];
     const padding = 10; // 下移的间距
 
     const adjustBelowItems = (index: number) => {
-        const currentItem = items.value[index];
+        const currentItem = statementItems.value[index];
 
         // 找到所有被当前项遮挡的元素
-        items.value.forEach((item, itemIndex) => {
+        statementItems.value.forEach((item, itemIndex) => {
             if (itemIndex !== index) {
                 const isOverlapping = (item.top < currentItem.top + currentItem.height &&
                     item.top + item.height > currentItem.top &&
