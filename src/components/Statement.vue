@@ -58,6 +58,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+import { StatementItem } from '../interfaces/StatementItem';
+
 import LineContainer from './charts/LineContainer.vue';
 import PieContainer from './charts/PieContainer.vue';
 import BarContainer from './charts/BarContainer.vue';
@@ -84,19 +86,6 @@ const hoveredItem = ref<number | null>(null); // 用来存储当前悬浮的元�
 
 const toggleVisibility = () => {
     emit('updateIfShow', false);
-};
-
-const showDesign = (index: number) => {
-    if (hideTimeout) clearTimeout(hideTimeout); // 清除隐藏的延迟
-    hoveredItem.value = index; // 设置当前悬浮的元素索引
-
-};
-
-const hiddenDesign = () => {
-    hideTimeout = setTimeout(() => {
-        hoveredItem.value = null; // 重置悬浮的元素索引
-
-    }, 200); // 延迟隐藏
 };
 
 const onMouseDown = (event: MouseEvent, index: number, handleType: 'drag' | 'resize') => {
@@ -137,7 +126,7 @@ const onMouseMove = (event: MouseEvent) => {
         statementItems.value[index].left = initialLeft.value + deltaX;
 
         // 调整遮挡的元素位置
-        adjustPositionForCollisions(index, statementItems.value[index].top, statementItems.value[index].left);
+        checkCollision()
     } else if (interactionType.value === 'resize') {
         // 调整大小逻辑
         statementItems.value[index].width = Math.max(100, initialWidth.value + deltaX); // 最小宽度100px
@@ -158,41 +147,69 @@ const onMouseUp = () => {
     document.removeEventListener('mouseup', onMouseUp);
 };
 
+const movedItems = new Set<number>();  // 记录已下移的元素索引
+// 检查遮挡逻辑
+const checkCollision = () => {
+  if (activeIndex.value === null) return;
 
-const adjustPositionForCollisions = (draggingIndex: number, newTop: number, newLeft: number) => {
-    const draggingItem = statementItems.value[draggingIndex];
-    const padding = 10; // 下移的间距
+  const draggedItem = statementItems.value[activeIndex.value];
+  const spacing = 15;
 
-    const adjustBelowItems = (index: number) => {
-        const currentItem = statementItems.value[index];
+  statementItems.value.forEach((item, index) => {
+    if (index !== activeIndex.value) {
+      const isColliding = checkOverlap(draggedItem, item);
+      if (isColliding) {
+        const draggedMidY = draggedItem.top + draggedItem.height / 2;
+        const itemMidY = item.top + item.height / 2;
 
-        // 找到所有被当前项遮挡的元素
-        statementItems.value.forEach((item, itemIndex) => {
-            if (itemIndex !== index) {
-                const isOverlapping = (item.top < currentItem.top + currentItem.height &&
-                    item.top + item.height > currentItem.top &&
-                    item.left < currentItem.left + currentItem.width &&
-                    item.left + item.width > currentItem.left);
-
-                if (isOverlapping && item.top >= currentItem.top) {
-                    // 调整被遮挡元素位置
-                    item.top = currentItem.top + currentItem.height + padding;
-
-                    // 递归调整该元素下方的其他元素
-                    adjustBelowItems(itemIndex);
-                }
-            }
-        });
-    };
-
-    // 更新拖拽元素的新位置
-    draggingItem.top = newTop;
-    draggingItem.left = newLeft;
-
-    // 调整被拖拽元素遮挡的所有元素
-    adjustBelowItems(draggingIndex);
+        if (draggedMidY < itemMidY && !movedItems.has(index)) {
+          // 遮挡到上半部分，另一个元素下移
+          moveDownItems(index, draggedItem.height + spacing);
+          movedItems.add(index);  // 标记为已下移
+        } else if (!movedItems.has(index + 1)) {
+          // 遮挡到下半部分，其他元素下移
+          moveDownItems(index + 1, draggedItem.height + spacing);
+          movedItems.add(index + 1);  // 标记为已下移
+        }
+      }
+    }
+  });
 };
 
+// 检查两个元素是否遮挡
+const checkOverlap = (item1: StatementItem, item2: StatementItem) => {
+    const item1Bottom = item1.top + item1.height;
+    const item1Right = item1.left + item1.width;
+    const item2Bottom = item2.top + item2.height;
+    const item2Right = item2.left + item2.width;
+
+    return (
+        item1.top < item2Bottom &&
+        item1Bottom > item2.top &&
+        item1.left < item2Right &&
+        item1Right > item2.left
+    );
+};
+
+// 下移某个元素及其下面的元素
+const moveDownItems = (startIndex: number, distance: number) => {
+    for (let i = startIndex; i < statementItems.value.length; i++) {
+        statementItems.value[i].top += distance;
+    }
+};
+
+const showDesign = (index: number) => {
+    if (hideTimeout) clearTimeout(hideTimeout); // 清除隐藏的延迟
+    hoveredItem.value = index; // 设置当前悬浮的元素索引
+
+};
+
+const hiddenDesign = () => {
+    hideTimeout = setTimeout(() => {
+        hoveredItem.value = null; // 重置悬浮的元素索引
+
+    }, 200); // 延迟隐藏
+};
 const getChartComponent = (chartType: string) => {
     const chartComponents: { [key: string]: any } = {
         line: LineContainer,
