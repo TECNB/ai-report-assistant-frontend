@@ -12,7 +12,7 @@
             <div class="w-full flex flex-col justify-center items-center self-center relative overflow-visible">
                 <!-- 动态渲染可拖动的元素 -->
                 <div v-for="(item, index) in items" :key="index" :data-id="index"
-                    :style="{ top: `${item.top}px`, left: `${item.left}px`, width: item.type === 'chart' ? 'auto' : `${item.width}px`, height: item.type === 'chart' ? 'auto' : `${item.height}px`, position: 'absolute' }"
+                    :style="{ top: `${item.top}px`, left: `${item.left}px`, width: item.type === 'chart' ? 'auto' : `${item.width}px`, height: `${item.height}px`, position: 'absolute' }"
                     class="shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5 overflow-visible bg-white"
                     @mousedown="" @mouseenter="showDesign(index)" @mouseleave="hiddenDesign">
                     <!-- 悬浮按钮 -->
@@ -41,14 +41,14 @@
                     <!-- 图表类型 -->
                     <div v-else-if="item.type === 'chart'" class="w-full h-full">
                         <!-- 根据图表类型，渲染对应的组件 -->
-                        <LineContainer v-if="item.chart === 'line'" :width="item.width" :height="item.height"
+                        <LineContainer v-if="item.chart === 'line'" :width="item.width" :height="item.height-50"
                             :data="item.data" :chartOption="item.chartOption" />
-                        <BarContainer v-if="item.chart === 'bar'" :width="item.width" :height="item.height"
+                        <BarContainer v-if="item.chart === 'bar'" :width="item.width" :height="item.height-50"
                             :data="item.data" :chartOption="item.chartOption" />
-                        <PieContainer v-if="item.chart === 'pie'" :width="item.width" :height="item.height"
+                        <PieContainer v-if="item.chart === 'pie'" :width="item.width" :height="item.height-50"
                             :data="item.data" :chartOption="item.chartOption" />
                         <HorizontalBarContainer v-if="item.chart === 'horizontalBar'" :width="item.width"
-                            :height="item.height" :data="item.data" :chartOption="item.chartOption" />
+                            :height="item.height-50" :data="item.data" :chartOption="item.chartOption" />
                     </div>
                 </div>
             </div>
@@ -59,7 +59,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-// import * as echarts from 'echarts';
 
 import airLineOptions from '../utils/airLineOptions';
 import waterBarOption from '../utils/waterBarOption';
@@ -113,10 +112,10 @@ interface Item {
 const items = ref<Item[]>([
     { top: 0, left: 50, height: 200, width: 600, label: '空气质量优良天数', type: 'numbers', numbers: [2, 8, 0] },
     { top: 0, left: 680, height: 200, width: 600, label: '本年度二氧化碳总排放量', type: 'numbers', numbers: [1, 2, 0, 0, 0, 0] },
-    { top: 220, left: 50, height: 240, width: 1190, label: '年度空气质量统计', type: 'chart', chart: 'line', data: airLineData, chartOption: airLineOptions },
-    { top: 550, left: 50, height: 240, width: 350, label: '年度水质监测概览', type: 'chart', chart: 'bar', data: waterBarData, chartOption: waterBarOption },
-    { top: 550, left: 470, height: 240, width: 350, label: '年度森林覆盖率', type: 'chart', chart: 'pie', data: forestPieData, chartOption: forestPieOption },
-    { top: 550, left: 890, height: 240, width: 350, label: '空气质量对比', type: 'chart', chart: 'horizontalBar', data: horizontalBarData, chartOption: airHorizontalBarOption }
+    { top: 220, left: 50, height: 290, width: 1190, label: '年度空气质量统计', type: 'chart', chart: 'line', data: airLineData, chartOption: airLineOptions },
+    { top: 550, left: 50, height: 290, width: 350, label: '年度水质监测概览', type: 'chart', chart: 'bar', data: waterBarData, chartOption: waterBarOption },
+    { top: 550, left: 470, height: 290, width: 350, label: '年度森林覆盖率', type: 'chart', chart: 'pie', data: forestPieData, chartOption: forestPieOption },
+    { top: 550, left: 890, height: 290, width: 350, label: '空气质量对比', type: 'chart', chart: 'horizontalBar', data: horizontalBarData, chartOption: airHorizontalBarOption }
 ]);
 
 
@@ -222,24 +221,36 @@ const onResizeMouseUp = () => {
 
 const adjustPositionForCollisions = (draggingIndex: number, newTop: number, newLeft: number) => {
     const draggingItem = items.value[draggingIndex];
-    const padding = 40; // 下移的间距
+    const padding = 10; // 下移的间距
 
-    // 遍历所有元素
-    items.value.forEach((item, index) => {
-        if (index === draggingIndex) return; // 跳过正在拖拽的元素
+    const adjustBelowItems = (index: number) => {
+        const currentItem = items.value[index];
 
-        // 检查是否发生遮挡
-        const isOverlapping = (item.top < newTop + draggingItem.height &&
-            item.top + item.height > newTop &&
-            item.left < newLeft + draggingItem.width &&
-            item.left + item.width > newLeft);
+        // 找到所有被当前项遮挡的元素
+        items.value.forEach((item, itemIndex) => {
+            if (itemIndex !== index) {
+                const isOverlapping = (item.top < currentItem.top + currentItem.height &&
+                    item.top + item.height > currentItem.top &&
+                    item.left < currentItem.left + currentItem.width &&
+                    item.left + item.width > currentItem.left);
 
-        if (isOverlapping) {
-            // 计算新位置
-            item.top = newTop + draggingItem.height + padding;
+                if (isOverlapping && item.top >= currentItem.top) {
+                    // 调整被遮挡元素位置
+                    item.top = currentItem.top + currentItem.height + padding;
 
-        }
-    });
+                    // 递归调整该元素下方的其他元素
+                    adjustBelowItems(itemIndex);
+                }
+            }
+        });
+    };
+
+    // 更新拖拽元素的新位置
+    draggingItem.top = newTop;
+    draggingItem.left = newLeft;
+
+    // 调整被拖拽元素遮挡的所有元素
+    adjustBelowItems(draggingIndex);
 };
 </script>
 
