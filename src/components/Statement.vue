@@ -14,10 +14,10 @@
                 <div v-for="(item, index) in items" :key="index" :data-id="index"
                     :style="{ top: `${item.top}px`, left: `${item.left}px`, width: item.type === 'chart' ? 'auto' : `${item.width}px`, height: `${item.height}px`, position: 'absolute' }"
                     class="shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg my-5 p-5 overflow-visible bg-white"
-                    @mousedown="" @mouseenter="showDesign(index)" @mouseleave="hiddenDesign">
+                    @mouseenter="showDesign(index)" @mouseleave="hiddenDesign">
                     <!-- 悬浮按钮 -->
                     <div v-if="hoveredItem === index" @mouseenter="showDesign(index)" @mouseleave="hiddenDesign"
-                        @mousedown="onMouseDown($event, index)"
+                        @mousedown="onMouseDown($event, index, 'drag')"
                         class="absolute w-5 h-8 top-1 -left-6 bg-gray-100 flex justify-center items-center gap-1 rounded-md cursor-move">
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
@@ -25,7 +25,7 @@
                     <!-- 控制大小按钮 -->
                     <div v-if="hoveredItem === index"
                         class="absolute w-5 h-8 -bottom-3 -right-2 flex cursor-nwse-resize"
-                        @mousedown="onResizeMouseDown($event, index)">
+                        @mousedown="onMouseDown($event, index, 'resize')">
                         <i class="fa-solid fa-corner fa-rotate-90" style="color: #4b5563;"></i>
                     </div>
 
@@ -52,14 +52,13 @@
                     </div>
 
                     <!-- 移动位置提示 -->
-                    <div v-if="isDragging && currentDraggingIndex === index"
+                    <div v-if="isInteracting && activeIndex === index"
                         class="absolute top-0 left-0 w-full h-full bg-gray-200 rounded-lg opacity-50 pointer-events-none">
                         <!-- 显示提示的矩形背景，拖拽时会显示 -->
                     </div>
                 </div>
             </div>
         </el-scrollbar>
-
     </div>
 </template>
 
@@ -86,20 +85,17 @@ const emit = defineEmits();
 let hideTimeout: ReturnType<typeof setTimeout> | null = null;
 
 
-let isDragging = ref(false); // 是否正在拖拽
-const currentDraggingIndex = ref<number | null>(null); // 当前拖拽元素的索引
 
-let startX = ref(0); // 鼠标初始X位置
-let startY = ref(0); // 鼠标初始Y位置
-let initialTop = ref(0); // 父元素初始的top位置
-let initialLeft = ref(0); // 父元素初始的left位置
+let isInteracting = ref(false); // 统一拖拽和调整大小的状态
+let interactionType = ref<'drag' | 'resize' | null>(null); // 交互类型：拖拽或调整大小
+let startX = ref(0);
+let startY = ref(0);
+let initialTop = ref(0);
+let initialLeft = ref(0);
+let initialWidth = ref(0);
+let initialHeight = ref(0);
+let activeIndex = ref<number | null>(null); // 当前操作的元素索引
 
-let isResizing = ref(false); // 是否正在调整大小
-let resizeStartX = ref(0); // 调整大小时鼠标初始X位置
-let resizeStartY = ref(0); // 调整大小时鼠标初始Y位置
-let initialWidth = ref(0); // 元素初始宽度
-let initialHeight = ref(0); // 元素初始高度
-let resizingIndex = ref<number | null>(null); // 当前调整大小的元素索引
 
 
 const hoveredItem = ref<number | null>(null); // 用来存储当前悬浮的元素索引
@@ -144,91 +140,63 @@ const hiddenDesign = () => {
     }, 200); // 延迟隐藏
 };
 
-const onMouseDown = (event: MouseEvent, index: number) => {
-    isDragging.value = true;
+const onMouseDown = (event: MouseEvent, index: number, handleType: 'drag' | 'resize') => {
+    isInteracting.value = true;
+    interactionType.value = handleType;
     startX.value = event.clientX;
     startY.value = event.clientY;
-    initialTop.value = items.value[index].top;
-    initialLeft.value = items.value[index].left;
+    activeIndex.value = index;
 
-    currentDraggingIndex.value = index; // 设置当前拖拽的元素索引
+    // 禁用文本选择
+    document.body.style.userSelect = 'none';
 
-    // 添加全局鼠标移动和释放监听
+    if (handleType === 'drag') {
+        // 拖拽时初始化位置
+        initialTop.value = items.value[index].top;
+        initialLeft.value = items.value[index].left;
+    } else if (handleType === 'resize') {
+        // 调整大小时初始化宽高
+        initialWidth.value = items.value[index].width;
+        initialHeight.value = items.value[index].height;
+    }
+
+    // 监听全局鼠标事件
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
 };
 
 const onMouseMove = (event: MouseEvent) => {
-    if (!isDragging.value || hoveredItem.value === null) return;
+    if (!isInteracting.value || activeIndex.value === null) return;
 
-    // 禁用文本选择
-    document.body.style.userSelect = 'none';
-
-    const index = hoveredItem.value;
     const deltaX = event.clientX - startX.value;
     const deltaY = event.clientY - startY.value;
+    const index = activeIndex.value;
 
-    const newTop = initialTop.value + deltaY;
-    const newLeft = initialLeft.value + deltaX;
+    if (interactionType.value === 'drag') {
+        // 拖拽逻辑
+        items.value[index].top = initialTop.value + deltaY;
+        items.value[index].left = initialLeft.value + deltaX;
 
-    // 更新当前拖拽元素的位置
-    items.value[index].top = newTop;
-    items.value[index].left = newLeft;
-
-    // 调整遮挡的元素位置
-    adjustPositionForCollisions(index, newTop, newLeft);
+        // 调整遮挡的元素位置
+        adjustPositionForCollisions(index, items.value[index].top, items.value[index].left);
+    } else if (interactionType.value === 'resize') {
+        // 调整大小逻辑
+        items.value[index].width = Math.max(100, initialWidth.value + deltaX); // 最小宽度100px
+        items.value[index].height = Math.max(100, initialHeight.value + deltaY); // 最小高度100px
+    }
 };
 
 const onMouseUp = () => {
-    isDragging.value = false;
+    isInteracting.value = false;
+    interactionType.value = null;
+    activeIndex.value = null;
 
     // 恢复文本选择
     document.body.style.userSelect = '';
-    currentDraggingIndex.value = null;
 
     // 移除全局鼠标事件监听
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
-};
-
-const onResizeMouseDown = (event: MouseEvent, index: number) => {
-    isResizing.value = true;
-    resizeStartX.value = event.clientX;
-    resizeStartY.value = event.clientY;
-    resizingIndex.value = index;
-
-    // 获取初始宽度和高度
-    const item = items.value[index];
-    initialWidth.value = item.width;
-    initialHeight.value = item.height;
-
-    // 禁用文本选择
-    document.body.style.userSelect = 'none';
-
-    // 添加全局鼠标移动和释放监听
-    document.addEventListener('mousemove', onResizeMouseMove);
-    document.addEventListener('mouseup', onResizeMouseUp);
-};
-const onResizeMouseMove = (event: MouseEvent) => {
-    if (!isResizing.value || resizingIndex.value === null) return;
-
-    const index = resizingIndex.value;
-    const deltaX = event.clientX - resizeStartX.value;
-    const deltaY = event.clientY - resizeStartY.value;
-
-    // 更新元素的宽度和高度
-    items.value[index].width = Math.max(100, initialWidth.value + deltaX); // 最小宽度100px
-    items.value[index].height = Math.max(100, initialHeight.value + deltaY); // 最小高度100px
-};
-const onResizeMouseUp = () => {
-    isResizing.value = false;
-
-    // 恢复文本选择
-    document.body.style.userSelect = '';
-
-    // 移除全局鼠标事件监听
-    document.removeEventListener('mousemove', onResizeMouseMove);
-    document.removeEventListener('mouseup', onResizeMouseUp);
 };
 
 
