@@ -40,15 +40,8 @@
 
                     <!-- 图表类型 -->
                     <div v-else-if="item.type === 'chart'" class="w-full h-full">
-                        <!-- 根据图表类型，渲染对应的组件 -->
-                        <LineContainer v-if="item.chart === 'line'" :width="item.width" :height="item.height - 50"
+                        <component :is="getChartComponent(item.chart)" :width="item.width" :height="item.height - 50"
                             :data="item.data" :chartOption="item.chartOption" />
-                        <BarContainer v-if="item.chart === 'bar'" :width="item.width" :height="item.height - 50"
-                            :data="item.data" :chartOption="item.chartOption" />
-                        <PieContainer v-if="item.chart === 'pie'" :width="item.width" :height="item.height - 50"
-                            :data="item.data" :chartOption="item.chartOption" />
-                        <HorizontalBarContainer v-if="item.chart === 'horizontalBar'" :width="item.width"
-                            :height="item.height - 50" :data="item.data" :chartOption="item.chartOption" />
                     </div>
 
                     <!-- 移动位置提示 -->
@@ -96,13 +89,13 @@ const toggleVisibility = () => {
 const showDesign = (index: number) => {
     if (hideTimeout) clearTimeout(hideTimeout); // 清除隐藏的延迟
     hoveredItem.value = index; // 设置当前悬浮的元素索引
-    
+
 };
 
 const hiddenDesign = () => {
     hideTimeout = setTimeout(() => {
         hoveredItem.value = null; // 重置悬浮的元素索引
-        
+
     }, 200); // 延迟隐藏
 };
 
@@ -198,6 +191,16 @@ const adjustPositionForCollisions = (draggingIndex: number, newTop: number, newL
 
     // 调整被拖拽元素遮挡的所有元素
     adjustBelowItems(draggingIndex);
+};
+
+const getChartComponent = (chartType: string) => {
+    const chartComponents: { [key: string]: any } = {
+        line: LineContainer,
+        bar: BarContainer,
+        pie: PieContainer,
+        horizontalBar: HorizontalBarContainer,
+    };
+    return chartComponents[chartType] || null;
 };
 </script>
 
