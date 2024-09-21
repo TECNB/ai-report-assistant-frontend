@@ -230,10 +230,12 @@ const checkCollision = () => {
         if (index !== activeIndex.value) {
             const isColliding = checkOverlap(draggedItem, item);
             const requiredSpace = item.height + spacing;  // 元素恢复需要的空间
+            // 元素恢复横向所需要的空间
+            const requiredSpaceX = item.left ;
 
             if (index == 1 && activeIndex.value !== null) {
-                console.log(index, '移动前initialPositions[index]', initialPositions[index])
-                console.log(index, 'statementItems', statementItems.value[activeIndex.value].top)
+                console.log(index, 'statementItems', statementItems.value[activeIndex.value].left + statementItems.value[activeIndex.value].width)
+                console.log(index, 'requiredSpaceX', requiredSpaceX)
             }
 
             if (isColliding) {
@@ -249,7 +251,7 @@ const checkCollision = () => {
                 }
             } else {
                 // 检查是否有足够空间让元素归位
-                const spaceAvailable = draggedItem.top >= requiredSpace;
+                const spaceAvailable = draggedItem.top >= requiredSpace || draggedItem.left + draggedItem.width <= requiredSpaceX;
                 if (index == 1) {
                     console.log(index, 'spaceAvailable', spaceAvailable)
                     console.log(index, 'movedItems.has(index)', movedItems.has(index))
