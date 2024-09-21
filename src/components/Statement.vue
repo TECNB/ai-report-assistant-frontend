@@ -56,7 +56,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref,watch } from 'vue';
+import { debounce } from 'lodash';
 
 import { StatementItem } from '../interfaces/StatementItem';
 
@@ -77,6 +78,7 @@ let isInteracting = ref(false); // 统一拖拽和调整大小的状态
 let isScrolling = ref(false);
 let interactionType = ref<'drag' | 'resize' | null>(null); // 交互类型：拖拽或调整大小
 let startX = ref(0);
+// 滚动结束后的初始Y位置
 let startY = ref(0);
 
 // 滚动时的初始位置
@@ -105,6 +107,10 @@ const toggleVisibility = () => {
 };
 let initialPositions: number[] = [];
 
+// 定义变量最初始的位置
+let initialPositionsY: number[] = [];
+initialPositionsY = statementItems.value.map(item => item.top);
+
 const onMouseDown = (event: MouseEvent, index: number, handleType: 'drag' | 'resize') => {
     isInteracting.value = true;
     interactionType.value = handleType;
@@ -112,9 +118,9 @@ const onMouseDown = (event: MouseEvent, index: number, handleType: 'drag' | 'res
     startY.value = event.clientY;
 
     initialStartY.value = event.clientY;
-    console.log('onMouseDown.startY', startY.value)
+    // console.log('onMouseDown.startY', startY.value)
     activeIndex.value = index;
-    
+
 
     // 禁用文本选择
     document.body.style.userSelect = 'none';
@@ -141,7 +147,7 @@ const onMouseDown = (event: MouseEvent, index: number, handleType: 'drag' | 'res
 const onMouseMove = (event: MouseEvent) => {
     if (!isInteracting.value || activeIndex.value === null) return;
 
-    
+
 
     let deltaX = event.clientX - startX.value;
     // 鼠标在Y轴上的移动距离 = 当前鼠标位置 - 初始鼠标位置
@@ -157,11 +163,11 @@ const onMouseMove = (event: MouseEvent) => {
     //     dragY = deltaY;  // 计算拖动的Y轴距离
     // }
 
-    console.log('onMouseMove.event.clientY', event.clientY)
-    console.log('onMouseMove.startY.value', startY.value)
+    // console.log('onMouseMove.event.clientY', event.clientY)
+    // console.log('onMouseMove.startY.value', startY.value)
     const index = activeIndex.value;
 
-    console.log('onMouseMove.initialTop.value', initialTop.value)
+    // console.log('onMouseMove.initialTop.value', initialTop.value)
 
     if (interactionType.value === 'drag') {
         // 拖拽逻辑
@@ -183,7 +189,7 @@ const onMouseUp = () => {
     previousScrollTop = null; // 重置滚动记录
     isScrolling.value = false; // 重置滚动状态
     dragY = 0;  // 重置拖动的Y轴距离
-    
+
 
     // 恢复文本选择
     document.body.style.userSelect = '';
@@ -192,11 +198,11 @@ const onMouseUp = () => {
     if (activeIndex.value !== null) {
         startX.value = statementItems.value[activeIndex.value].left;
         startY.value = statementItems.value[activeIndex.value].top;
-        console.log('startX', startX.value, 'startY', startY.value)
+        // console.log('startX', startX.value, 'startY', startY.value)
     }
 
     activeIndex.value = null;
-    
+
 
     // 移除全局鼠标事件监听
     document.removeEventListener('mousemove', onMouseMove);
@@ -204,6 +210,15 @@ const onMouseUp = () => {
 };
 
 const movedItems = new Set<number>();  // 记录已下移的元素索引
+
+// 观察initialPositions[1]为215时，打印错误
+watch(() => initialPositions[1], (newValue) => {
+    if (newValue === 215) {
+        console.error('哈哈哈哈哈initialPositions[1]', newValue)
+    }
+});
+
+
 // 检查遮挡逻辑
 const checkCollision = () => {
     if (activeIndex.value === null) return;
@@ -215,6 +230,11 @@ const checkCollision = () => {
         if (index !== activeIndex.value) {
             const isColliding = checkOverlap(draggedItem, item);
             const requiredSpace = item.height + spacing;  // 元素恢复需要的空间
+
+            if (index == 1 && activeIndex.value !== null) {
+                console.log(index, '移动前initialPositions[index]', initialPositions[index])
+                console.log(index, 'statementItems', statementItems.value[activeIndex.value].top)
+            }
 
             if (isColliding) {
                 const draggedMidY = draggedItem.top + draggedItem.height / 2;
@@ -229,8 +249,20 @@ const checkCollision = () => {
                 }
             } else {
                 // 检查是否有足够空间让元素归位
-                const spaceAvailable = draggedItem.top >= item.top + requiredSpace;
+                const spaceAvailable = draggedItem.top >= requiredSpace;
+                if (index == 1) {
+                    console.log(index, 'spaceAvailable', spaceAvailable)
+                    console.log(index, 'movedItems.has(index)', movedItems.has(index))
+
+                }
+
+
                 if (movedItems.has(index) && spaceAvailable) {
+                    if (index == 1) {
+                        console.log(index, 'restoreItemPosition')
+
+                    }
+
                     restoreItemPosition(index);  // 归位
                     movedItems.delete(index);    // 清除下移记录
                 }
@@ -243,7 +275,10 @@ const checkCollision = () => {
 
 // 归位函数，恢复元素的原始位置
 const restoreItemPosition = (index: number) => {
-    statementItems.value[index].top = initialPositions[index];  // 恢复到初始位置
+    if (index == 1) {
+        console.log(index, '移动后initialPositions[index]', initialPositions[index])
+    }
+    statementItems.value[index].top = initialPositionsY[index];  // 恢复到初始位置
 };
 
 
@@ -254,14 +289,6 @@ const checkOverlap = (item1: StatementItem, item2: StatementItem) => {
     const item1Right = item1.left + item1.width;
     const item2Bottom = item2.top + item2.height;
     const item2Right = item2.left + item2.width;
-
-    if(item1.top < item2Bottom &&
-        item1Bottom > item2.top &&
-        item1.left < item2Right &&
-        item1Right > item2.left){
-            console.log('遮挡')
-        }
-    
 
     return (
         item1.top < item2Bottom &&
@@ -310,10 +337,10 @@ const getChartComponent = (chartType: string) => {
 const onScroll = (scroll: { scrollLeft: number, scrollTop: number }) => {
     if (activeIndex.value !== null && isInteracting.value) {
         isScrolling.value = true;
-        console.log('scroll.startY.value', startY.value);
+        // console.log('scroll.startY.value', startY.value);
         // 定义变量记录初始startY
-        console.log('onScroll.initialStartY.value', initialStartY.value);
-        
+        // console.log('onScroll.initialStartY.value', initialStartY.value);
+
 
 
         // 如果 previousScrollTop 为 null，记录第一次的 scrollTop
@@ -327,18 +354,18 @@ const onScroll = (scroll: { scrollLeft: number, scrollTop: number }) => {
         // 更新拖拽元素的位置 = 初始位置 + 滚动过程中的拖拽值 + 滚动的差值
         statementItems.value[activeIndex.value].top = initialPositions[activeIndex.value] + dragY + scrollDiff;
 
-        console.log('scroll.initialPositions', initialPositions[activeIndex.value]);
+        // console.log('scroll.initialPositions', initialPositions[activeIndex.value]);
 
-        console.log('scroll.scrollTop', scroll.scrollTop);
-        console.log('scrollDiff', scrollDiff);
-        console.log('statementItems.value[activeIndex.value].top', statementItems.value[activeIndex.value].top);
+        // console.log('scroll.scrollTop', scroll.scrollTop);
+        // console.log('scrollDiff', scrollDiff);
+        // console.log('statementItems.value[activeIndex.value].top', statementItems.value[activeIndex.value].top);
 
         initialTop.value = statementItems.value[activeIndex.value].top;
 
         // 实时更新 startX.value，根据 X 轴滚动差值进行调整
         startY.value = initialStartY.value + scrollDiff + dragY;
 
-        console.log('onScroll.startY.value', startY.value);
+        // console.log('onScroll.startY.value', startY.value);
     }
 };
 
