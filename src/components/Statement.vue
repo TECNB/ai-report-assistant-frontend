@@ -30,7 +30,7 @@
                     </div>
 
                     <!-- 根据不同的类型渲染不同内容 -->
-                    <p class="text-sm font-bold">{{ item.label }}</p>
+                    <input class="text-sm font-bold input-reset" type="text" v-model="item.label" />
 
                     <!-- 数字数据类型 -->
                     <div v-if="item.type === 'numbers'" class="h-36 flex justify-center items-center gap-2">
@@ -56,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref,watch } from 'vue';
+import { ref, watch } from 'vue';
 import { debounce } from 'lodash';
 
 import { StatementItem } from '../interfaces/StatementItem';
@@ -231,7 +231,7 @@ const checkCollision = () => {
             const isColliding = checkOverlap(draggedItem, item);
             const requiredSpace = item.height + spacing;  // 元素恢复需要的空间
             // 元素恢复横向所需要的空间
-            const requiredSpaceX = item.left ;
+            const requiredSpaceX = item.left;
 
             if (index == 1 && activeIndex.value !== null) {
                 console.log(index, 'statementItems', statementItems.value[activeIndex.value].left + statementItems.value[activeIndex.value].width)
@@ -407,5 +407,17 @@ const onScroll = (scroll: { scrollLeft: number, scrollTop: number }) => {
 
 :deep(.el-checkbox__inner:hover) {
     border-color: #000;
+}
+
+/* 去除 input 的默认样式，使其看起来像 <p> 标签 */
+input.input-reset {
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+
+    color: inherit;
+    outline: none;
+    pointer-events: pointer;
 }
 </style>
