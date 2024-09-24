@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { userInfoStore } from '../store/UserInfoStore'; // 引入 store
+import { userInfoStore } from '../stores/UserInfoStore'; // 引入 store
 import { signup } from '../api/user'; // 引入注册 API
 import { User } from '../interfaces/User'; // 引入 User 接口
 

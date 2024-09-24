@@ -3,8 +3,8 @@
         <div class="flex flex-col justify-between px-3">
             <div class="flex justify-between items-center px-2 pt-2 mb-5">
                 <div v-for="(item, index) in tabItemIcons" :key="index" class="flex-1 border-b pb-2 cursor-pointer"
-                    :class="activeIndex === index ? 'border-black text-black' : 'text-text-300 hover:text-black'"
-                    @click="setActive(index)">
+                    :class="tabStore.activeIndex === index ? 'border-black text-black' : 'text-text-300 hover:text-black'"
+                    @click="tabStore.setActive(index)">
                     <i :class="item.iconClass"></i>
                 </div>
             </div>
@@ -66,21 +66,23 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
+import { storeToRefs } from 'pinia';
+
+import { useTabStore } from '../stores/TabStore.ts';
+
 import { reportContent } from '../constant/reportContent';
 import { tabItemIcons } from '../constant/tabItemIcons';
+
+
+// 获取全局的 tabStore
+const tabStore = useTabStore();
+const { activeIndex } = storeToRefs(tabStore);
 
 let chartVisible = ref(false);
 let statementVisible = ref(false);
 let dataSourceVisible = ref(false);
 let userDataVisible = ref(false);
-const activeIndex = ref(0);
 
-
-
-
-const setActive = (index: any) => {
-    activeIndex.value = index;
-};
 
 const showChart = () => {
     chartVisible.value = !chartVisible.value;
