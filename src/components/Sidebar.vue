@@ -2,7 +2,7 @@
     <div class="Sidebar">
         <div class="flex flex-col justify-between px-3">
             <div class="flex justify-between items-center px-2 pt-2 mb-5">
-                <div v-for="(item, index) in items" :key="index" class="flex-1 border-b pb-2 cursor-pointer"
+                <div v-for="(item, index) in tabItemIcons" :key="index" class="flex-1 border-b pb-2 cursor-pointer"
                     :class="activeIndex === index ? 'border-black text-black' : 'text-text-300 hover:text-black'"
                     @click="setActive(index)">
                     <i :class="item.iconClass"></i>
@@ -24,14 +24,6 @@
                     <Operation />
                 </el-icon>
             </div>
-
-            <!-- <div
-                class="flex justify-start items-center gap-3  p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition" @click="showUserData">
-                <el-icon size="24">
-                    <Postcard />
-                </el-icon>
-                <p class="text-sm font-bold">工作空间</p>
-            </div> -->
 
             <div class="flex justify-start items-center gap-3 p-2">
                 <el-icon size="16">
@@ -75,6 +67,7 @@
 <script setup lang="ts">
 import { ref } from "vue"
 import { reportContent } from '../constant/reportContent';
+import { tabItemIcons } from '../constant/tabItemIcons';
 
 let chartVisible = ref(false);
 let statementVisible = ref(false);
@@ -82,13 +75,8 @@ let dataSourceVisible = ref(false);
 let userDataVisible = ref(false);
 const activeIndex = ref(0);
 
-// 定义图标和其他信息的数组
-const items = ref([
-    { iconClass: 'fa-regular fa-comment-lines fa-lg' },
-    { iconClass: 'fa-regular fa-table-cells fa-lg' },
-    { iconClass: 'fa-regular fa-chart-tree-map fa-lg' },
-    { iconClass: 'fa-regular fa-memo-pad fa-lg' }
-]);
+
+
 
 const setActive = (index: any) => {
     activeIndex.value = index;
