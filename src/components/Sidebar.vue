@@ -1,30 +1,40 @@
 <template>
     <div class="Sidebar">
-        <div class="flex flex-col justify-between  px-3">
+        <div class="flex flex-col justify-between px-3">
+            <div class="flex justify-between items-center px-2 pt-2 mb-5">
+                <div v-for="(item, index) in items" :key="index" class="flex-1 border-b pb-2 cursor-pointer"
+                    :class="activeIndex === index ? 'border-black text-black' : 'text-text-300 hover:text-black'"
+                    @click="setActive(index)">
+                    <i :class="item.iconClass"></i>
+                </div>
+            </div>
+
+
             <div class="flex justify-between items-center gap-2">
                 <div
                     class="flex flex-1 justify-between items-center gap-3 p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition">
-                    <img class="w-6 h-6 rounded-full object-cover aspect-square"
-                        src="../assets/images/icon.png" alt="">
+                    <img class="w-6 h-6 rounded-full object-cover aspect-square" src="../assets/images/icon.png" alt="">
                     <p class="text-sm font-bold">新对话</p>
                     <el-icon class="ml-auto" size="20" color="#676767">
                         <Edit />
                     </el-icon>
                 </div>
-                <el-icon class=" hover:bg-bg-300 cursor-pointer rounded-xl" size="20" color="#676767 transition" @click="showDataSource">
+                <el-icon class=" hover:bg-bg-300 cursor-pointer rounded-xl" size="20" color="#676767 transition"
+                    @click="showDataSource">
                     <Operation />
                 </el-icon>
             </div>
 
-            <div
+            <!-- <div
                 class="flex justify-start items-center gap-3  p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition" @click="showUserData">
                 <el-icon size="24">
                     <Postcard />
                 </el-icon>
                 <p class="text-sm font-bold">工作空间</p>
-            </div>
+            </div> -->
+
             <div class="flex justify-start items-center gap-3 p-2">
-                <el-icon size="24">
+                <el-icon size="16">
                     <Search />
                 </el-icon>
                 <p class="text-sm font-bold text-text-300">搜索</p>
@@ -42,19 +52,17 @@
                 </div>
             </div>
 
-            <div
-                class="fixed bottom-5 w-56 flex justify-start items-center gap-3  p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition" @click="showChart">
-                <img class="w-8 h-8 rounded-full object-cover aspect-square"
-                    src="../assets/images/avatar.png"
-                    alt="">
+            <div class="fixed bottom-5 w-56 flex justify-start items-center gap-3  p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition"
+                @click="showChart">
+                <img class="w-8 h-8 rounded-full object-cover aspect-square" src="../assets/images/avatar.png" alt="">
                 <p class="text-sm font-bold">TEC</p>
             </div>
         </div>
-        <MaskLayer :ifShow="chartVisible"/>
-        <Chart :ifShow="chartVisible" @updateIfShow="updateChartVisible"/>
+        <MaskLayer :ifShow="chartVisible" />
+        <Chart :ifShow="chartVisible" @updateIfShow="updateChartVisible" />
 
-        <MaskLayer :ifShow="statementVisible"/>
-        <Statement :ifShow="statementVisible" @updateIfShow="updateStatementVisible"/>
+        <MaskLayer :ifShow="statementVisible" />
+        <Statement :ifShow="statementVisible" @updateIfShow="updateStatementVisible" />
 
         <DataSource :ifShow="dataSourceVisible" @updateIfShow="updateDataSourceVisible" />
         <MaskLayer :ifShow="dataSourceVisible" />
@@ -72,6 +80,19 @@ let chartVisible = ref(false);
 let statementVisible = ref(false);
 let dataSourceVisible = ref(false);
 let userDataVisible = ref(false);
+const activeIndex = ref(0);
+
+// 定义图标和其他信息的数组
+const items = ref([
+    { iconClass: 'fa-regular fa-comment-lines fa-lg' },
+    { iconClass: 'fa-regular fa-table-cells fa-lg' },
+    { iconClass: 'fa-regular fa-chart-tree-map fa-lg' },
+    { iconClass: 'fa-regular fa-memo-pad fa-lg' }
+]);
+
+const setActive = (index: any) => {
+    activeIndex.value = index;
+};
 
 const showChart = () => {
     chartVisible.value = !chartVisible.value;
