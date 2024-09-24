@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-export const useTabStore = defineStore('tabStore', () => {
+export const useSidebarStore = defineStore('tabStore', () => {
 
     // 当前激活的 index
     const activeIndex = ref(0);
