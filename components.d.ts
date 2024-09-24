@@ -43,6 +43,7 @@ declare module 'vue' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElUpload: typeof import('element-plus/es')['ElUpload']
+    Form: typeof import('./src/components/Form.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     HorizontalBarContainer: typeof import('./src/components/charts/HorizontalBarContainer.vue')['default']
     JobCategory: typeof import('./src/components/JobCategory.vue')['default']

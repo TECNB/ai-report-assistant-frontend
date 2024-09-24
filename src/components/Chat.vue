@@ -123,6 +123,10 @@
         <!-- 遮罩层 -->
         <MaskLayer :ifShow="dataSidebarVisible" />
 
+        <Form :ifShow="formVisible" @updateIfShow="updateFormVisible" />
+        <!-- 遮罩层 -->
+        <MaskLayer :ifShow="formVisible" />
+
     </div>
 </template>
 
@@ -138,6 +142,7 @@ let statementVisible = ref(false);
 
 let knowledgeVisible = ref(false);
 let dataSidebarVisible = ref(false);
+let formVisible = ref(false);
 
 let statementName = ref('');
 const message = ref('');
@@ -293,6 +298,32 @@ const handleEnter = async () => {
         displayedMessages.value.push({ type: 'attributionQuestion', content: '' });
         return;
     }
+    if(message.value === '获取到结构化数据'){
+        const userContent = message.value;
+        displayedMessages.value.push({ type: 'user', content: userContent });
+        message.value = '';
+
+        showSuggestions.value = false; // 隐藏建议列表
+
+        let completeMessage = ''; // 用于累积AI的回复内容
+        completeMessage = chatExample.prompt
+
+        showForm();
+
+        // Add a loading placeholder
+        displayedMessages.value.push({ type: 'loading', content: '' });
+        // 移除加载占位符
+        displayedMessages.value.pop();
+        displayedMessages.value.push({ type: 'ai', content: '' });
+
+
+        // 添加最终的AI消息并应用打字效果
+        await typeEffect(chatExample.prompt, 50);
+
+        displayedMessages.value.push({ type: 'predictQuestion', content: '' });
+
+        return;
+    }
     if (message.value.trim()) {
         const userContent = message.value;
         displayedMessages.value.push({ type: 'user', content: userContent });
@@ -368,12 +399,18 @@ const showKnowledge = () => {
 const showDataSidebar = () => {
     dataSidebarVisible.value = !dataSidebarVisible.value;
 };
+const showForm = () => {
+    formVisible.value = !formVisible.value;
+};
 
 const updateKnowledgeVisible = (newValue: boolean) => {
     knowledgeVisible.value = newValue;
 };
 const updateDataSidebarVisible = (newValue: boolean) => {
     dataSidebarVisible.value = newValue;
+};
+const updateFormVisible = (newValue: boolean) => {
+    formVisible.value = newValue;
 };
 </script>
 
