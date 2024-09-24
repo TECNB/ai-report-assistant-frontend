@@ -7,7 +7,7 @@
             <div class="w-[1000px] bg-gray-50 flex flex-col items-start rounded-xl p-5">
                 <!-- 顶部栏 -->
                 <div class="w-full flex justify-between items-center gap-5 mb-6 relative">
-                    <p class="text-lg font-bold">{{ content.description }}</p>
+                    <p class="text-lg font-bold">{{ props.content.description }}</p>
 
                     <div class="flex justify-center items-center gap-2">
                         <div class="border-l flex justify-center items-center pl-2">

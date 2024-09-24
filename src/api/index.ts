@@ -56,7 +56,7 @@ class RequestHttp {
          */
         this.service.interceptors.response.use(
             (response: AxiosResponse) => {
-                const { data, config } = response; // 解构
+                const { data } = response; // 解构
 
                 if (data.code === RequestEnums.OVERDUE) {
                     // 登录信息失效，应跳转到登录页面，并清空本地的token
@@ -77,8 +77,8 @@ class RequestHttp {
             (error: AxiosError) => {
                 const { response } = error;
                 if (response) {
-                    console.log("response:" + (response.data as ErrorResult).status);
-                    this.handleCode((response.data as ErrorResult).status)
+                    console.log("response:" + (response.data as ErrorResult).code);
+                    this.handleCode((response.data as ErrorResult).code)
                 }
                 if (!window.navigator.onLine) {
                     ElMessage.error('网络连接失败');

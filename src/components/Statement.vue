@@ -66,7 +66,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { debounce } from 'lodash';
+// import { debounce } from 'lodash';
 
 import { StatementItem } from '../interfaces/StatementItem';
 
@@ -95,10 +95,10 @@ let startX = ref(0);
 let startY = ref(0);
 
 // 滚动时的初始位置
-let scrollY = ref(0);
+// let scrollY = ref(0);
 let initialStartY = ref(0);
 // 定义第一次event.clientY
-let initialEventY = 0;
+// let initialEventY = 0;
 
 // 定义拖动的Y轴距离
 let dragY = 0;
