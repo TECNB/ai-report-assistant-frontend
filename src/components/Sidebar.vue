@@ -9,7 +9,11 @@
                 </div>
             </div>
         </div>
-        <SidebarChat/>
+
+        <SidebarChat v-if="activeIndex === 0"/>
+        <SidebarForm v-if="activeIndex === 1"/>
+        <SidebarChart v-if="activeIndex === 2"/>
+        <SidebarStatement v-if="activeIndex === 2"/>
 
     
     </div>
