@@ -105,18 +105,6 @@
 <script setup lang="ts">
 import { ref, watch, nextTick } from 'vue';
 
-import airLineOptions from '../utils/airLineOptions';
-import waterBarOption from '../utils/waterBarOption';
-import forestPieOption from '../utils/forestPieOption';
-
-import LineContainer from './charts/LineContainer.vue';
-import PieContainer from './charts/PieContainer.vue';
-import BarContainer from './charts/BarContainer.vue';
-
-import { airLineData } from '../constant/airLineData';
-import { forestPieData } from '../constant/forestPieData';
-import { waterBarData } from '../constant/waterBarData';
-
 
 const props = defineProps(['ifShow']);
 const emit = defineEmits();

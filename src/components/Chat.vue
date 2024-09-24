@@ -202,10 +202,6 @@ const handleEnter = async () => {
         message.value = '';
 
         showSuggestions.value = false; // 隐藏建议列表
-
-
-        let completeMessage = ''; // 用于累积AI的回复内容
-        completeMessage = chatExample2.prompt
         
 
         // Add a loading placeholder
@@ -232,10 +228,6 @@ const handleEnter = async () => {
 
         showSuggestions.value = false; // 隐藏建议列表
 
-
-        let completeMessage = ''; // 用于累积AI的回复内容
-        completeMessage = chatExample.prompt
-
         // Add a loading placeholder
         displayedMessages.value.push({ type: 'loading', content: '' });
         // 移除加载占位符
@@ -257,9 +249,6 @@ const handleEnter = async () => {
 
         showSuggestions.value = false; // 隐藏建议列表
 
-        let completeMessage = ''; // 用于累积AI的回复内容
-        completeMessage = chatExample.prompt
-
         // Add a loading placeholder
         displayedMessages.value.push({ type: 'loading', content: '' });
         // 移除加载占位符
@@ -280,10 +269,6 @@ const handleEnter = async () => {
         message.value = '';
 
         showSuggestions.value = false; // 隐藏建议列表
-
-
-        let completeMessage = ''; // 用于累积AI的回复内容
-        completeMessage = chatExample2.prompt
 
         // Add a loading placeholder
         displayedMessages.value.push({ type: 'loading', content: '' });
