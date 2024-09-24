@@ -135,7 +135,7 @@ import { ref } from "vue";
 import { suggestions } from '../constant/suggestions'; // 导入建议列表
 import { AIChat } from '../utils/AIChat'; // 导入AIChat
 import chatExample from '../constant/chatExample'; // 导入聊天示例
-import chatExample2 from '../constant/chatExample2'; // 导入聊天示例2
+
 const imageUrl = ref(''); // 存储上传的图片 URL
 
 let statementVisible = ref(false);
@@ -289,9 +289,6 @@ const handleEnter = async () => {
         message.value = '';
 
         showSuggestions.value = false; // 隐藏建议列表
-
-        let completeMessage = ''; // 用于累积AI的回复内容
-        completeMessage = chatExample.prompt
 
         showForm();
 
