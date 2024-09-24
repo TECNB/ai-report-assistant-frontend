@@ -40,6 +40,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Sidebar: typeof import('./src/components/Sidebar.vue')['default']
+    SidebarChat: typeof import('./src/components/SidebarChat.vue')['default']
     Statement: typeof import('./src/components/Statement.vue')['default']
     UserData: typeof import('./src/components/UserData.vue')['default']
   }
