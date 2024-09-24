@@ -76,9 +76,9 @@ const showStatement = () => {
 const showDataSource = () => {
     dataSourceVisible.value = !dataSourceVisible.value;
 }
-const showUserData = () => {
-    userDataVisible.value = !userDataVisible.value;
-}
+// const showUserData = () => {
+//     userDataVisible.value = !userDataVisible.value;
+// }
 const updateChartVisible = (value: boolean) => {
     chartVisible.value = value;
 }

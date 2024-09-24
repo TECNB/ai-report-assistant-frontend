@@ -2,7 +2,7 @@
     <div class="Sidebar">
         <div class="flex flex-col justify-between px-3">
             <div class="flex justify-between items-center px-2 pt-2 mb-5">
-                <div v-for="(item, index) in tabItemIcons" :key="index" class="flex-1 border-b pb-2 cursor-pointer"
+                <div v-for="(item, index) in sidebarItemIcons" :key="index" class="flex-1 border-b pb-2 cursor-pointer"
                     :class="activeIndex === index ? 'border-black text-black' : 'text-text-300 hover:text-black'"
                     @click="sidebarStore.setActive(index)">
                     <i :class="item.iconClass"></i>
@@ -13,19 +13,18 @@
         <SidebarChat v-if="activeIndex === 0"/>
         <SidebarForm v-if="activeIndex === 1"/>
         <SidebarChart v-if="activeIndex === 2"/>
-        <SidebarStatement v-if="activeIndex === 2"/>
+        <SidebarStatement v-if="activeIndex === 3"/>
 
     
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
 import { storeToRefs } from 'pinia';
 
 import { useSidebarStore } from '../stores/SidebarStore.ts';
 
-import { tabItemIcons } from '../constant/tabItemIcons';
+import { sidebarItemIcons } from '../constant/sidebarItemIcons.ts';
 
 
 // 获取全局的 tabStore
