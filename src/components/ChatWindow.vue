@@ -6,8 +6,12 @@
                 <div v-if="msg.type === 'image'" class="w-full flex justify-end items-center rounded-lg ">
                     <img class="w-40 h-56 rounded-lg bg-gray-200 bg-opacity-50 p-2" :src="msg.content" />
                 </div>
-
-
+              <!-- PDF 展示框 -->
+              <div v-if="msg.type === 'pdf'" class="w-full flex justify-end items-center rounded-lg">
+                <iframe class="w-60 h-80 rounded-lg bg-gray-200 bg-opacity-50 p-2" :src="msg.content" type="application/pdf">
+                  您的浏览器不支持 PDF 文件显示，请下载查看。
+                </iframe>
+              </div>
 
                 <div v-if="msg.type === 'user'" class="bg-gray-50 rounded-3xl px-5 py-2 ml-auto max-w-md">
                     <p class="">{{ msg.content }}</p>
