@@ -13,7 +13,7 @@
             <MainChart />
         </div>
         <div class="flex-1 h-full px-5 py-3" v-if="activeIndex===3">
-            <Chat />
+            <MainStatement />
         </div>
     </div>
 

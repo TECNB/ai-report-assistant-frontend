@@ -39,6 +39,7 @@ declare module 'vue' {
     LineContainer: typeof import('./src/components/charts/LineContainer.vue')['default']
     MainChart: typeof import('./src/components/MainChart.vue')['default']
     MainForm: typeof import('./src/components/MainForm.vue')['default']
+    MainStatement: typeof import('./src/components/MainStatement.vue')['default']
     MaskLayer: typeof import('./src/components/MaskLayer.vue')['default']
     NumberQuestion: typeof import('./src/components/NumberQuestion.vue')['default']
     PieContainer: typeof import('./src/components/charts/PieContainer.vue')['default']
