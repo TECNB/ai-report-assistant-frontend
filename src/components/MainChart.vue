@@ -8,7 +8,7 @@
                 </el-icon>
             </div> -->
         </div>
-        <el-scrollbar height="86%" wrap-style="width:90%;" class="flex justify-start ml-5">
+        <el-scrollbar height="95%" wrap-style="width:90%;" class="flex justify-start ml-5">
             <div class="w-full flex flex-col justify-center items-center self-center">
                 <div
                     class="w-full h-10 flex justify-center items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
@@ -40,34 +40,6 @@
                 </div>
             </div>
         </el-scrollbar>
-        <div class="w-full flex justify-between items-center absolute bottom-3 border-t pt-3 -mx-5 px-5">
-            <div class="flex flex-1 justify-start items-center gap-3">
-                <el-checkbox v-model="checkedAll" label="全选" size="large" />
-                <p class="text-text-300 text-sm">勾选的图表将被写入报表</p>
-            </div>
-            <div class="">
-                <div class="bg-text-100 rounded-xl cursor-pointer py-3 px-8" @click="addChart" v-if="!ifAdd">
-                    <p class="text-white font-bold">立即使用</p>
-                </div>
-                <div class="bg-text-400 rounded-xl cursor-not-allowed py-3 px-8" v-else>
-                    <p class="text-white font-bold">立即使用</p>
-                </div>
-            </div>
-
-            <div class="flex flex-1 justify-end items-center">
-                <div
-                    class="flex justify-between items-center gap-3 cursor-pointer rounded-xl hover:bg-gray-200 transition p-2">
-                    <el-icon color="#999999">
-                        <Delete />
-                    </el-icon>
-                    <p class="text-text-300">全部删除</p>
-                </div>
-                <div class="">
-
-                </div>
-            </div>
-
-        </div>
 
     </div>
 </template>
@@ -95,7 +67,6 @@ let checked3 = ref(true);
 let checkedAll = ref(true);
 let isUpdating = false; // 用于避免循环更新
 
-let ifAdd = ref(false);
 
 // 监听 checkedAll 的变化
 watch(checkedAll, (newVal) => {
@@ -118,14 +89,6 @@ watch([checked1, checked2, checked3], ([newChecked1, newChecked2, newChecked3]) 
 
 });
 
-const addChart = () => {
-    console.log('add chart');
-    ifAdd.value = true;
-    checked1.value = false;
-    checked2.value = false;
-    checked3.value = false;
-    checkedAll.value = false;
-};
 </script>
 
 <style lang="scss" scoped>

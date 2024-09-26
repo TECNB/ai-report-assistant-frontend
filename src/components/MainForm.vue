@@ -34,7 +34,7 @@ let isUpdating = false; // 用于避免循环更新
 
 const formattedAqiData = computed(() => {
     // 获取现有年份
-    const years = [...new Set(aqiData.value.map(item => item.year))];
+    // const years = [...new Set(aqiData.value.map(item => item.year))];
 
     // 自动生成 2024 到 2028 的数据
     const futureYears = [2018, 2017, 2016, 2015, 2014,2013,2012,2011,2010,2009,2008,2007];
