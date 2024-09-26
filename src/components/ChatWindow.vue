@@ -7,10 +7,33 @@
                     <img class="w-40 h-56 rounded-lg bg-gray-200 bg-opacity-50 p-2" :src="msg.content" />
                 </div>
               <!-- PDF 展示框 -->
+              <!-- PDF 文件预览框 -->
+              <!-- PDF 文件预览框 -->
               <div v-if="msg.type === 'pdf'" class="w-full flex justify-end items-center rounded-lg">
-                <iframe class="w-60 h-80 rounded-lg bg-gray-200 bg-opacity-50 p-2" :src="msg.content" type="application/pdf">
-                  您的浏览器不支持 PDF 文件显示，请下载查看。
-                </iframe>
+                <!-- 判断是否已经点击并展开 -->
+                <div v-if="isExpanded" class="relative w-full flex justify-end items-center">
+                  <!-- 外部灰色透明框包裹 -->
+                  <div class="relative w-[38rem] h-[38rem] bg-gray-300 bg-opacity-40 p-4 rounded-lg border border-gray-400">
+                    <!-- 点击后展开的 PDF 展示框 -->
+                    <iframe class="w-full h-full rounded-lg bg-white p-2" :src="msg.content" type="application/pdf">
+                      您的浏览器不支持 PDF 文件显示，请下载查看。
+                    </iframe>
+
+                    <!-- 删除按钮，点击后恢复到初始状态 -->
+                    <div @click="collapsePdf" class="absolute top-2 right-2 bg-white text-black border border-gray-300 rounded-full w-6 h-6 flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-colors duration-300">
+                      <i class="fa-solid fa-times text-xs"></i>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 初始状态：PDF 文件图标，点击展开 -->
+                <div v-else @click="expandPdf" class="w-24 h-30 flex items-center justify-center rounded-lg bg-gray-200 bg-opacity-50 border cursor-pointer">
+                  <!-- PDF 文件图标 -->
+                  <div class="text-center">
+                    <i class="fa-solid fa-file-pdf text-red-600 text-4xl"></i>
+                    <p class="text-sm mt-1">2023中国生态环境状况公报-保留大气环境版.pdf</p>
+                  </div>
+                </div>
               </div>
 
                 <div v-if="msg.type === 'user'" class="bg-gray-50 rounded-3xl px-5 py-2 ml-auto max-w-md">
@@ -108,6 +131,18 @@ import airLineOptions from '../utils/airLineOptions';
 import LineContainer from './charts/LineContainer.vue';
 import { airLineData } from '../constant/airLineData';
 
+// 控制是否展开 PDF 展示框
+const isExpanded = ref(false);
+
+// 点击后展开 PDF 展示框
+const expandPdf = () => {
+  isExpanded.value = true; // 点击后切换为展示模式
+};
+
+// 点击删除按钮后折叠 PDF 展示框，回到默认图标状态
+const collapsePdf = () => {
+  isExpanded.value = false; // 恢复到 PDF 文件图标状态
+};
 
 const props = defineProps<{
     displayedMessages: { type: string; content: string }[];

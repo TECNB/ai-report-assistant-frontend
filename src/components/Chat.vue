@@ -94,12 +94,18 @@
             </div>
           </div>
         </div>
-        <!-- PDF 展示框 -->
+
+        <!-- PDF 文件预览框 -->
         <div v-if="pdfUrl" class="flex items-start mb-2">
           <div class="relative">
-            <iframe :src="pdfUrl" class="w-20 h-30 rounded-lg border" type="application/pdf">
-              您的浏览器不支持 PDF 文件显示，请下载查看。
-            </iframe>
+            <!-- 模拟 PDF 文件图标的样式 -->
+            <div @click="openPdf" class="w-30 h-30 flex items-center justify-start rounded-lg bg-gray-200 bg-opacity-50 border cursor-pointer p-2">
+              <!-- PDF 文件图标 -->
+              <i class="fa-solid fa-file-pdf text-red-600 text-4xl mr-2"></i>
+
+              <!-- PDF 文件名称 -->
+              <p class="text-sm">2023中国生态环境状况公报-保留大气环境版.pdf</p>
+            </div>
 
             <!-- 删除按钮 -->
             <div @click="removePdf"
@@ -108,6 +114,19 @@
             </div>
           </div>
         </div>
+<!--        <div v-if="pdfUrl" class="flex items-start mb-2">-->
+<!--          <div class="relative">-->
+<!--            <iframe :src="pdfUrl" class="w-20 h-30 rounded-lg border" type="application/pdf">-->
+<!--              您的浏览器不支持 PDF 文件显示，请下载查看。-->
+<!--            </iframe>-->
+
+<!--            &lt;!&ndash; 删除按钮 &ndash;&gt;-->
+<!--            <div @click="removePdf"-->
+<!--                 class="absolute top-0 right-0 bg-white text-black border border-gray-300 rounded-full w-6 h-6 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">-->
+<!--              <i class="fa-solid fa-times text-xs"></i>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
 
 
         <!-- 上传和输入框 -->
@@ -171,10 +190,6 @@ import defaultPdfUrl from '../assets/pdf/2023中国生态环境状况公报-保�
 const handleUploadSuccess = (response: any) => {
   const uploadedFile = response.raw; // 获取上传的文件
   imageUrl.value = URL.createObjectURL(uploadedFile); // 创建本地 URL
-  displayedMessages.value.push({
-    type: 'image',
-    content: imageUrl.value
-  });
   ElMessage.success('图片上传成功！');
 };
 
@@ -192,10 +207,7 @@ const handleUploadError = (error: any, uploadedFile: File) => {
   } else if (fileName.endsWith('.jpg') || fileName.endsWith('.png') || fileName.endsWith('.jpeg')) {
     // 上传失败时展示默认图片
     imageUrl.value = defaultImageUrl;
-    displayedMessages.value.push({
-      type: 'image',
-      content: defaultImageUrl
-    });
+
     ElMessage.error('图片上传失败！显示默认图片');
   } else {
     // 其他类型的文件
@@ -207,6 +219,9 @@ const handleUploadError = (error: any, uploadedFile: File) => {
 const removeImage = () => {
   imageUrl.value = ''; // 清空图片 URL
 };
+const openPdf = ()=>{
+  window.open(pdfUrl.value, '_blank');
+}
 const removePdf = () => {
   pdfUrl.value = '';
 }
@@ -235,8 +250,10 @@ const handleEnter = async () => {
     });
 
     const userContent = message.value;
-    displayedMessages.value.push({type: 'user', content: userContent});
-    message.value = '';
+    if(message.value != '获取到结构化数据')
+    {
+      displayedMessages.value.push({type: 'user', content: userContent});
+    }
 
     showSuggestions.value = false; // 隐藏建议列表
 
@@ -250,22 +267,19 @@ const handleEnter = async () => {
 
     // 添加最终的AI消息并应用打字效果
     // await typeEffect(chatExample2.prompt, 50);
-
-    displayedMessages.value.push({type: 'imageQuestion', content: '以下是为您所转化的报表'});
-
     imageUrl.value = ''; // 清空图片 URL
-    return;
+
   }
   if (pdfUrl.value) {
     displayedMessages.value.push({
       type: 'pdf',
       content: pdfUrl.value
     });
-
     const userContent = message.value;
-    displayedMessages.value.push({type: 'user', content: userContent});
-    message.value = '';
-
+    if(message.value != '获取到结构化数据')
+    {
+      displayedMessages.value.push({type: 'user', content: userContent});
+    }
     showSuggestions.value = false; // 隐藏建议列表
 
     // Add a loading placeholder
@@ -277,7 +291,8 @@ const handleEnter = async () => {
     displayedMessages.value.push({type: 'pdfQuestion', content: '以下是为您所转化的PDF报表'});
 
     pdfUrl.value = ''; // 清空 PDF URL
-    return;
+
+
   }
 
   if (message.value === '2023年累计温室气体排放') {
@@ -348,7 +363,7 @@ const handleEnter = async () => {
     message.value = '';
 
     showSuggestions.value = false; // 隐藏建议列表
-
+    console.log("time2");
     showForm();
 
     // Add a loading placeholder
