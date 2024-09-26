@@ -37,6 +37,7 @@ declare module 'vue' {
     JobCategory: typeof import('./src/components/JobCategory.vue')['default']
     Knowledge: typeof import('./src/components/Knowledge.vue')['default']
     LineContainer: typeof import('./src/components/charts/LineContainer.vue')['default']
+    MainChart: typeof import('./src/components/MainChart.vue')['default']
     MainForm: typeof import('./src/components/MainForm.vue')['default']
     MaskLayer: typeof import('./src/components/MaskLayer.vue')['default']
     NumberQuestion: typeof import('./src/components/NumberQuestion.vue')['default']

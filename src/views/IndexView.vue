@@ -10,7 +10,7 @@
             <MainForm />
         </div>
         <div class="flex-1 h-full px-5 py-3" v-if="activeIndex===2">
-            <Chat />
+            <MainChart />
         </div>
         <div class="flex-1 h-full px-5 py-3" v-if="activeIndex===3">
             <Chat />
