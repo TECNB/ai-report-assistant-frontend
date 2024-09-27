@@ -11,9 +11,28 @@ export const useSidebarStore = defineStore('tabStore', () => {
     const setActive = (index: number) => {
         activeIndex.value = index;
     };
-
     return {
         activeIndex,
-        setActive
+        setActive,
     };
 });
+export const useSideLeftStore = defineStore('sideLeftStore',()=>{
+    const AiTalk = ref(0);
+    const setAiTalk = (index:number)=>{
+        AiTalk.value = index;
+    }
+    return {
+        AiTalk,
+        setAiTalk
+    }
+})
+export const useSideTuBiaoStore = defineStore('sideTuBiaoStore',()=>{
+    const TuBiao = ref(0);
+    const setTuBiao = (index:number)=>{
+        TuBiao.value = index;
+    }
+    return {
+        TuBiao,
+        setTuBiao
+    }
+})

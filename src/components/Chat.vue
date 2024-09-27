@@ -158,7 +158,8 @@
     <Form :ifShow="formVisible" @updateIfShow="updateFormVisible"/>
     <!-- 遮罩层 -->
     <MaskLayer :ifShow="formVisible"/>
-
+    <MaskLayer :ifShow="chartVisible" />
+    <Chart :ifShow="chartVisible" @updateIfShow="updateChartVisible" />
   </div>
 </template>
 
@@ -167,10 +168,18 @@ import {ref} from "vue";
 import {suggestions} from '../constant/suggestions'; // 导入建议列表
 import {AIChat} from '../utils/AIChat'; // 导入AIChat
 import chatExample from '../constant/chatExample'; // 导入聊天示例
-
+import chatExampleTuBiao  from "../constant/chatExampleTuBiao.ts";
+import { useSidebarStore,useSideLeftStore,useSideTuBiaoStore} from '../stores/SidebarStore.ts';
+let chartVisible = ref(false);
+const updateChartVisible = (value: boolean) => {
+  chartVisible.value = value;
+}
 const imageUrl = ref(''); // 存储上传的图片 URL
 const pdfUrl = ref('');
 let statementVisible = ref(false);
+const sidebarStore = useSidebarStore();
+const sideLeftStore = useSideLeftStore();
+const sideTuBiaoStore = useSideTuBiaoStore();
 
 let knowledgeVisible = ref(false);
 let dataSidebarVisible = ref(false);
@@ -294,6 +303,29 @@ const handleEnter = async () => {
 
 
   }
+  if(message.value === '请生成图表'){
+    const userContent = message.value;
+    displayedMessages.value.push({type:'user',content:userContent})
+    message.value = '';
+    showSuggestions.value = false;
+    sidebarStore.setActive(1);
+
+    sideLeftStore.setAiTalk(1);
+    // Add a loading placeholder
+    displayedMessages.value.push({type: 'loading', content: ''});
+    // 移除加载占位符
+    displayedMessages.value.pop();
+    displayedMessages.value.push({type: 'ai', content: ''});
+    // 添加最终的AI消息并应用打字效果
+    await typeEffect(chatExampleTuBiao.prompt, 50);
+    if(sideTuBiaoStore.TuBiao === 1)
+    {
+      displayedMessages.value.push({type: 'ai', content: ''});
+
+    }
+
+    return;
+  }
 
   if (message.value === '2023年累计温室气体排放') {
     const userContent = message.value;
@@ -363,7 +395,7 @@ const handleEnter = async () => {
     message.value = '';
 
     showSuggestions.value = false; // 隐藏建议列表
-    console.log("time2");
+
     showForm();
 
     // Add a loading placeholder

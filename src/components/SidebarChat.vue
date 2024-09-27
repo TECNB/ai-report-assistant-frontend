@@ -70,6 +70,7 @@ let userDataVisible = ref(false);
 const showChart = () => {
     chartVisible.value = !chartVisible.value;
 }
+
 const showStatement = () => {
     statementVisible.value = !statementVisible.value;
 }
