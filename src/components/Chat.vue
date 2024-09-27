@@ -164,7 +164,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from "vue";
+import {ref,watch,onMounted} from "vue";
 import {suggestions} from '../constant/suggestions'; // 导入建议列表
 import {AIChat} from '../utils/AIChat'; // 导入AIChat
 import chatExample from '../constant/chatExample'; // 导入聊天示例
@@ -250,6 +250,19 @@ const typeEffect = (text: string, speed: number) => {
   });
 };
 
+
+
+onMounted(()=>{
+  watch(()=>sideTuBiaoStore.TuBiao,(value)=>{
+    if(value === 1)
+    {
+      sideTuBiaoStore.TuBiao = 0
+      displayedMessages.value.pop();
+      displayedMessages.value.push({type: 'showChart', content: ''});
+    }
+  })
+})
+
 // 回车事件处理函数
 const handleEnter = async () => {
   if (imageUrl.value) {
@@ -303,29 +316,42 @@ const handleEnter = async () => {
 
 
   }
-  if(message.value === '请生成图表'){
+  if (message.value === '请生成图表') {
     const userContent = message.value;
-    displayedMessages.value.push({type:'user',content:userContent})
+
+    // 添加用户消息
+    displayedMessages.value.push({ type: 'user', content: userContent });
+
+    // 清空输入框
     message.value = '';
     showSuggestions.value = false;
-    sidebarStore.setActive(1);
 
+    // 更新侧边栏状态
+    sidebarStore.setActive(1);
     sideLeftStore.setAiTalk(1);
-    // Add a loading placeholder
-    displayedMessages.value.push({type: 'loading', content: ''});
+
+    // 添加一个加载占位符
+    displayedMessages.value.push({ type: 'loading', content: '' });
+
     // 移除加载占位符
     displayedMessages.value.pop();
+
+    // 添加可点击的 AI 消息，使用 v-html 渲染
     displayedMessages.value.push({type: 'ai', content: ''});
-    // 添加最终的AI消息并应用打字效果
-    await typeEffect(chatExampleTuBiao.prompt, 50);
+    // 模拟打字效果
+    await typeEffect(chatExampleTuBiao.prompt, 50)
+
+
     if(sideTuBiaoStore.TuBiao === 1)
     {
-      displayedMessages.value.push({type: 'ai', content: ''});
-
+      displayedMessages.value.push({type: 'showChart', content: ''});
     }
 
     return;
   }
+
+
+
 
   if (message.value === '2023年累计温室气体排放') {
     const userContent = message.value;

@@ -57,12 +57,14 @@
 <script setup lang="ts">
 import {ref, reactive,watch} from "vue";
 import { formContant } from '../constant/formContant';
-import { useSideLeftStore } from '../stores/SidebarStore.ts';
+import { useSideLeftStore,useSideTuBiaoStore } from '../stores/SidebarStore.ts';
 
 let chartVisible = ref(false);
+const SideTuBiaoStore = useSideTuBiaoStore();
 const showChart = () => {
   sideLeftStore.setAiTalk(0)
   chartVisible.value = !chartVisible.value;
+  SideTuBiaoStore.TuBiao = 1;
 };
 watch(() => chartVisible.value, (newVal) => {
   if (newVal === true) {
