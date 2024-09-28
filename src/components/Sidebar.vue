@@ -15,6 +15,7 @@
     <SidebarForm v-if="activeIndex === 1"/>
     <SidebarChart v-if="activeIndex === 2"/>
     <SidebarStatement v-if="activeIndex === 3"/>
+    <SidebarPipelinet v-if="activeIndex === 4"/>
   </div>
 </template>
 
