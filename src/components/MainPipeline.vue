@@ -35,8 +35,7 @@
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
                         <div class="-translate-x-7">
-                            <div class="flex flex-col bg-white p-5 cursor-pointer rounded-xl shadow-lg"
-                                @click="showSetting">
+                            <div class="flex flex-col bg-white p-5 cursor-pointer rounded-xl shadow-lg">
                                 <div class="text-left">
                                     <p class="font-bold">空气质量表</p>
                                 </div>
@@ -62,7 +61,7 @@
 
                             <div
                                 class="flex flex-col bg-gray-500/30  px-5 py-3 cursor-pointer rounded-xl shadow-lg mt-8">
-                                <div class="flex justify-center items-center gap-2">
+                                <div class="flex justify-center items-center gap-2" @click="showSetting">
                                     <i class="fa-regular fa-plus"></i>
                                     <p class="font-bold opacity-100">数据源</p>
                                 </div>
