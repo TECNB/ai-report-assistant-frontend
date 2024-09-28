@@ -114,7 +114,9 @@
 
         </el-scrollbar>
 
-        <Setting :ifShow="settingVisible" :updateIfShow="uodateSettingVisible" />
+        <Setting :ifShow="settingVisible" @updateIfShow="updateSettingVisible" />
+        <!-- 遮罩层 -->
+        <MaskLayer :ifShow="settingVisible" backgroundColor="rgba(0, 0, 0, 0.4)"/>
     </div>
 </template>
 
@@ -130,7 +132,7 @@ const showSetting = () => {
 }
 
 
-const uodateSettingVisible = (newValue: boolean) => {
+const updateSettingVisible = (newValue: boolean) => {
     settingVisible.value = newValue;
 };
 
