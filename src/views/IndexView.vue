@@ -15,6 +15,9 @@
         <div class="flex-1 h-full px-5 py-3" v-if="activeIndex===3&&AiTalk===4">
             <MainStatement />
         </div>
+        <div class="flex-1 h-full px-5 py-3" v-if="activeIndex===4&&AiTalk===5">
+            <MainPipeline />
+        </div>
     </div>
 
 </template>
