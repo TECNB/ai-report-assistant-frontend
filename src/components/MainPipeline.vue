@@ -18,7 +18,7 @@
                         <div class="w-72 h-16 flex justify-between items-center bg-gray-200 opacity-80 p-3">
                             <div class="flex flex-col justify-center items-start">
                                 <p class="font-bold">数据源</p>
-                                <p>1个数据源</p>
+                                <p>2个数据源</p>
                             </div>
                             <div class="flex justify-center items-center gap-4">
                                 <i class="fa-light fa-pen"></i>
@@ -35,7 +35,8 @@
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
                         <div class="-translate-x-7">
-                            <div class="flex flex-col bg-white p-5 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
+                            <div
+                                class="flex flex-col bg-white p-5 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
                                 <div class="text-left">
                                     <p class="font-bold">空气质量表</p>
                                 </div>
@@ -47,7 +48,8 @@
                                 </div>
                             </div>
 
-                            <div class="flex flex-col bg-white p-5 border-4 border-transparent cursor-pointer rounded-xl shadow-lg mt-5 hover:border-gray-300">
+                            <div
+                                class="flex flex-col bg-white p-5 border-4 border-transparent cursor-pointer rounded-xl shadow-lg mt-5 hover:border-gray-300">
                                 <div class="text-left">
                                     <p class="font-bold">河流污染表</p>
                                 </div>
@@ -65,45 +67,190 @@
                                     <i class="fa-regular fa-plus"></i>
                                     <p class="font-bold opacity-100">数据源</p>
                                 </div>
-                                <div class="">
-                                    <p></p>
-                                </div>
-                                <div class="">
-
-                                </div>
                             </div>
-
-
                         </div>
-
-
                     </div>
                 </div>
 
-                <div class="h-[300px]">
-                    <!-- 数据预处理 -->
+                <!-- 数据预处理 -->
+                <div class="flex flex-col justify-start items-center gap-2">
+                    <!-- 头部 -->
                     <div class="flex justify-center items-center relative cursor-pointer">
                         <!-- Arrow tail -->
-                        <div class="absolute top-0 -left-3 w-3 h-16 bg-gray-200"
-                            style="clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 50% 50%);"></div>
+                        <div class="absolute top-0 -left-3 w-3 h-16 bg-gray-200 opacity-80"></div>
 
                         <!-- Main body -->
-                        <div class="w-72 h-16 flex justify-between items-center bg-gray-200  p-3">
+                        <div class="w-72 h-16 flex justify-between items-center bg-gray-200 opacity-80 p-3">
                             <div class="flex flex-col justify-center items-start">
                                 <p class="font-bold">数据预处理</p>
-                                <p>1个数据源</p>
+                                <p>2个任务</p>
                             </div>
                             <div class="flex justify-center items-center gap-4">
                                 <i class="fa-light fa-pen"></i>
                                 <i class="fa-light fa-copy"></i>
                                 <i class="fa-light fa-trash"></i>
                             </div>
-
                         </div>
 
                         <!-- Arrow head -->
-                        <div class="absolute top-0 -right-5 w-5 h-16 bg-gray-200"
+                        <div class="absolute top-0 -right-5 w-5 h-16 bg-gray-200 opacity-80"
                             style="clip-path: polygon(0 0%, 100% 50%, 0 100%);"></div>
+                    </div>
+
+                    <!-- 主要部分 -->
+                    <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
+                        <div class="-translate-x-7">
+                            <div
+                                class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
+                                <div class="text-left">
+                                    <p class="font-bold">缺失值和异常值清洗</p>
+                                </div>
+                                <div
+                                    class="w-4 h-4 absolute left-28 -bottom-3 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
+                                    <i class="fa-regular fa-plus fa-2xs"></i>
+                                </div>
+                            </div>
+
+
+                            <div
+                                class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg mt-5 hover:border-gray-300">
+                                <div class="text-left">
+                                    <p class="font-bold">标准化数据</p>
+                                </div>
+                                <div
+                                    class="w-4 h-4 absolute left-28 -bottom-3 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
+                                    <i class="fa-regular fa-plus fa-2xs"></i>
+                                </div>
+                            </div>
+
+                            <div
+                                class="flex flex-col bg-white p-2 border-4 border-transparent cursor-pointer rounded-xl shadow-md mt-5 hover:shadow-lg">
+                                <div class="flex justify-center items-center gap-2" @click="showSetting">
+                                    <i class="fa-regular fa-plus"></i>
+                                    <p class="font-bold opacity-100">并行任务</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 图表生成 -->
+                <div class="flex flex-col justify-start items-center gap-2">
+                    <!-- 头部 -->
+                    <div class="flex justify-center items-center relative cursor-pointer">
+                        <!-- Arrow tail -->
+                        <div class="absolute top-0 -left-3 w-3 h-16 bg-gray-200 opacity-80"></div>
+
+                        <!-- Main body -->
+                        <div class="w-72 h-16 flex justify-between items-center bg-gray-200 opacity-80 p-3">
+                            <div class="flex flex-col justify-center items-start">
+                                <p class="font-bold">图表生成</p>
+                                <p>3个任务</p>
+                            </div>
+                            <div class="flex justify-center items-center gap-4">
+                                <i class="fa-light fa-pen"></i>
+                                <i class="fa-light fa-copy"></i>
+                                <i class="fa-light fa-trash"></i>
+                            </div>
+                        </div>
+
+                        <!-- Arrow head -->
+                        <div class="absolute top-0 -right-5 w-5 h-16 bg-gray-200 opacity-80"
+                            style="clip-path: polygon(0 0%, 100% 50%, 0 100%);"></div>
+                    </div>
+
+                    <!-- 主要部分 -->
+                    <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
+                        <div class="-translate-x-7">
+                            <div
+                                class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
+                                <div class="text-left">
+                                    <p class="font-bold">获取时间轴</p>
+                                </div>
+                                <div
+                                    class="w-4 h-4 absolute left-28 -bottom-3 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
+                                    <i class="fa-regular fa-plus fa-2xs"></i>
+                                </div>
+                            </div>
+                            <div
+                                class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg mt-5 hover:border-gray-300">
+                                <div class="text-left">
+                                    <p class="font-bold">取数</p>
+                                </div>
+                                <div
+                                    class="w-4 h-4 absolute left-28 -bottom-3 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
+                                    <i class="fa-regular fa-plus fa-2xs"></i>
+                                </div>
+                            </div>
+                            <div
+                                class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg mt-5 hover:border-gray-300">
+                                <div class="text-left">
+                                    <p class="font-bold">图表选择</p>
+                                </div>
+                                <div
+                                    class="w-4 h-4 absolute left-28 -bottom-3 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
+                                    <i class="fa-regular fa-plus fa-2xs"></i>
+                                </div>
+                            </div>
+
+                            <div
+                                class="flex flex-col bg-white p-2 border-4 border-transparent cursor-pointer rounded-xl shadow-md mt-5 hover:shadow-lg">
+                                <div class="flex justify-center items-center gap-2" @click="showSetting">
+                                    <i class="fa-regular fa-plus"></i>
+                                    <p class="font-bold opacity-100">并行任务</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 图表生成 -->
+                <div class="flex flex-col justify-start items-center gap-2">
+                    <!-- 头部 -->
+                    <div class="flex justify-center items-center relative cursor-pointer">
+                        <!-- Arrow tail -->
+                        <div class="absolute top-0 -left-3 w-3 h-16 bg-gray-200 opacity-80"></div>
+
+                        <!-- Main body -->
+                        <div class="w-72 h-16 flex justify-between items-center bg-gray-200 opacity-80 p-3">
+                            <div class="flex flex-col justify-center items-start">
+                                <p class="font-bold">报表生成</p>
+                                <p>1个任务</p>
+                            </div>
+                            <div class="flex justify-center items-center gap-4">
+                                <i class="fa-light fa-pen"></i>
+                                <i class="fa-light fa-copy"></i>
+                                <i class="fa-light fa-trash"></i>
+                            </div>
+                        </div>
+
+                        <!-- Arrow head -->
+                        <div class="absolute top-0 -right-5 w-5 h-16 bg-gray-200 opacity-80"
+                            style="clip-path: polygon(0 0%, 100% 50%, 0 100%);"></div>
+                    </div>
+
+                    <!-- 主要部分 -->
+                    <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
+                        <div class="-translate-x-7">
+                            <div
+                                class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
+                                <div class="text-left">
+                                    <p class="font-bold">输出文件类型选择</p>
+                                </div>
+                                <div
+                                    class="w-4 h-4 absolute left-28 -bottom-3 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
+                                    <i class="fa-regular fa-plus fa-2xs"></i>
+                                </div>
+                            </div>
+
+                            <div
+                                class="flex flex-col bg-white p-2 border-4 border-transparent cursor-pointer rounded-xl shadow-md mt-5 hover:shadow-lg">
+                                <div class="flex justify-center items-center gap-2" @click="showSetting">
+                                    <i class="fa-regular fa-plus"></i>
+                                    <p class="font-bold opacity-100">并行任务</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -115,7 +262,7 @@
 
         <Setting :ifShow="settingVisible" @updateIfShow="updateSettingVisible" />
         <!-- 遮罩层 -->
-        <MaskLayer :ifShow="settingVisible" backgroundColor="rgba(0, 0, 0, 0.4)"/>
+        <MaskLayer :ifShow="settingVisible" backgroundColor="rgba(0, 0, 0, 0.4)" />
     </div>
 </template>
 
