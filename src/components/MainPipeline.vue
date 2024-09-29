@@ -116,10 +116,11 @@
                                     <p>手动：流水线执行时需手动确认后才能进入该阶段继续运行。</p>
                                     <p>时间窗：流水线阶段任务在执行窗口内时可以运行，若未在执行窗口内则无法运行该阶段任务。</p>
                                     <template #reference>
-                                        <i class="fa-light fa-circle-question" @click="accessSettingsHelpVisible = !accessSettingsHelpVisible"></i>
+                                        <i class="fa-light fa-circle-question"
+                                            @click="accessSettingsHelpVisible = !accessSettingsHelpVisible"></i>
                                     </template>
                                 </el-popover>
-                                
+
                             </div>
                             <div class="mt-5">
                                 <el-checkbox v-model="accessSettings1" label="自动" class="el-checkbox-class" />
@@ -147,33 +148,32 @@
                             </template>
                         </el-popover>
 
-                        <div class="-translate-x-5">
-                            <div
-                                class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
-                                <div class="text-left">
-                                    <p class="font-bold">缺失值和异常值清洗</p>
-                                </div>
-                                <div class="w-10 absolute -left-11 top-5 border border-b-4">
+                        <div class="-translate-x-5 relative">
+                            <div class="container  rounded-lg">
+                                <div
+                                    class="box relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
+                                    <div class="text-left">
+                                        <p class="font-bold">缺失值和异常值清洗</p>
+                                    </div>
+                                    <!-- 过程连线 -->
+                                    <div class="w-10 absolute -left-11 top-5 border border-gray-400 border-b-[3px]"></div>
+                                    <div class="w-10 absolute -right-11 top-5 border border-gray-400 border-b-[3px]"></div>
+
+                                    <!-- 串行连线 -->
+                                    <div class="h-5 absolute left-5 -bottom-6 border border-gray-400 border-l-[3px]"></div>
                                 </div>
                                 <div
-                                    class="w-4 h-4 absolute left-28 -bottom-3 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
-                                    <i class="fa-regular fa-plus fa-2xs"></i>
-                                </div>
-                                <div class="w-10 absolute -right-11 top-5 border border-b-4">
+                                    class="box relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg mt-5 hover:border-gray-300">
+                                    <div class="text-left">
+                                        <p class="font-bold">标准化数据</p>
+                                    </div>
+                                    <div
+                                        class="w-4 h-4 absolute left-28 -bottom-3 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
+                                        <i class="fa-regular fa-plus fa-2xs"></i>
+                                    </div>
                                 </div>
                             </div>
 
-
-                            <div
-                                class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg mt-5 hover:border-gray-300">
-                                <div class="text-left">
-                                    <p class="font-bold">标准化数据</p>
-                                </div>
-                                <div
-                                    class="w-4 h-4 absolute left-28 -bottom-3 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
-                                    <i class="fa-regular fa-plus fa-2xs"></i>
-                                </div>
-                            </div>
 
                             <div
                                 class="flex flex-col bg-white p-2 border-4 border-transparent cursor-pointer rounded-xl shadow-md mt-5 hover:shadow-lg">
@@ -182,6 +182,11 @@
                                     <p class="font-bold opacity-100">并行任务</p>
                                 </div>
                             </div>
+
+                            <!-- 左并行连线 -->
+                            <div class="h-[150px] w-6 absolute -left-5 bottom-5 border-gray-400 border-l-[3px] border-b-[3px] border-dashed rounded-bl-2xl -z-10"></div>
+                            <!-- 右并行连线 -->
+                            <div class="h-[150px] w-6 absolute -right-5 bottom-5 border-gray-400 border-r-[3px] border-b-[3px] border-dashed rounded-br-2xl -z-10"></div>
                         </div>
                     </div>
                 </div>
@@ -402,5 +407,36 @@ const updateSettingVisible = (newValue: boolean) => {
     --el-checkbox-checked-bg-color: #000;
     --el-checkbox-checked-input-border-color: #000;
     --el-checkbox-checked-text-color: #000
+}
+
+.container {
+    position: relative;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    /* 保持与外层 div 一样的圆角 */
+    background-color: gray;
+    opacity: 0.15;
+    /* 外层背景颜色 */
+    z-index: -1;
+    /* 确保不影响内部内容 */
+    transform: translate(-10px, -10px);
+    /* 移动伪元素的大小 */
+    width: calc(100% + 20px);
+    height: calc(100% + 20px);
+    border-radius: 12px;
+}
+
+.box {
+    position: relative;
+    z-index: 1;
+    /* 确保内容在伪元素之上 */
 }
 </style>
