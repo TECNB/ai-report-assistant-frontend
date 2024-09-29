@@ -34,7 +34,7 @@
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
-                        <div class="-translate-x-7">
+                        <div class="-translate-x-5">
                             <div
                                 class="flex flex-col bg-white p-5 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
                                 <div class="text-left">
@@ -99,15 +99,67 @@
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
-                        <div class="-translate-x-7">
+                        <el-popover :visible="accessSettingsVisible" placement="bottom" :width="400">
+                            <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">
+                                <p class="text-lg text-black font-bold">准入设置</p>
+                                <div class="Close" @click="accessSettingsVisible = false">
+                                    <el-icon size="20" class="cursor-pointer">
+                                        <Close />
+                                    </el-icon>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-start items-center gap-3 mt-5">
+                                <p>设置帮助</p>
+                                <el-popover :visible="accessSettingsHelpVisible" placement="right" :width="650">
+                                    <p>自动：流水线执行时自动进入该阶段继续运行。</p>
+                                    <p>手动：流水线执行时需手动确认后才能进入该阶段继续运行。</p>
+                                    <p>时间窗：流水线阶段任务在执行窗口内时可以运行，若未在执行窗口内则无法运行该阶段任务。</p>
+                                    <template #reference>
+                                        <i class="fa-light fa-circle-question" @click="accessSettingsHelpVisible = !accessSettingsHelpVisible"></i>
+                                    </template>
+                                </el-popover>
+                                
+                            </div>
+                            <div class="mt-5">
+                                <el-checkbox v-model="accessSettings1" label="自动" class="el-checkbox-class" />
+                                <el-checkbox v-model="accessSettings2" label="手动" class="el-checkbox-class" />
+                                <el-checkbox v-model="accessSettings3" label="时间窗" class="el-checkbox-class" />
+                            </div>
+
+
+                            <div class="flex justify-center items-center gap-5 mt-10">
+                                <div class="bg-black cursor-pointer rounded-lg px-10 py-2"
+                                    @click="accessSettingsVisible = false">
+                                    <p class=" text-white">确定</p>
+                                </div>
+
+                                <div class="bg-white cursor-pointer rounded-lg border px-10 py-2"
+                                    @click="accessSettingsVisible = false">
+                                    <p class=" text-black">取消</p>
+                                </div>
+                            </div>
+                            <template #reference>
+                                <div class="w-7 h-7 absolute -left-14 top-8 bg-black rounded-full z-50 flex justify-center items-center"
+                                    @click="showAccessSettings">
+                                    <i class="fa-light fa-up-to-bracket fa-rotate-90 " style="color: white;"></i>
+                                </div>
+                            </template>
+                        </el-popover>
+
+                        <div class="-translate-x-5">
                             <div
                                 class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
                                 <div class="text-left">
                                     <p class="font-bold">缺失值和异常值清洗</p>
                                 </div>
+                                <div class="w-10 absolute -left-11 top-5 border border-b-4">
+                                </div>
                                 <div
                                     class="w-4 h-4 absolute left-28 -bottom-3 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
                                     <i class="fa-regular fa-plus fa-2xs"></i>
+                                </div>
+                                <div class="w-10 absolute -right-11 top-5 border border-b-4">
                                 </div>
                             </div>
 
@@ -160,8 +212,8 @@
                     </div>
 
                     <!-- 主要部分 -->
-                    <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
-                        <div class="-translate-x-7">
+                    <div class="w-72 h-[800px] relative border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
+                        <div class="-translate-x-5">
                             <div
                                 class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
                                 <div class="text-left">
@@ -231,7 +283,7 @@
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
-                        <div class="-translate-x-7">
+                        <div class="-translate-x-5">
                             <div
                                 class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
                                 <div class="text-left">
@@ -270,11 +322,21 @@
 import { ref } from 'vue';
 
 const settingVisible = ref(false);
+const accessSettingsVisible = ref(false);
+const accessSettingsHelpVisible = ref(false);
+
+const accessSettings1 = ref(false);
+const accessSettings2 = ref(false);
+const accessSettings3 = ref(false);
 
 
 const showSetting = () => {
     console.log('showSetting');
     settingVisible.value = true;
+}
+const showAccessSettings = () => {
+    console.log('showAccessSettings');
+    accessSettingsVisible.value = true;
 }
 
 
@@ -307,5 +369,38 @@ const updateSettingVisible = (newValue: boolean) => {
     width: 20px;
     height: 66px;
     background-image: linear-gradient(90deg, #2a3c85, #2a3c85);
+}
+
+:deep(.el-checkbox__inner) {
+    border-radius: 50%;
+    zoom: 100%;
+}
+
+:deep(.el-checkbox__inner) {
+    width: 19px;
+    height: 19px;
+    border-radius: 22.5px;
+}
+
+:deep(.el-checkbox__inner::after) {
+    border: 1px solid #fff;
+    border-left: 0;
+    border-top: 0;
+    left: 7px;
+    top: 4px;
+}
+
+:deep(.el-checkbox__input.is-checked .el-checkbox__inner::after) {
+    transform: rotate(50deg) scaleY(1.5);
+}
+
+:deep(.el-checkbox__inner:hover) {
+    border-color: var(--text-100);
+}
+
+.el-checkbox-class {
+    --el-checkbox-checked-bg-color: #000;
+    --el-checkbox-checked-input-border-color: #000;
+    --el-checkbox-checked-text-color: #000
 }
 </style>
