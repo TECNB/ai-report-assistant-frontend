@@ -71,6 +71,15 @@
                                     <p class="font-bold opacity-100">数据源</p>
                                 </div>
                             </div>
+
+                            <!-- 右并行连线 -->
+                            <div
+                                class="h-[80px] w-4 absolute -right-4 bottom-28 border-gray-400 border-r-[3px] border-b-[3px] rounded-br-2xl -z-10">
+                            </div>
+                            <!-- 右并行连线右上角圆角 -->
+                            <div
+                                class="h-14 w-4 absolute -right-[29px] bottom-40 border-gray-400 border-l-[3px] border-t-[3px] rounded-tl-2xl -z-10">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -331,6 +340,47 @@
                                     <p class="font-bold opacity-100">并行任务</p>
                                 </div>
                             </div>
+
+                            <!-- 过程连线 -->
+                            <div class="w-11 absolute -left-11 top-6 border border-gray-400 border-b-[3px]">
+                            </div>
+                            <div class="w-11 absolute -right-11 top-6 border border-gray-400 border-b-[3px]">
+                            </div>
+
+                            <!-- 右并行连线右上角圆角 -->
+                            <div
+                                class="h-14 w-4 absolute -right-[29px] top-7 border-gray-400 border-l-[3px] border-t-[3px] rounded-tl-2xl -z-10">
+                            </div>
+                            <!-- 右并行连线 -->
+                            <div
+                                class="h-[68px] w-4 absolute -right-4 top-10 border-gray-400 border-r-[3px] border-b-[3px] rounded-br-2xl -z-10">
+                            </div>
+                            <!-- 右并行连线 -->
+                            <div
+                                class="h-[85px] w-4 absolute -right-4 bottom-24 border-gray-400 border-r-[3px] border-b-[3px] rounded-br-2xl -z-10">
+                            </div>
+                            <!-- 右并行连线 -->
+                            <div
+                                class="h-[85px] w-4 absolute -right-4 bottom-6 border-gray-400 border-r-[3px] border-b-[3px] rounded-br-2xl -z-10 border-dashed">
+                            </div>
+
+                            <!-- 左并行连线右上角圆角 -->
+                            <div
+                                class="h-14 w-4 absolute -left-[29px] top-7 border-gray-400 border-r-[3px] border-t-[3px] rounded-tr-2xl -z-10">
+                            </div>
+                            <!-- 左并行连线 -->
+                            <div
+                                class="h-[68px] w-4 absolute -left-4 top-10 border-gray-400 border-l-[3px] border-b-[3px] rounded-bl-2xl -z-10">
+                            </div>
+                            <!-- 左并行连线 -->
+                            <div
+                                class="h-[85px] w-4 absolute -left-4 bottom-24 border-gray-400 border-l-[3px] border-b-[3px] rounded-bl-2xl -z-10">
+                            </div>
+                            <!-- 左并行连线 -->
+                            <div
+                                class="h-[85px] w-4 absolute -left-4 bottom-6 border-gray-400 border-l-[3px] border-b-[3px] rounded-bl-2xl -z-10 border-dashed">
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -434,6 +484,17 @@
                                     <i class="fa-regular fa-plus"></i>
                                     <p class="font-bold opacity-100">并行任务</p>
                                 </div>
+                            </div>
+
+                            <!-- 过程连线 -->
+                            <div class="w-11 absolute -left-11 top-6 border border-gray-400 border-b-[3px]">
+                            </div>
+                            <div class="w-11 absolute -right-11 top-6 border border-gray-400 border-b-[3px]">
+                            </div>
+
+                            <!-- 左并行连线 -->
+                            <div
+                                class="h-[75px] w-4 absolute -left-4 bottom-6 border-gray-400 border-l-[3px] border-b-[3px] rounded-bl-2xl -z-10 border-dashed">
                             </div>
                         </div>
                     </div>
