@@ -49,6 +49,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Setting: typeof import('./src/components/Setting.vue')['default']
     ShowChart: typeof import('./src/components/ShowChart.vue')['default']
+    ShowChartTu: typeof import('./src/components/ShowChartTu.vue')['default']
     Sidebar: typeof import('./src/components/Sidebar.vue')['default']
     SidebarChart: typeof import('./src/components/SidebarChart.vue')['default']
     SidebarChat: typeof import('./src/components/SidebarChat.vue')['default']

@@ -36,3 +36,13 @@ export const useSideTuBiaoStore = defineStore('sideTuBiaoStore',()=>{
         setTuBiao
     }
 })
+export const useSideBaoBiaoStore = defineStore('sideBaoBiaoStore',()=>{
+    const BaoBiao = ref(0);
+    const setBaoBiao = (index:number)=>{
+        BaoBiao.value = index;
+    }
+    return {
+        BaoBiao,
+        setBaoBiao
+    }
+})

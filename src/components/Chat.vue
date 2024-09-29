@@ -169,7 +169,7 @@ import {suggestions} from '../constant/suggestions'; // 导入建议列表
 import {AIChat} from '../utils/AIChat'; // 导入AIChat
 import chatExample from '../constant/chatExample'; // 导入聊天示例
 import chatExampleTuBiao  from "../constant/chatExampleTuBiao.ts";
-import { useSidebarStore,useSideLeftStore,useSideTuBiaoStore} from '../stores/SidebarStore.ts';
+import { useSidebarStore,useSideLeftStore,useSideTuBiaoStore,useSideBaoBiaoStore} from '../stores/SidebarStore.ts';
 let chartVisible = ref(false);
 const updateChartVisible = (value: boolean) => {
   chartVisible.value = value;
@@ -180,7 +180,7 @@ let statementVisible = ref(false);
 const sidebarStore = useSidebarStore();
 const sideLeftStore = useSideLeftStore();
 const sideTuBiaoStore = useSideTuBiaoStore();
-
+const sideBaoBiaoStore = useSideBaoBiaoStore();
 let knowledgeVisible = ref(false);
 let dataSidebarVisible = ref(false);
 let formVisible = ref(false);
@@ -193,6 +193,7 @@ const showSuggestions = ref(true); // 控制建议列表显示
 const displayedMessages = ref<{ type: string; content: string }[]>([]); // 展示的消息列表
 import defaultImageUrl from '../assets/images/CloudPic.jpg'; // 导入本地图片作为上传失败后的默认图
 import defaultPdfUrl from '../assets/pdf/2023中国生态环境状况公报-保留大气环境版.pdf';
+import chatExampleBaoBiao from "../constant/chatExampleBaoBiao.ts";
 // 上传图片成功处理函数
 
 // 上传失败处理函数
@@ -259,6 +260,14 @@ onMounted(()=>{
       sideTuBiaoStore.TuBiao = 0
       displayedMessages.value.pop();
       displayedMessages.value.push({type: 'showChart', content: ''});
+    }
+  })
+  watch(()=>sideBaoBiaoStore.BaoBiao,(val)=>{
+    if(val === 1)
+    {
+      sideBaoBiaoStore.BaoBiao = 0
+      displayedMessages.value.pop();
+      displayedMessages.value.push({type:'showChartTu',content: ''})
     }
   })
 })
@@ -344,12 +353,44 @@ const handleEnter = async () => {
 
     if(sideTuBiaoStore.TuBiao === 1)
     {
+
       displayedMessages.value.push({type: 'showChart', content: ''});
     }
 
     return;
   }
 
+  if(message.value === '请生成报表')
+  {
+    const userContent = message.value;
+
+    // 添加用户消息
+    displayedMessages.value.push({ type: 'user', content: userContent });
+
+    // 清空输入框
+    message.value = '';
+    showSuggestions.value = false;
+    // 更新侧边栏状态
+    sidebarStore.setActive(3);
+    sideLeftStore.setAiTalk(1);
+    // 添加一个加载占位符
+    displayedMessages.value.push({ type: 'loading', content: '' });
+
+    // 移除加载占位符
+    displayedMessages.value.pop();
+
+    // 添加可点击的 AI 消息，使用 v-html 渲染
+    displayedMessages.value.push({type: 'ai', content: ''});
+
+    await typeEffect(chatExampleBaoBiao.prompt, 50)
+
+     if(sideBaoBiaoStore.BaoBiao === 1)
+     {
+       displayedMessages.value.push({type: 'showChartTu', content: ''});
+     }
+
+    return;
+  }
 
 
 

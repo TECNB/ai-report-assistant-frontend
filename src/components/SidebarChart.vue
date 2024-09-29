@@ -6,7 +6,9 @@
             </el-icon>
             <p class="text-sm font-bold text-text-300">搜索</p>
         </div>
+      <div>
         <p class="text-left text-gray-500 font-bold mt-3">全部图表</p>
+      </div>
 
         <div v-for="(form, index) in chartContent" :key="index" class="pt-2 flex flex-col gap-2">
             <p
@@ -28,8 +30,8 @@
 </template>
 
 <script setup lang="ts">
-import { } from "vue"
 import { chartContent } from '../constant/chartContent';
+
 </script>
 
 <style lang="scss" scoped></style>

@@ -108,6 +108,7 @@
 
                 <NumberQuestion v-if="msg.type === 'numberQuestion'" :content="chatExample" />
                 <AttributionQuestion v-if="msg.type === 'attributionQuestion'" :content="chatExample2" />
+              <ShowChartTu v-if="msg.type === 'showChartTu' "/>
                 <ShowChart v-if="msg.type === 'showChart'" />
                 <MaskLayer backgroundColor="rgba(0, 0, 0, 0.3)" :ifShow="statementVisible" />
                 <Statement :ifShow="statementVisible" @updateIfShow="updateStatementVisible" />
