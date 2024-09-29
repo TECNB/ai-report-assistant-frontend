@@ -10,7 +10,7 @@
         <p class="text-left text-gray-500 font-bold">全部报表</p>
 
         <!-- 圆角黑色按钮 -->
-        <div class="ml-3" v-if="sideLeftStore.AiTalk === 1" @click="showChart">
+        <div class="ml-3" v-if="sideLeftStore.AiTalk === 1" @click="showStatement">
           <div class="font-bold text-gray-600 px-1 py-1">完成</div>
         </div>
       </div>
@@ -38,20 +38,26 @@
     </div>
   <MaskLayer :ifShow="chartVisible" />
   <Chart :ifShow="chartVisible" @updateIfShow="updateChartVisible" />
+  <MaskLayer backgroundColor="rgba(0, 0, 0, 0.3)" :ifShow="statementVisible" />
+  <Statement :ifShow="statementVisible" @updateIfShow="updateStatementVisible" />
 </template>
 
 <script setup lang="ts">
 import {ref, reactive, watch} from "vue"
 import { statementContent } from '../constant/StatementContent';
 import { useSideLeftStore ,useSideBaoBiaoStore} from '../stores/SidebarStore.ts';
+let statementVisible = ref(false);
 let chartVisible = ref(false);
+const showStatement = () => {
+  sideLeftStore.setAiTalk(0)
+  statementVisible.value = !statementVisible.value;
+  sideBaoBiaoStore.BaoBiao = 1;
+}
+const updateStatementVisible = (value: boolean) => {
+  statementVisible.value = value;
+}
 const sideBaoBiaoStore = useSideBaoBiaoStore()
 // 获取 AiTalk 变量
-const showChart = () => {
-  sideLeftStore.setAiTalk(0)
-  chartVisible.value = !chartVisible.value;
-  sideBaoBiaoStore.BaoBiao = 1;
-};
 const sideLeftStore = useSideLeftStore(); // AiTalk 来自这里
 const updateChartVisible = (value: boolean) => {
   chartVisible.value = value;

@@ -6,8 +6,7 @@
                 <div v-if="msg.type === 'image'" class="w-full flex justify-end items-center rounded-lg ">
                     <img class="w-40 h-56 rounded-lg bg-gray-200 bg-opacity-50 p-2" :src="msg.content" />
                 </div>
-              <!-- PDF 展示框 -->
-              <!-- PDF 文件预览框 -->
+
               <!-- PDF 文件预览框 -->
               <div v-if="msg.type === 'pdf'" class="w-full flex justify-end items-center rounded-lg">
                 <!-- 判断是否已经点击并展开 -->
