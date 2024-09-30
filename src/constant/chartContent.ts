@@ -3,10 +3,10 @@ export const chartContent = [
     {
         source: '🌍 2023中国生态环境状况公报',
         items: [
-            { text: '全国空气质量趋势图', icon: 'fa-chart-line' },
-            { text: '主要河流水质变化图', icon: 'fa-chart-simple' },
-            { text: '自然保护区分布图', icon: 'fa-earth-americas' },
+            { text: '年度空气质量趋势图', icon: 'fa-chart-line' },
+            { text: '年度碳排放来源分析', icon: 'fa-chart-simple' },
             { text: '森林覆盖率变化图', icon: 'fa-chart-radar' },
+            { text: '空气质量对比图', icon: 'fa-chart-gantt' },
         ],
     },
     {

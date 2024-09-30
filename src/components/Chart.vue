@@ -32,7 +32,7 @@
                 <div
                     class="w-full h-10 flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
                     <el-checkbox v-model="checked2" size="large" />
-                    <p class="font-bold text-center">生态环境评估报告 - 年度水质监测概览</p>
+                    <p class="font-bold text-center">生态环境评估报告 - 年度碳排放来源分析</p>
                     <div class="">
                         <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1"
                             v-if="ifAdd">

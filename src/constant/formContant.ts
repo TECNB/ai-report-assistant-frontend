@@ -3,10 +3,10 @@ export const formContant = [
     {
         source: '🌍 2023中国生态环境状况公报',
         items: [
-            { text: '空气质量表' },
-            { text: '河流污染表' },
-            { text: '自然保护区' },
+            { text: '年度空气质量统计表' },
+            { text: '碳排放来源表' },
             { text: '森林覆盖率表' },
+            { text: '区域间空气质量表' },
         ],
     },
     {

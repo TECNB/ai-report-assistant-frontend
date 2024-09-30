@@ -3,7 +3,7 @@ export const pipelineContent = [
     {
         source: '🌍 2023中国生态环境状况',
         items: [
-            { text: '空气质量数据导入', icon: 'fa-database' },
+            { text: '碳排放报表生成', icon: 'fa-database' },
             { text: '水质分析流程执行', icon: 'fa-water' },
             { text: '自然保护区监测更新', icon: 'fa-leaf' },
             { text: '森林覆盖数据处理', icon: 'fa-tree' },

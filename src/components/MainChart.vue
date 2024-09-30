@@ -21,7 +21,7 @@
                 </div>
                 <div
                     class="w-full h-10 flex justify-center items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
-                    <p class="font-bold text-center">生态环境评估报告 - 年度水质监测概览</p>
+                    <p class="font-bold text-center">生态环境评估报告 - 年度碳排放来源分析</p>
                 </div>
                 <div
                     class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
@@ -38,6 +38,15 @@
                     <PieContainer width="100%" :height="220" :data="forestPieData" :chartOption="forestPieOption"/>
                     
                 </div>
+
+                <div
+                    class="w-full h-10 flex justify-center items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
+                    <p class="font-bold text-center">生态环境变化分析 - 空气质量对比</p>
+                </div>
+                <div
+                    class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
+                    <HorizontalBar width="100%" :height="220" :data="horizontalBarData" :chartOption="airHorizontalBarOption"/>
+                </div>
             </div>
         </el-scrollbar>
 
@@ -50,14 +59,17 @@ import { ref, watch } from 'vue';
 import airLineOptions from '../utils/airLineOptions';
 import waterBarOption from '../utils/waterBarOption';
 import forestPieOption from '../utils/forestPieOption';
+import airHorizontalBarOption from '../utils/airHorizontalBarOption';
 
 import LineContainer from './charts/LineContainer.vue';
 import PieContainer from './charts/PieContainer.vue';
 import BarContainer from './charts/BarContainer.vue';
+import HorizontalBar from './charts/HorizontalBarContainer.vue';
 
 import { airLineData } from '../constant/airLineData';
 import { forestPieData } from '../constant/forestPieData';
 import { waterBarData } from '../constant/waterBarData';
+import { horizontalBarData } from '../constant/horizontalBarData';
 
 
 

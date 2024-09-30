@@ -5,21 +5,21 @@
         <p class="font-bold text-lg text-text-200">生态环境报表</p>
 
         <el-icon v-if="!statementVisible">
-          <ArrowDownBold/>
+          <ArrowDownBold />
         </el-icon>
         <el-icon v-else>
-          <ArrowUpBold/>
+          <ArrowUpBold />
         </el-icon>
 
       </div>
       <transition name="fade">
         <div v-if="statementVisible"
-             class="w-96 absolute top-11 shadow-lg rounded-xl border-[0.5px] bg-bg-100 p-5 z-10">
+          class="w-96 absolute top-11 shadow-lg rounded-xl border-[0.5px] bg-bg-100 p-5 z-10">
           <!-- 下面为藏品名称搜索框 -->
           <el-input v-model="statementName" placeholder="搜索报表" class="">
             <template #prefix>
               <el-icon color="var(--text-100)" class="el-input__icon">
-                <search/>
+                <search />
               </el-icon>
             </template>
           </el-input>
@@ -28,7 +28,7 @@
             <div class="w-full flex justify-between items-center cursor-pointer">
               <p class="font-bold text-text-200">交通报表</p>
               <el-icon>
-                <Check/>
+                <Check />
               </el-icon>
             </div>
 
@@ -48,20 +48,20 @@
       <!-- mt-10 增加了距离 -->
       <div class="flex flex-col justify-center items-start gap-2">
         <img class="w-11 h-11 rounded-full border border-gray-300 object-cover aspect-square"
-             src="../assets/images/icon.png" alt="">
+          src="../assets/images/icon.png" alt="">
         <p class="text-3xl font-bold">您好,TEC</p>
         <p class="text-3xl font-bold text-text-400">有什么我能帮您的吗？</p>
       </div>
       <div class="flex justify-center items-center gap-2 mt-3">
         <el-icon color="#B4B4B4">
-          <Link/>
+          <Link />
         </el-icon>
         <p class="font-bold text-text-400">建议</p>
       </div>
       <div class="flex justify-center items-center gap-2 mt-1">
         <div v-for="(suggestion, index) in suggestions" :key="index"
-             class="w-64 h-36 bg-bg-200 rounded-3xl text-left flex flex-col gap-8 px-5 py-6 hover:bg-bg-300 cursor-pointer transition-bg duration-300"
-             @click="showDataSidebar">
+          class="w-64 h-36 bg-bg-200 rounded-3xl text-left flex flex-col gap-8 px-5 py-6 hover:bg-bg-300 cursor-pointer transition-bg duration-300"
+          @click="showDataSidebar">
           <div class="flex flex-col justify-center items-start">
             <p class="text-text-100 font-bold">{{ suggestion.title }}</p>
             <p class="text-text-200 text-sm">{{ suggestion.description }}</p>
@@ -70,14 +70,14 @@
           <div class="flex justify-between items-center">
             <p class="text-text-200 text-sm">提示词</p>
             <el-icon color="#B4B4B4">
-              <Top/>
+              <Top />
             </el-icon>
           </div>
         </div>
       </div>
     </div>
 
-    <ChatWindow :displayedMessages="displayedMessages" v-else/>
+    <ChatWindow :displayedMessages="displayedMessages" v-else />
 
     <div class="flex flex-col gap-2 mt-20 mb-5 mx-5">
       <!-- 包裹图片展示框和输入框的大框架 -->
@@ -85,11 +85,11 @@
         <!-- 图片展示框 -->
         <div v-if="imageUrl" class="flex items-start mb-2">
           <div class="relative">
-            <img :src="imageUrl" alt="Uploaded Image" class="w-20 h-30 object-cover rounded-lg"/>
+            <img :src="imageUrl" alt="Uploaded Image" class="w-20 h-30 object-cover rounded-lg" />
 
             <!-- 删除按钮 -->
             <div @click="removeImage"
-                 class="absolute top-0 right-0 bg-white text-black border border-gray-300 rounded-full w-6 h-6 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+              class="absolute top-0 right-0 bg-white text-black border border-gray-300 rounded-full w-6 h-6 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
               <i class="fa-solid fa-times text-xs"></i>
             </div>
           </div>
@@ -99,7 +99,8 @@
         <div v-if="pdfUrl" class="flex items-start mb-2">
           <div class="relative">
             <!-- 模拟 PDF 文件图标的样式 -->
-            <div @click="openPdf" class="w-30 h-30 flex items-center justify-start rounded-lg bg-gray-200 bg-opacity-50 border cursor-pointer p-2">
+            <div @click="openPdf"
+              class="w-30 h-30 flex items-center justify-start rounded-lg bg-gray-200 bg-opacity-50 border cursor-pointer p-2">
               <!-- PDF 文件图标 -->
               <i class="fa-solid fa-file-pdf text-red-600 text-4xl mr-2"></i>
 
@@ -109,67 +110,67 @@
 
             <!-- 删除按钮 -->
             <div @click="removePdf"
-                 class="absolute top-0 right-0 bg-white text-black border border-gray-300 rounded-full w-6 h-6 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+              class="absolute top-0 right-0 bg-white text-black border border-gray-300 rounded-full w-6 h-6 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
               <i class="fa-solid fa-times text-xs"></i>
             </div>
           </div>
         </div>
-<!--        <div v-if="pdfUrl" class="flex items-start mb-2">-->
-<!--          <div class="relative">-->
-<!--            <iframe :src="pdfUrl" class="w-20 h-30 rounded-lg border" type="application/pdf">-->
-<!--              您的浏览器不支持 PDF 文件显示，请下载查看。-->
-<!--            </iframe>-->
+        <!--        <div v-if="pdfUrl" class="flex items-start mb-2">-->
+        <!--          <div class="relative">-->
+        <!--            <iframe :src="pdfUrl" class="w-20 h-30 rounded-lg border" type="application/pdf">-->
+        <!--              您的浏览器不支持 PDF 文件显示，请下载查看。-->
+        <!--            </iframe>-->
 
-<!--            &lt;!&ndash; 删除按钮 &ndash;&gt;-->
-<!--            <div @click="removePdf"-->
-<!--                 class="absolute top-0 right-0 bg-white text-black border border-gray-300 rounded-full w-6 h-6 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">-->
-<!--              <i class="fa-solid fa-times text-xs"></i>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
+        <!--            &lt;!&ndash; 删除按钮 &ndash;&gt;-->
+        <!--            <div @click="removePdf"-->
+        <!--                 class="absolute top-0 right-0 bg-white text-black border border-gray-300 rounded-full w-6 h-6 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">-->
+        <!--              <i class="fa-solid fa-times text-xs"></i>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
 
 
         <!-- 上传和输入框 -->
         <div class="flex items-center bg-gray-50 rounded-3xl p-1 relative z-10">
           <el-upload class="upload-demo z-10" :on-success="handleUploadSuccess" :on-error="handleUploadError"
-                     :show-file-list="false" accept="image/*,application/pdf">
+            :show-file-list="false" accept="image/*,application/pdf">
             <i class="fa-solid fa-folder-arrow-up cursor-pointer text-lg"></i>
           </el-upload>
 
           <input v-model="message" @keyup.enter="handleEnter" type="text" placeholder="输入消息"
-                 class="bg-transparent outline-none flex-1 placeholder:text-text-200 placeholder:font-bold text-black ml-2"/>
+            class="bg-transparent outline-none flex-1 placeholder:text-text-200 placeholder:font-bold text-black ml-2" />
 
           <el-icon size="18" class="ml-2">
-            <Microphone/>
+            <Microphone />
           </el-icon>
         </div>
       </div>
     </div>
 
 
-    <Knowledge :ifShow="knowledgeVisible" @updateIfShow="updateKnowledgeVisible"/>
+    <Knowledge :ifShow="knowledgeVisible" @updateIfShow="updateKnowledgeVisible" />
     <!-- 遮罩层 -->
-    <MaskLayer :ifShow="knowledgeVisible"/>
+    <MaskLayer :ifShow="knowledgeVisible" />
 
-    <DataSidebar :ifShow="dataSidebarVisible" @updateIfShow="updateDataSidebarVisible"/>
+    <DataSidebar :ifShow="dataSidebarVisible" @updateIfShow="updateDataSidebarVisible" />
     <!-- 遮罩层 -->
-    <MaskLayer :ifShow="dataSidebarVisible"/>
+    <MaskLayer :ifShow="dataSidebarVisible" />
 
-    <Form :ifShow="formVisible" @updateIfShow="updateFormVisible"/>
+    <Form :ifShow="formVisible" @updateIfShow="updateFormVisible" />
     <!-- 遮罩层 -->
-    <MaskLayer :ifShow="formVisible"/>
+    <MaskLayer :ifShow="formVisible" />
     <MaskLayer :ifShow="chartVisible" />
     <Chart :ifShow="chartVisible" @updateIfShow="updateChartVisible" />
   </div>
 </template>
 
 <script setup lang="ts">
-import {ref,watch,onMounted} from "vue";
-import {suggestions} from '../constant/suggestions'; // 导入建议列表
-import {AIChat} from '../utils/AIChat'; // 导入AIChat
+import { ref, watch, onMounted } from "vue";
+import { suggestions } from '../constant/suggestions'; // 导入建议列表
+import { AIChat } from '../utils/AIChat'; // 导入AIChat
 import chatExample from '../constant/chatExample'; // 导入聊天示例
-import chatExampleTuBiao  from "../constant/chatExampleTuBiao.ts";
-import { useSidebarStore,useSideLeftStore,useSideTuBiaoStore,useSideBaoBiaoStore} from '../stores/SidebarStore.ts';
+import chatExampleTuBiao from "../constant/chatExampleTuBiao.ts";
+import { useSidebarStore, useSideLeftStore, useSideTuBiaoStore, useSideBaoBiaoStore } from '../stores/SidebarStore.ts';
 let chartVisible = ref(false);
 const updateChartVisible = (value: boolean) => {
   chartVisible.value = value;
@@ -229,7 +230,7 @@ const handleUploadError = (error: any, uploadedFile: File) => {
 const removeImage = () => {
   imageUrl.value = ''; // 清空图片 URL
 };
-const openPdf = ()=>{
+const openPdf = () => {
   window.open(pdfUrl.value, '_blank');
 }
 const removePdf = () => {
@@ -253,21 +254,19 @@ const typeEffect = (text: string, speed: number) => {
 
 
 
-onMounted(()=>{
-  watch(()=>sideTuBiaoStore.TuBiao,(value)=>{
-    if(value === 1)
-    {
+onMounted(() => {
+  watch(() => sideTuBiaoStore.TuBiao, (value) => {
+    if (value === 1) {
       sideTuBiaoStore.TuBiao = 0
       displayedMessages.value.pop();
-      displayedMessages.value.push({type: 'showChart', content: ''});
+      displayedMessages.value.push({ type: 'showChart', content: '' });
     }
   })
-  watch(()=>sideBaoBiaoStore.BaoBiao,(val)=>{
-    if(val === 1)
-    {
+  watch(() => sideBaoBiaoStore.BaoBiao, (val) => {
+    if (val === 1) {
       sideBaoBiaoStore.BaoBiao = 0
       displayedMessages.value.pop();
-      displayedMessages.value.push({type:'showChartTu',content: ''})
+      displayedMessages.value.push({ type: 'showChartTu', content: '' })
     }
   })
 })
@@ -281,16 +280,15 @@ const handleEnter = async () => {
     });
 
     const userContent = message.value;
-    if(message.value != '获取到结构化数据')
-    {
-      displayedMessages.value.push({type: 'user', content: userContent});
+    if (message.value != '整理文件中空气质量、水质、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
+      displayedMessages.value.push({ type: 'user', content: userContent });
     }
 
     showSuggestions.value = false; // 隐藏建议列表
 
 
     // Add a loading placeholder
-    displayedMessages.value.push({type: 'loading', content: ''});
+    displayedMessages.value.push({ type: 'loading', content: '' });
     // 移除加载占位符
     displayedMessages.value.pop();
     // displayedMessages.value.push({ type: 'ai', content: '' });
@@ -307,25 +305,24 @@ const handleEnter = async () => {
       content: pdfUrl.value
     });
     const userContent = message.value;
-    if(message.value != '获取到结构化数据')
-    {
-      displayedMessages.value.push({type: 'user', content: userContent});
+    if (message.value != '整理文件中空气质量、水质、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
+      displayedMessages.value.push({ type: 'user', content: userContent });
     }
     showSuggestions.value = false; // 隐藏建议列表
 
     // Add a loading placeholder
-    displayedMessages.value.push({type: 'loading', content: ''});
+    displayedMessages.value.push({ type: 'loading', content: '' });
     // 移除加载占位符
     displayedMessages.value.pop();
 
     // 添加最终的AI消息并应用打字效果
-    displayedMessages.value.push({type: 'pdfQuestion', content: '以下是为您所转化的PDF报表'});
+    displayedMessages.value.push({ type: 'pdfQuestion', content: '以下是为您所转化的PDF报表' });
 
     pdfUrl.value = ''; // 清空 PDF URL
 
 
   }
-  if (message.value === '请生成图表') {
+  if (message.value === '整理文件中空气质量、水质、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
     const userContent = message.value;
 
     // 添加用户消息
@@ -346,22 +343,20 @@ const handleEnter = async () => {
     displayedMessages.value.pop();
 
     // 添加可点击的 AI 消息，使用 v-html 渲染
-    displayedMessages.value.push({type: 'ai', content: ''});
+    displayedMessages.value.push({ type: 'ai', content: '' });
     // 模拟打字效果
     await typeEffect(chatExampleTuBiao.prompt, 50)
 
 
-    if(sideTuBiaoStore.TuBiao === 1)
-    {
+    if (sideTuBiaoStore.TuBiao === 1) {
 
-      displayedMessages.value.push({type: 'showChart', content: ''});
+      displayedMessages.value.push({ type: 'showChart', content: '' });
     }
 
     return;
   }
 
-  if(message.value === '请生成报表')
-  {
+  if (message.value === '请生成报表') {
     const userContent = message.value;
 
     // 添加用户消息
@@ -380,14 +375,13 @@ const handleEnter = async () => {
     displayedMessages.value.pop();
 
     // 添加可点击的 AI 消息，使用 v-html 渲染
-    displayedMessages.value.push({type: 'ai', content: ''});
+    displayedMessages.value.push({ type: 'ai', content: '' });
 
     await typeEffect(chatExampleBaoBiao.prompt, 50)
 
-     if(sideBaoBiaoStore.BaoBiao === 1)
-     {
-       displayedMessages.value.push({type: 'showChartTu', content: ''});
-     }
+    if (sideBaoBiaoStore.BaoBiao === 1) {
+      displayedMessages.value.push({ type: 'showChartTu', content: '' });
+    }
 
     return;
   }
@@ -396,55 +390,55 @@ const handleEnter = async () => {
 
   if (message.value === '2023年累计温室气体排放') {
     const userContent = message.value;
-    displayedMessages.value.push({type: 'user', content: userContent});
+    displayedMessages.value.push({ type: 'user', content: userContent });
     message.value = '';
 
     showSuggestions.value = false; // 隐藏建议列表
 
     // Add a loading placeholder
-    displayedMessages.value.push({type: 'loading', content: ''});
+    displayedMessages.value.push({ type: 'loading', content: '' });
     // 移除加载占位符
     displayedMessages.value.pop();
-    displayedMessages.value.push({type: 'ai', content: ''});
+    displayedMessages.value.push({ type: 'ai', content: '' });
 
 
     // 添加最终的AI消息并应用打字效果
     await typeEffect(chatExample.prompt, 50);
 
-    displayedMessages.value.push({type: 'numberQuestion', content: ''});
+    displayedMessages.value.push({ type: 'numberQuestion', content: '' });
 
     return;
   }
   if (message.value === '预测接下来三个月的温室气体排放') {
     const userContent = message.value;
-    displayedMessages.value.push({type: 'user', content: userContent});
+    displayedMessages.value.push({ type: 'user', content: userContent });
     message.value = '';
 
     showSuggestions.value = false; // 隐藏建议列表
 
     // Add a loading placeholder
-    displayedMessages.value.push({type: 'loading', content: ''});
+    displayedMessages.value.push({ type: 'loading', content: '' });
     // 移除加载占位符
     displayedMessages.value.pop();
-    displayedMessages.value.push({type: 'ai', content: ''});
+    displayedMessages.value.push({ type: 'ai', content: '' });
 
 
     // 添加最终的AI消息并应用打字效果
     await typeEffect(chatExample.prompt, 50);
 
-    displayedMessages.value.push({type: 'predictQuestion', content: ''});
+    displayedMessages.value.push({ type: 'predictQuestion', content: '' });
 
     return;
   }
   if (message.value === '为我归因2023年温室气体排放') {
     const userContent = message.value;
-    displayedMessages.value.push({type: 'user', content: userContent});
+    displayedMessages.value.push({ type: 'user', content: userContent });
     message.value = '';
 
     showSuggestions.value = false; // 隐藏建议列表
 
     // Add a loading placeholder
-    displayedMessages.value.push({type: 'loading', content: ''});
+    displayedMessages.value.push({ type: 'loading', content: '' });
     // 移除加载占位符
     displayedMessages.value.pop();
     // displayedMessages.value.push({ type: 'ai', content: '' });
@@ -453,12 +447,12 @@ const handleEnter = async () => {
     // 添加最终的AI消息并应用打字效果
     // await typeEffect(chatExample2.prompt, 50);
 
-    displayedMessages.value.push({type: 'attributionQuestion', content: ''});
+    displayedMessages.value.push({ type: 'attributionQuestion', content: '' });
     return;
   }
-  if (message.value === '获取到结构化数据') {
+  if (message.value === '整理文件中空气质量、水质、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
     const userContent = message.value;
-    displayedMessages.value.push({type: 'user', content: userContent});
+    displayedMessages.value.push({ type: 'user', content: userContent });
     message.value = '';
 
     showSuggestions.value = false; // 隐藏建议列表
@@ -466,28 +460,28 @@ const handleEnter = async () => {
     showForm();
 
     // Add a loading placeholder
-    displayedMessages.value.push({type: 'loading', content: ''});
+    displayedMessages.value.push({ type: 'loading', content: '' });
     // 移除加载占位符
     displayedMessages.value.pop();
-    displayedMessages.value.push({type: 'ai', content: ''});
+    displayedMessages.value.push({ type: 'ai', content: '' });
 
 
     // 添加最终的AI消息并应用打字效果
     await typeEffect(chatExample.prompt, 50);
 
-    displayedMessages.value.push({type: 'predictQuestion', content: ''});
+    displayedMessages.value.push({ type: 'predictQuestion', content: '' });
 
     return;
   }
   if (message.value.trim()) {
     const userContent = message.value;
-    displayedMessages.value.push({type: 'user', content: userContent});
+    displayedMessages.value.push({ type: 'user', content: userContent });
     message.value = '';
 
     showSuggestions.value = false; // 隐藏建议列表
 
     // Add a loading placeholder
-    displayedMessages.value.push({type: 'loading', content: ''});
+    displayedMessages.value.push({ type: 'loading', content: '' });
 
     try {
       const response = await AIChat(systemContent.value, userContent, relatedData.value);
@@ -502,7 +496,7 @@ const handleEnter = async () => {
       let completeMessage = ''; // 用于累积AI的回复内容
 
       while (true) {
-        const {done, value} = await reader.read();
+        const { done, value } = await reader.read();
         if (done) break;
 
         const chunkText = textDecoder.decode(value);
@@ -520,7 +514,7 @@ const handleEnter = async () => {
                 if (displayedMessages.value[displayedMessages.value.length - 1].type === 'loading') {
                   displayedMessages.value[displayedMessages.value.length - 1].content = completeMessage;
                 } else {
-                  displayedMessages.value.push({type: 'ai', content: completeMessage});
+                  displayedMessages.value.push({ type: 'ai', content: completeMessage });
                 }
               }
             } catch (e) {
@@ -534,13 +528,13 @@ const handleEnter = async () => {
       displayedMessages.value.pop();
 
       // 添加最终的AI消息并应用打字效果
-      displayedMessages.value.push({type: 'ai', content: ''});
+      displayedMessages.value.push({ type: 'ai', content: '' });
       typeEffect(completeMessage, 50);
 
     } catch (error) {
       console.error('请求失败:', error);
       displayedMessages.value.pop(); // 移除加载占位符
-      displayedMessages.value.push({type: 'ai', content: '发生错误，请稍后再试。'});
+      displayedMessages.value.push({ type: 'ai', content: '发生错误，请稍后再试。' });
     }
   }
 };

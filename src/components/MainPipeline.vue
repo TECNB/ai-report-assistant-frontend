@@ -38,7 +38,7 @@
                             <div
                                 class="flex flex-col bg-white p-5 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
                                 <div class="text-left">
-                                    <p class="font-bold">空气质量表</p>
+                                    <p class="font-bold">年度空气质量统计表</p>
                                 </div>
                                 <div class="">
                                     <p></p>
@@ -54,7 +54,7 @@
                             <div
                                 class="flex flex-col bg-white p-5 border-4 border-transparent cursor-pointer rounded-xl shadow-lg mt-5 hover:border-gray-300">
                                 <div class="text-left">
-                                    <p class="font-bold">河流污染表</p>
+                                    <p class="font-bold">碳排放来源表</p>
                                 </div>
                                 <div class="">
                                     <p></p>

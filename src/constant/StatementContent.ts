@@ -3,7 +3,7 @@ export const statementContent = [
     {
         source: '🌍 2023中国生态环境状况公报',
         items: [
-            { text: '温室气体排放' },
+            { text: '年度碳排放与环境质量' },
             { text: '海洋污染状况' },
             { text: '土壤质量评估' },
             { text: '废弃物处理统计' },

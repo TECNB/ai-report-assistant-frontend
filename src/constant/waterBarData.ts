@@ -1,4 +1,4 @@
 export const waterBarData = {
-    xAxisData: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    seriesData: [15, 20, 18, 25, 30, 22, 17, 19, 24, 29, 31, 23]
+    xAxisData: ['能源', '工业', '交通', '居民', '农业', '其他'],
+    seriesData: [5300, 4500, 3200, 2100, 1800, 900],  // 从大到小排序后的碳排放量数据
 };
