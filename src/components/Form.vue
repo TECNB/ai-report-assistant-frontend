@@ -25,21 +25,20 @@
                     </div>
                 </div>
 
-              <div class="w-full flex flex-col justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg p-5">
-                <el-table
-                    :data="formattedAqiData"
-                    style="width: 100%"
-                    border
-                    class="border-collapse border border-gray-300">
-                  <el-table-column prop="label" label="Type" width="140" />
-                  <el-table-column v-for="(month, index) in months" :key="index" :prop="month" :label="month" width="120" />
-                </el-table>
-              </div>
+                <div
+                    class="w-full flex flex-col justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg p-5">
+                    <el-table :data="formattedAqiData" style="width: 100%" border
+                        class="border-collapse border border-gray-300">
+                        <el-table-column prop="label" label="Type" width="140" />
+                        <el-table-column v-for="(month, index) in months" :key="index" :prop="month" :label="month"
+                            width="120" />
+                    </el-table>
+                </div>
 
                 <div
                     class="w-full h-10 flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
                     <el-checkbox v-model="checked2" size="large" />
-                    <p class="font-bold text-center">生态环境评估报告 - 年度水质监测概览</p>
+                    <p class="font-bold text-center">生态环境评估报告 - 碳排放来源分析</p>
                     <div class="">
                         <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1"
                             v-if="ifAdd">
@@ -50,16 +49,15 @@
                         </div>
                     </div>
                 </div>
-              <div class="w-full flex flex-col justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg p-5">
-                <el-table
-                    :data="formattedCodData"
-                    style="width: 100%"
-                    border
-                    class="border-collapse border border-gray-300">
-                  <el-table-column prop="label" label="Type" width="140" />
-                  <el-table-column v-for="(month, index) in months" :key="index" :prop="month" :label="month" width="120" />
-                </el-table>
-              </div>
+                <div
+                    class="w-full flex flex-col justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg p-5">
+                    <el-table :data="formattedCodData" style="width: 100%" border
+                        class="border-collapse border border-gray-300">
+                        <el-table-column prop="label" label="Type" width="140" />
+                        <el-table-column v-for="(month, index) in months" :key="index" :prop="month" :label="month"
+                            width="120" />
+                    </el-table>
+                </div>
 
 
                 <div
@@ -76,16 +74,15 @@
                         </div>
                     </div>
                 </div>
-              <div class="w-full flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg p-5">
-                <el-table
-                    :data="formattedRegionData"
-                    style="width: 100%"
-                    border
-                    class="border-collapse border border-gray-300">
-                  <el-table-column prop="label" label="Type" width="140"/>
-                  <el-table-column v-for="(region,index) in regions" :key="index" :prop="region" :label="region" width="320" />
-                </el-table>
-              </div>
+                <div
+                    class="w-full flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg p-5">
+                    <el-table :data="formattedRegionData" style="width: 100%" border
+                        class="border-collapse border border-gray-300">
+                        <el-table-column prop="label" label="Type" width="140" />
+                        <el-table-column v-for="(region, index) in regions" :key="index" :prop="region" :label="region"
+                            width="320" />
+                    </el-table>
+                </div>
             </div>
         </el-scrollbar>
         <div class="w-full flex justify-between items-center absolute bottom-3 border-t pt-3 -mx-5 px-5">
@@ -121,14 +118,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick,computed } from 'vue';
-import { useAqiData,useCodData,useRegionData } from '../constant/formData.ts';
+import { ref, watch, nextTick, computed } from 'vue';
+import { useAqiData, useCodData, useRegionData } from '../constant/formData.ts';
 
 const props = defineProps(['ifShow']);
 const emit = defineEmits();
 const { aqiData } = useAqiData();
-const {codData} = useCodData()
-const {regionData} = useRegionData();
+const { codData } = useCodData()
+const { regionData } = useRegionData();
 let checked1 = ref(true);
 let checked2 = ref(true);
 let checked3 = ref(true);
@@ -142,26 +139,26 @@ const toggleVisibility = () => {
 };
 // 将数据转换为行列互换的形式
 const formattedAqiData = computed(() => {
-  const aqiValues = aqiData.value.map(item => item.aqi);
-  return [
-    { label: 'AQI', ...Object.fromEntries(months.map((month, index) => [month, aqiValues[index]])) }
-  ];
+    const aqiValues = aqiData.value.map(item => item.aqi);
+    return [
+        { label: 'AQI', ...Object.fromEntries(months.map((month, index) => [month, aqiValues[index]])) }
+    ];
 });
 // 月份列表
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 // 将数据转换为行列互换的形式
 const formattedCodData = computed(() => {
-  const codValues = codData.value.map(item => item.cod);
-  return [
-    { label: 'COD (mg/L)', ...Object.fromEntries(months.map((month, index) => [month, codValues[index]])) }
-  ];
+    const codValues = codData.value.map(item => item.cod);
+    return [
+        { label: 'COD (mg/L)', ...Object.fromEntries(months.map((month, index) => [month, codValues[index]])) }
+    ];
 });
-const regions = ['东部地区','西部地区','北部地区','南部地区'];
+const regions = ['东部地区', '西部地区', '北部地区', '南部地区'];
 const formattedRegionData = computed(() => {
-  const codValues = regionData.value.map(item => item.percentage);
-  return [
-    { label: '%', ...Object.fromEntries(regions.map((region, index) => [region, codValues[index]])) }
-  ];
+    const codValues = regionData.value.map(item => item.percentage);
+    return [
+        { label: '%', ...Object.fromEntries(regions.map((region, index) => [region, codValues[index]])) }
+    ];
 });
 // 监听 ifShow 的变化，只有在为 true 时才初始化图表
 watch(() => props.ifShow, async (newValue) => {

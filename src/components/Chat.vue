@@ -305,7 +305,7 @@ const handleEnter = async () => {
       content: pdfUrl.value
     });
     const userContent = message.value;
-    if (message.value != '整理文件中空气质量、水质、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
+    if (message.value != '整理文件中空气质量、碳排放来源、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
       displayedMessages.value.push({ type: 'user', content: userContent });
     }
     showSuggestions.value = false; // 隐藏建议列表
@@ -322,7 +322,7 @@ const handleEnter = async () => {
 
 
   }
-  if (message.value === '整理文件中空气质量、水质、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
+  if (message.value === '为我生成图表，其中横向柱状图部分采取由大到小的排列方式') {
     const userContent = message.value;
 
     // 添加用户消息
@@ -356,7 +356,7 @@ const handleEnter = async () => {
     return;
   }
 
-  if (message.value === '请生成报表') {
+  if (message.value === '为我生成报表，要求年度空气质量统计单独占一行，同时从之前的PDF中，提取空气质量优良天数以及本年度二氧化碳总排放量的具体数字数据，将它们作为一行') {
     const userContent = message.value;
 
     // 添加用户消息
@@ -450,7 +450,7 @@ const handleEnter = async () => {
     displayedMessages.value.push({ type: 'attributionQuestion', content: '' });
     return;
   }
-  if (message.value === '整理文件中空气质量、水质、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
+  if (message.value === '整理文件中空气质量、碳排放来源、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
     const userContent = message.value;
     displayedMessages.value.push({ type: 'user', content: userContent });
     message.value = '';
