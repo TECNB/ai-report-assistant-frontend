@@ -52,7 +52,7 @@
                 <div
                     class="w-full h-10 flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
                     <el-checkbox v-model="checked3" size="large" />
-                    <p class="font-bold text-center">生态环境变化分析 - 森林覆盖率年度报告</p>
+                    <p class="font-bold text-center">生态环境变化分析 - 森林覆盖率变化图</p>
                     <div class="">
                         <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1"
                             v-if="ifAdd">
@@ -66,6 +66,26 @@
                 <div
                     class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
                     <PieContainer width="1200px" :height="220" :data="forestPieData" :chartOption="forestPieOption"/>
+                    
+                </div>
+
+                <div
+                    class="w-full h-10 flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
+                    <el-checkbox v-model="checked4" size="large" />
+                    <p class="font-bold text-center">生态环境变化分析 - 空气质量对比</p>
+                    <div class="">
+                        <div class="flex justify-center items-center gap-2 bg-[#54a358] bg-opacity-[0.12] rounded-lg p-1"
+                            v-if="ifAdd">
+                            <el-icon color="#54a358">
+                                <CircleCheck />
+                            </el-icon>
+                            <p class="text-green-700 text-sm">已添加</p>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="w-full  flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg p-5">
+                    <HorizontalBar width="1200px" :height="220" :data="horizontalBarData" :chartOption="airHorizontalBarOption"/>
                     
                 </div>
             </div>
@@ -108,14 +128,17 @@ import { ref, watch, nextTick } from 'vue';
 import airLineOptions from '../utils/airLineOptions';
 import waterBarOption from '../utils/waterBarOption';
 import forestPieOption from '../utils/forestPieOption';
+import airHorizontalBarOption from '../utils/airHorizontalBarOption';
 
 import LineContainer from './charts/LineContainer.vue';
 import PieContainer from './charts/PieContainer.vue';
 import BarContainer from './charts/BarContainer.vue';
+import HorizontalBar from './charts/HorizontalBarContainer.vue';
 
 import { airLineData } from '../constant/airLineData';
 import { forestPieData } from '../constant/forestPieData';
 import { waterBarData } from '../constant/waterBarData';
+import { horizontalBarData } from '../constant/horizontalBarData';
 
 
 const props = defineProps(['ifShow']);
@@ -124,6 +147,7 @@ const emit = defineEmits();
 let checked1 = ref(true);
 let checked2 = ref(true);
 let checked3 = ref(true);
+let checked4 = ref(true);
 let checkedAll = ref(true);
 let isUpdating = false; // 用于避免循环更新
 
@@ -147,15 +171,16 @@ watch(checkedAll, (newVal) => {
     checked1.value = newVal;
     checked2.value = newVal;
     checked3.value = newVal;
+    checked4.value = newVal;
 });
 
 // 监听单选项的变化
-watch([checked1, checked2, checked3], ([newChecked1, newChecked2, newChecked3]) => {
+watch([checked1, checked2, checked3,checked4], ([newChecked1, newChecked2, newChecked3,newChecked4]) => {
     // 如果所有单选项都未被选中，则将全选设为 false
-    if (!newChecked1 && !newChecked2 && !newChecked3) {
+    if (!newChecked1 && !newChecked2 && !newChecked3 && !newChecked4) {
         isUpdating = false;
         checkedAll.value = false;
-    } else if (newChecked1 && newChecked2 && newChecked3) {
+    } else if (newChecked1 && newChecked2 && newChecked3 &&newChecked4) {
         isUpdating = false;
         checkedAll.value = true;
     }
