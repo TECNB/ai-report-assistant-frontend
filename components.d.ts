@@ -51,6 +51,7 @@ declare module 'vue' {
     Setting: typeof import('./src/components/Setting.vue')['default']
     ShowChart: typeof import('./src/components/ShowChart.vue')['default']
     ShowChartTu: typeof import('./src/components/ShowChartTu.vue')['default']
+    ShowStruct: typeof import('./src/components/ShowStruct.vue')['default']
     Sidebar: typeof import('./src/components/Sidebar.vue')['default']
     SidebarChart: typeof import('./src/components/SidebarChart.vue')['default']
     SidebarChat: typeof import('./src/components/SidebarChat.vue')['default']

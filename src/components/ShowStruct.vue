@@ -4,11 +4,11 @@
   <div class="flex flex-col items-center p-5 bg-gray-50 rounded-lg shadow-lg">
 
     <!-- 标题 -->
-    <p class="text-lg font-bold mb-4">点击下方按钮生成多个相关报表</p>
+    <p class="text-lg font-bold mb-4">点击下方按钮生成多个相关结构化数据</p>
 
     <!-- 点击按钮 -->
-    <el-button type="primary" @click="showStatement" round>
-      点击查看报表内容
+    <el-button type="primary" @click="showForm" round>
+      点击查看结构化数据内容
     </el-button>
 
     <!-- 图表显示区 -->
@@ -20,20 +20,21 @@
   </div>
   <MaskLayer :ifShow="chartVisible" />
   <Chart :ifShow="chartVisible" @updateIfShow="updateChartVisible" />
-  <MaskLayer backgroundColor="rgba(0, 0, 0, 0.3)" :ifShow="statementVisible" />
-  <Statement :ifShow="statementVisible" @updateIfShow="updateStatementVisible" />
+  <Form :ifShow="formVisible" @updateIfShow="updateFormVisible" />
+  <!-- 遮罩层 -->
+  <MaskLayer :ifShow="formVisible" />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import LineContainer from './charts/LineContainer.vue'; // 假设你有一个封装好的图表组件
-let statementVisible = ref(false);
-const showStatement = () => {
-  statementVisible.value = !statementVisible.value;
-}
-const updateStatementVisible = (value: boolean) => {
-  statementVisible.value = value;
-}
+let formVisible = ref(false);
+const updateFormVisible = (newValue: boolean) => {
+  formVisible.value = newValue;
+};
+const showForm = () => {
+  formVisible.value = !formVisible.value;
+};
 // 定义图表是否可见的状态
 const chartVisible = ref(false);
 

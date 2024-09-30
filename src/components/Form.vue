@@ -1,3 +1,5 @@
+
+
 <template>
     <div class="Form" v-if="props.ifShow">
         <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">
@@ -8,7 +10,15 @@
                 </el-icon>
             </div>
         </div>
-        <el-scrollbar height="86%" wrap-style="width:90%;" class="flex justify-center">
+      <!-- 显示加载动画 -->
+      <div v-if="loading" class="loading-container">
+        <el-icon size="50" class="loading-spinner">
+          <Loading />
+        </el-icon>
+        <p class="text-lg font-bold mt-3">加载中，请稍候...</p>
+      </div>
+
+        <el-scrollbar height="86%" wrap-style="width:90%;" class="flex justify-center" v-else>
             <div class="w-full flex flex-col justify-center items-center self-center">
                 <div
                     class="w-full h-10 flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
@@ -131,6 +141,18 @@ let checked2 = ref(true);
 let checked3 = ref(true);
 let checkedAll = ref(true);
 let isUpdating = false; // 用于避免循环更新
+let loading = ref(true);  // 用于控制加载状态
+
+// 模拟加载过程
+watch(() => props.ifShow, async (newValue) => {
+  if (newValue) {
+    loading.value = true;
+    // 等待 2 秒模拟加载
+    setTimeout(() => {
+      loading.value = false;
+    }, 2000);
+  }
+});
 
 let ifAdd = ref(false);
 
@@ -231,5 +253,16 @@ const addChart = () => {
 
 :deep(.el-checkbox__inner:hover) {
     border-color: #000;
+}
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
 }
 </style>

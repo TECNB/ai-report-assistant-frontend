@@ -26,36 +26,45 @@
                 </div>
 
                 <!-- 初始状态：PDF 文件图标，点击展开 -->
-                <div v-else @click="expandPdf" class="w-24 h-30 flex items-center justify-center rounded-lg bg-gray-200 bg-opacity-50 border cursor-pointer">
+                <div v-else @click="expandPdf" class="w-30 h-30 flex items-center justify-center rounded-lg bg-gray-200 bg-opacity-50 border cursor-pointer">
                   <!-- PDF 文件图标 -->
-                  <div class="text-center">
-                    <i class="fa-solid fa-file-pdf text-red-600 text-4xl"></i>
-                    <p class="text-sm mt-1">2023中国生态环境状况公报-保留大气环境版.pdf</p>
+                  <div class="w-30 h-30 flex items-center justify-start rounded-lg bg-gray-200 bg-opacity-50 border cursor-pointer p-2">
+                    <!-- PDF 文件图标 -->
+                    <i class="fa-solid fa-file-pdf text-red-600 text-4xl mr-2"></i>
+
+                    <!-- PDF 文件名称 -->
+                    <p class="text-sm">2023中国生态环境状况公报-保留大气环境版.pdf</p>
                   </div>
+
+
                 </div>
               </div>
 
                 <div v-if="msg.type === 'user'" class="bg-gray-50 rounded-3xl px-5 py-2 ml-auto max-w-md">
-                    <p class="">{{ msg.content }}</p>
+                    <p class="text-left">{{ msg.content }}</p>
                 </div>
                 <div v-if="msg.type === 'loading'" class="skeleton-loader w-full">
                     <div class="skeleton-line"></div>
                     <div class="skeleton-line"></div>
                     <div class="skeleton-line"></div>
                 </div>
+
                 <div v-if="msg.type === 'ai'" class="flex gap-3 items-start">
                     <img src="../assets/images/icon.png" alt="AI Avatar"
                         class="w-6 h-6 rounded-full border border-gray-300 object-cover" />
                     <div class="flex flex-col">
+
                         <!-- Static Title -->
                         <div class="flex items-center">
                             <p class="font-bold mb-0.5">生态环境报表助手</p>
                         </div>
+
                         <!-- Dynamic Content -->
                         <div class="flex items-start">
                             <p class="">{{ msg.content }}</p>
                         </div>
-                        <!-- Action Icons -->
+
+                        <!-- Actin Icons -->
                         <div class="action-icons flex gap-3 mt-2 text-sm text-gray-500">
                             <i class="fas fa-pen"></i>
                             <!-- 复制文档图标 -->
@@ -109,6 +118,7 @@
                 <AttributionQuestion v-if="msg.type === 'attributionQuestion'" :content="chatExample2" />
               <ShowChartTu v-if="msg.type === 'showChartTu' "/>
                 <ShowChart v-if="msg.type === 'showChart'" />
+              <ShowStruct v-if="msg.type === 'showStruct'"/>
                 <MaskLayer backgroundColor="rgba(0, 0, 0, 0.3)" :ifShow="statementVisible" />
                 <Statement :ifShow="statementVisible" @updateIfShow="updateStatementVisible" />
 
@@ -190,4 +200,31 @@ const updateStatementVisible = (value: boolean) => {
     border-radius: 4px;
     animation: pulse 1.5s infinite ease-in-out;
 }
+.typing-effect {
+  font-family: monospace; /* 设置为打字机风格的字体 */
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid black; /* 模拟打字光标 */
+  animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite; /* 逐字显示动画 */
+  text-align: left; /* 确保文本左对齐 */
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: black;
+  }
+}
+
 </style>

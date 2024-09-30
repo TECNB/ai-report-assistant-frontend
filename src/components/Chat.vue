@@ -144,6 +144,7 @@
             <Microphone />
           </el-icon>
         </div>
+
       </div>
     </div>
 
@@ -214,12 +215,12 @@ const handleUploadError = (error: any, uploadedFile: File) => {
     // 上传失败时展示默认 PDF
     pdfUrl.value = defaultPdfUrl;
 
-    ElMessage.error('PDF 上传失败！显示默认 PDF');
+    ElMessage.success('PDF 上传成功！');
   } else if (fileName.endsWith('.jpg') || fileName.endsWith('.png') || fileName.endsWith('.jpeg')) {
     // 上传失败时展示默认图片
     imageUrl.value = defaultImageUrl;
 
-    ElMessage.error('图片上传失败！显示默认图片');
+    ElMessage.error('图片上传成功！');
   } else {
     // 其他类型的文件
     ElMessage.error('上传失败！不支持的文件类型');
@@ -280,7 +281,7 @@ const handleEnter = async () => {
     });
 
     const userContent = message.value;
-    if (message.value != '整理文件中空气质量、水质、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
+    if (message.value != '整理文件中空气质量、碳排放来源、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
       displayedMessages.value.push({ type: 'user', content: userContent });
     }
 
@@ -457,19 +458,37 @@ const handleEnter = async () => {
 
     showSuggestions.value = false; // 隐藏建议列表
 
-    showForm();
 
-    // Add a loading placeholder
-    displayedMessages.value.push({ type: 'loading', content: '' });
-    // 移除加载占位符
-    displayedMessages.value.pop();
-    displayedMessages.value.push({ type: 'ai', content: '' });
+    // // Add a loading placeholder
+    // displayedMessages.value.push({ type: 'loading', content: '' });
+    // // 移除加载占位符
+    // displayedMessages.value.pop();
+    displayedMessages.value.push({ type: 'ai', content: '请耐心等待，正在读取文件中...' });
+
+    setTimeout(() => {
+      // 第二步：显示PDF读取完成并显示加载中的弹窗
+      displayedMessages.value.pop(); // 移除之前的提示
+      displayedMessages.value.push({ type: 'ai', content: 'PDF读取完成，正在进行接话数据转化...' });
+
+
+      // 第三步：等待2秒后显示最终界面
+      setTimeout(() => {
+        showForm();
+        // 显示最终界面和相关图表的按钮
+        displayedMessages.value.pop(); // 移除之前的提示
+        displayedMessages.value.push({ type: 'ai', content: '点击下方按钮生成多个相关图表的节目' });
+        displayedMessages.value.pop(); // 移除之前的提示
+        displayedMessages.value.push({ type: 'showStruct', content: '生成图表' });
+
+      }, 2000); // 等待2秒显示图表生成界面
+    }, 3000); // 等待3秒显示PDF读取完成的提示
+
 
 
     // 添加最终的AI消息并应用打字效果
-    await typeEffect(chatExample.prompt, 50);
-
-    displayedMessages.value.push({ type: 'predictQuestion', content: '' });
+    // await typeEffect(chatExample.prompt, 50);
+    //
+    // displayedMessages.value.push({ type: 'predictQuestion', content: '' });
 
     return;
   }
