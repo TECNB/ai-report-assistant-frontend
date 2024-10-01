@@ -125,9 +125,10 @@
             <i class="fa-solid fa-folder-arrow-up cursor-pointer text-lg"></i>
           </el-upload>
 
-          <textarea v-model="message" @input="autoResize" @keyup.enter="handleEnter" placeholder="输入消息"
+          <textarea v-model="message" @input="autoResize" @keydown.enter.prevent="handleEnter" placeholder="输入消息"
                     class="bg-transparent outline-none flex-1 placeholder:text-text-200 placeholder:font-bold text-black ml-2 resize-none overflow-hidden"
                     rows="1"></textarea>
+
 
           <el-icon size="18" class="ml-2">
             <Microphone />
@@ -251,6 +252,7 @@ onMounted(() => {
       sideTuBiaoStore.TuBiao = 0
       displayedMessages.value.pop();
       displayedMessages.value.push({ type: 'showChart', content: '' });
+
     }
   })
   watch(() => sideBaoBiaoStore.BaoBiao, (val) => {
@@ -258,6 +260,7 @@ onMounted(() => {
       sideBaoBiaoStore.BaoBiao = 0
       displayedMessages.value.pop();
       displayedMessages.value.push({ type: 'showChartTu', content: '' })
+
     }
   })
 })
@@ -548,6 +551,7 @@ const handleEnter = async () => {
       typeEffect(completeMessage, 50);
 
     } catch (error) {
+      console.log("message.value",message.value)
       console.error('请求失败:', error);
       displayedMessages.value.pop(); // 移除加载占位符
       displayedMessages.value.push({ type: 'ai', content: '发生错误，请稍后再试。' });

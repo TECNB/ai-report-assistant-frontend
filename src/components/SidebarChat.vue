@@ -6,9 +6,9 @@
                     class="flex flex-1 justify-between items-center gap-3 p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition">
                     <img class="w-6 h-6 rounded-full object-cover aspect-square" src="../assets/images/icon.png" alt="">
                     <p class="text-sm font-bold">新对话</p>
-                    <el-icon class="ml-auto" size="20" color="#676767">
-                        <Edit />
-                    </el-icon>
+                  <el-icon class="ml-auto" size="20" color="#676767" @click="addNewConversation">
+                    <Edit />
+                  </el-icon>
                 </div>
                 <el-icon class=" hover:bg-bg-300 cursor-pointer rounded-xl" size="20" color="#676767 transition"
                     @click="showDataSource">
@@ -23,6 +23,19 @@
                 <p class="text-sm font-bold text-text-300">搜索</p>
             </div>
         </div>
+
+      <!-- 新对话部分显示 -->
+      <div v-if="conversationCount > 0" class="pt-3">
+        <p class="text-text-400 font-bold text-left mt-5 p-2">今天</p>
+        <div class="pt-2 flex flex-col gap-3">
+          <p v-for="(conversation, index) in conversations" :key="index"
+             class="text-left whitespace-nowrap overflow-hidden text-text-100 text-sm p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition"
+             @click="openConversation(conversation)">
+            {{ conversation }}
+          </p>
+        </div>
+      </div>
+
 
         <div class="px-3">
             <div v-for="(monthData, index) in reportContent" :key="index">
@@ -65,6 +78,22 @@ let chartVisible = ref(false);
 let statementVisible = ref(false);
 let dataSourceVisible = ref(false);
 let userDataVisible = ref(false);
+
+// 对话计数器
+let conversationCount = ref(0);
+let conversations = ref<string[]>([]);
+
+// 增加新对话
+const addNewConversation = () => {
+  conversationCount.value++;
+  conversations.value.push(`新对话 ${conversationCount.value}`);
+};
+
+// 打开对话
+const openConversation = (conversation: string) => {
+  console.log(`打开对话: ${conversation}`);
+};
+// 切换“今天”部分的显示与隐藏
 
 
 const showChart = () => {
