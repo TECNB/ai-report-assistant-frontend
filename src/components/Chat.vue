@@ -125,7 +125,7 @@
             <i class="fa-solid fa-folder-arrow-up cursor-pointer text-lg"></i>
           </el-upload>
 
-          <textarea v-model="message" @input="autoResize" @keydown.enter.prevent="handleEnter" placeholder="输入消息"
+          <textarea v-model="message" @input="autoResize"  @keydown.enter.prevent="handleEnter" placeholder="输入消息"
                     class="bg-transparent outline-none flex-1 placeholder:text-text-200 placeholder:font-bold text-black ml-2 resize-none overflow-hidden"
                     rows="1"></textarea>
 
@@ -166,6 +166,7 @@ let chartVisible = ref(false);
 const updateChartVisible = (value: boolean) => {
   chartVisible.value = value;
 }
+
 const imageUrl = ref(''); // 存储上传的图片 URL
 const pdfUrl = ref('');
 let statementVisible = ref(false);
@@ -188,6 +189,9 @@ import defaultPdfUrl from '../assets/pdf/2023中国生态环境状况公报-保�
 import chatExampleBaoBiao from "../constant/chatExampleBaoBiao.ts";
 
 // 上传图片成功处理函数
+const saveMessages = () => {
+  localStorage.setItem('chatMessages', JSON.stringify(displayedMessages.value));
+};
 
 // 上传失败处理函数
 const handleUploadSuccess = (response: any) => {
@@ -211,7 +215,7 @@ const handleUploadError = (error: any, uploadedFile: File) => {
     // 上传失败时展示默认图片
     imageUrl.value = defaultImageUrl;
 
-    ElMessage.error('图片上传成功！');
+    ElMessage.success('图片上传成功！');
   } else {
     // 其他类型的文件
     ElMessage.error('上传失败！不支持的文件类型');
@@ -245,14 +249,23 @@ const typeEffect = (text: string, speed: number) => {
 };
 
 
-
 onMounted(() => {
+  const savedMessages = localStorage.getItem('chatMessages');
+  if (savedMessages) {
+    displayedMessages.value = JSON.parse(savedMessages);
+  }
+  if(displayedMessages.value !== null)
+  {
+    console.log("yes")
+    showSuggestions.value = false;
+  }
+
   watch(() => sideTuBiaoStore.TuBiao, (value) => {
     if (value === 1) {
       sideTuBiaoStore.TuBiao = 0
       displayedMessages.value.pop();
       displayedMessages.value.push({ type: 'showChart', content: '' });
-
+      saveMessages(); // 保存聊天记录
     }
   })
   watch(() => sideBaoBiaoStore.BaoBiao, (val) => {
@@ -260,15 +273,27 @@ onMounted(() => {
       sideBaoBiaoStore.BaoBiao = 0
       displayedMessages.value.pop();
       displayedMessages.value.push({ type: 'showChartTu', content: '' })
-
+      saveMessages(); // 保存聊天记录
     }
   })
+  watch(message, (newValue) => {
+    if (!newValue.trim()) {
+      const textarea = document.querySelector('textarea');
+      if (textarea) {
+        textarea.style.height = 'auto'; // 恢复到初始状态
+      }
+    }
+  });
 })
 
 const autoResize = (event:any) => {
   const textarea = event.target;
-  textarea.style.height = 'auto';  // 先重置高度
+
   textarea.style.height = `${textarea.scrollHeight}px`;  // 根据内容设置新的高度
+  if (textarea.value.trim() === '') {
+    textarea.style.height = 'auto';  // Or set it to a fixed initial height like '20px'
+  }
+
 };
 
 
@@ -281,6 +306,7 @@ const handleEnter = async () => {
     });
 
     const userContent = message.value;
+
     if (message.value != '整理文件中空气质量、碳排放来源、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
       displayedMessages.value.push({ type: 'user', content: userContent });
     }
@@ -298,7 +324,7 @@ const handleEnter = async () => {
     // 添加最终的AI消息并应用打字效果
     // await typeEffect(chatExample2.prompt, 50);
     imageUrl.value = ''; // 清空图片 URL
-
+    saveMessages();
   }
   if (pdfUrl.value) {
     displayedMessages.value.push({
@@ -347,12 +373,6 @@ const handleEnter = async () => {
     displayedMessages.value.push({ type: 'ai', content: '' });
     // 模拟打字效果
     await typeEffect(chatExampleTuBiao.prompt, 50)
-
-
-    if (sideTuBiaoStore.TuBiao === 1) {
-
-      displayedMessages.value.push({ type: 'showChart', content: '' });
-    }
 
     return;
   }
