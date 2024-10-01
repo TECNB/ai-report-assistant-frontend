@@ -10,7 +10,7 @@
         <p class="text-left text-gray-500 font-bold">全部报表</p>
 
         <!-- 圆角黑色按钮 -->
-        <div class="ml-3" v-if="sideLeftStore.AiTalk === 1" @click="showStatement">
+        <div class="ml-3 cursor-pointer" v-if="sideLeftStore.AiTalk === 1" @click="showStatement">
           <div class="font-bold text-gray-600 px-1 py-1">完成</div>
         </div>
       </div>

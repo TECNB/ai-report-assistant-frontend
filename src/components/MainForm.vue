@@ -60,7 +60,8 @@ const formattedAqiData = computed(() => {
     const allYears = [...new Set(aqiData.value.map(item => item.year))];
 
     // 为每个年份生成对应的 AQI 列表
-    return allYears.map(year => {
+    return allYears.sort((a, b) => b - a)
+        .map(year => {
         const aqiValues = months.map(month => {
             const data = aqiData.value.find(item => item.year === year && item.month === month);
             return data ? data.aqi : null;  // 如果找不到该月的数据，则返回 null

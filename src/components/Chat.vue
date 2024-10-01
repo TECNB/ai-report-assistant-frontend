@@ -115,19 +115,7 @@
             </div>
           </div>
         </div>
-        <!--        <div v-if="pdfUrl" class="flex items-start mb-2">-->
-        <!--          <div class="relative">-->
-        <!--            <iframe :src="pdfUrl" class="w-20 h-30 rounded-lg border" type="application/pdf">-->
-        <!--              您的浏览器不支持 PDF 文件显示，请下载查看。-->
-        <!--            </iframe>-->
 
-        <!--            &lt;!&ndash; 删除按钮 &ndash;&gt;-->
-        <!--            <div @click="removePdf"-->
-        <!--                 class="absolute top-0 right-0 bg-white text-black border border-gray-300 rounded-full w-6 h-6 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">-->
-        <!--              <i class="fa-solid fa-times text-xs"></i>-->
-        <!--            </div>-->
-        <!--          </div>-->
-        <!--        </div>-->
 
 
         <!-- 上传和输入框 -->
@@ -137,8 +125,9 @@
             <i class="fa-solid fa-folder-arrow-up cursor-pointer text-lg"></i>
           </el-upload>
 
-          <input v-model="message" @keyup.enter="handleEnter" type="text" placeholder="输入消息"
-            class="bg-transparent outline-none flex-1 placeholder:text-text-200 placeholder:font-bold text-black ml-2" />
+          <textarea v-model="message" @input="autoResize" @keyup.enter="handleEnter" placeholder="输入消息"
+                    class="bg-transparent outline-none flex-1 placeholder:text-text-200 placeholder:font-bold text-black ml-2 resize-none overflow-hidden"
+                    rows="1"></textarea>
 
           <el-icon size="18" class="ml-2">
             <Microphone />
@@ -196,6 +185,7 @@ const displayedMessages = ref<{ type: string; content: string }[]>([]); // 展�
 import defaultImageUrl from '../assets/images/CloudPic.jpg'; // 导入本地图片作为上传失败后的默认图
 import defaultPdfUrl from '../assets/pdf/2023中国生态环境状况公报-保留大气环境版.pdf';
 import chatExampleBaoBiao from "../constant/chatExampleBaoBiao.ts";
+
 // 上传图片成功处理函数
 
 // 上传失败处理函数
@@ -271,6 +261,13 @@ onMounted(() => {
     }
   })
 })
+
+const autoResize = (event:any) => {
+  const textarea = event.target;
+  textarea.style.height = 'auto';  // 先重置高度
+  textarea.style.height = `${textarea.scrollHeight}px`;  // 根据内容设置新的高度
+};
+
 
 // 回车事件处理函数
 const handleEnter = async () => {
