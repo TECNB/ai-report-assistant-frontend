@@ -346,7 +346,7 @@ const handleEnter = async () => {
     displayedMessages.value.push({ type: 'pdfQuestion', content: '以下是为您所转化的PDF报表' });
 
     pdfUrl.value = ''; // 清空 PDF URL
-
+    saveMessages();
 
   }
   if (message.value === '为我生成图表，其中横向柱状图部分采取由大到小的排列方式') {
