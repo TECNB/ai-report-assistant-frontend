@@ -121,7 +121,7 @@
               <ShowStruct v-if="msg.type === 'showStruct'"/>
                 <MaskLayer backgroundColor="rgba(0, 0, 0, 0.3)" :ifShow="statementVisible" />
                 <Statement :ifShow="statementVisible" @updateIfShow="updateStatementVisible" />
-
+                 <ShowIMG v-if="msg.type === 'showIMG'"/>
                 <LineContainer v-if="msg.type === 'predictQuestion'" width="100%" :height="320" :data="airLineData"
                     :chartOption="airLineOptions" />
 

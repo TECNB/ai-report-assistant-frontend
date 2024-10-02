@@ -1,5 +1,3 @@
-
-
 <template>
     <div class="Form" v-if="props.ifShow">
         <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">

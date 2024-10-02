@@ -152,6 +152,8 @@
     <MaskLayer :ifShow="formVisible" />
     <MaskLayer :ifShow="chartVisible" />
     <Chart :ifShow="chartVisible" @updateIfShow="updateChartVisible" />
+    <MaskLayer backgroundColor="rgba(0, 0, 0, 0.3)" :ifShow="statement01Visible" />
+    <Statement :ifShow="statement01Visible" @updateIfShow="updateStatement01Visible" />
   </div>
 </template>
 
@@ -181,6 +183,15 @@ const sideBaoBiaoStore = useSideBaoBiaoStore();
 let knowledgeVisible = ref(false);
 let dataSidebarVisible = ref(false);
 let formVisible = ref(false);
+
+let statement01Visible = ref(false);
+const showStatement01 = () => {
+  statement01Visible.value = !statement01Visible.value;
+}
+const updateStatement01Visible = (value: boolean) => {
+  statement01Visible.value = value;
+}
+
 
 let statementName = ref('');
 const message = ref('');
@@ -476,6 +487,38 @@ const handleEnter = async () => {
     saveMessages();
     return;
   }
+
+  if(message.value ==='根据我的手写报表进行转化')
+  {
+    const userContent = message.value;
+    displayedMessages.value.push({ type: 'user', content: userContent });
+    message.value = '';
+    showSuggestions.value = false; // 隐藏建议列表
+    displayedMessages.value.push({ type: 'ai', content: '请耐心等待，正在读取文件中...' });
+
+    setTimeout(() => {
+      // 第二步：显示PDF读取完成并显示加载中的弹窗
+      displayedMessages.value.pop(); // 移除之前的提示
+      displayedMessages.value.push({ type: 'ai', content: 'IMG报表读取完成，正在进行接话数据转化...' });
+
+
+      // 第三步：等待2秒后显示最终界面
+      setTimeout(() => {
+        showStatement01()
+        // 显示最终界面和相关图表的按钮
+        displayedMessages.value.pop(); // 移除之前的提示
+        displayedMessages.value.push({ type: 'ai', content: '点击下方按钮生成多个相关图表的节目' });
+        displayedMessages.value.pop(); // 移除之前的提示
+        displayedMessages.value.push({ type: 'showIMG', content: '生成图表' });
+
+      }, 2000); // 等待2秒显示图表生成界面
+    }, 3000); // 等待3秒显示PDF读取完成的提示
+
+
+    saveMessages();
+    return;
+  }
+
   if (message.value === '整理文件中空气质量、碳排放来源、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
     const userContent = message.value;
     displayedMessages.value.push({ type: 'user', content: userContent });
@@ -507,8 +550,6 @@ const handleEnter = async () => {
 
       }, 2000); // 等待2秒显示图表生成界面
     }, 3000); // 等待3秒显示PDF读取完成的提示
-
-
 
     // 添加最终的AI消息并应用打字效果
     // await typeEffect(chatExample.prompt, 50);

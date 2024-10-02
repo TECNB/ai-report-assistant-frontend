@@ -4,7 +4,7 @@
   <div class="flex flex-col items-center p-5 bg-gray-50 rounded-lg shadow-lg">
 
     <!-- 标题 -->
-    <p class="text-lg font-bold mb-4">点击下方按钮生成多个相关报表</p>
+    <p class="text-lg font-bold mb-4">多个相关报表可于下方查看</p>
 
     <!-- 点击按钮 -->
     <el-button type="primary" @click="showStatement" round>
