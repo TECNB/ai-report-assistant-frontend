@@ -506,9 +506,21 @@
 
         </el-scrollbar>
 
-        <Setting :ifShow="settingVisible1" @updateIfShow="updateSettingVisible1" />
+        <SettingDataSource :ifShow="settingVisible1" @updateIfShow="updateSettingVisible1" />
         <!-- 遮罩层 -->
         <MaskLayer :ifShow="settingVisible1" backgroundColor="rgba(0, 0, 0, 0.4)" />
+
+        <SettingPreprocess :ifShow="settingVisible2" @updateIfShow="updateSettingVisible2" />
+        <!-- 遮罩层 -->
+        <MaskLayer :ifShow="settingVisible2" backgroundColor="rgba(0, 0, 0, 0.4)" />
+
+        <SettingChart :ifShow="settingVisible3" @updateIfShow="updateSettingVisible3" />
+        <!-- 遮罩层 -->
+        <MaskLayer :ifShow="settingVisible3" backgroundColor="rgba(0, 0, 0, 0.4)" />
+
+        <SettingStatement :ifShow="settingVisible4" @updateIfShow="updateSettingVisible4" />
+        <!-- 遮罩层 -->
+        <MaskLayer :ifShow="settingVisible4" backgroundColor="rgba(0, 0, 0, 0.4)" />
     </div>
 </template>
 
@@ -518,6 +530,7 @@ import { ref } from 'vue';
 const settingVisible1 = ref(false);
 const settingVisible2 = ref(false);
 const settingVisible3 = ref(false);
+const settingVisible4 = ref(false);
 
 const accessSettingsVisible1 = ref(false);
 const accessSettingsVisible2 = ref(false);
@@ -545,6 +558,9 @@ const showSetting = (index: number) => {
         case 3:
             settingVisible3.value = true;
             break;
+        case 4:
+            settingVisible4.value = true;
+            break;
         default:
             break;
     }
@@ -569,6 +585,15 @@ const showAccessSettings = (index: number) => {
 
 const updateSettingVisible1 = (newValue: boolean) => {
     settingVisible1.value = newValue;
+};
+const updateSettingVisible2 = (newValue: boolean) => {
+    settingVisible2.value = newValue;
+};
+const updateSettingVisible3 = (newValue: boolean) => {
+    settingVisible3.value = newValue;
+};
+const updateSettingVisible4 = (newValue: boolean) => {
+    settingVisible4.value = newValue;
 };
 
 

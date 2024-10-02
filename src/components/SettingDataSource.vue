@@ -1,5 +1,5 @@
 <template>
-    <div class="Setting" v-if="props.ifShow">
+    <div class="SettingDataSource" v-if="props.ifShow">
         <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">
             <p class="text-2xl font-bold">编辑数据源</p>
             <div class="Close" @click="toggleVisibility">
@@ -122,7 +122,7 @@ const allTexts = computed(() => {
 </script>
 
 <style lang="scss" scoped>
-.Setting {
+.SettingDataSource {
     width: 45%;
     height: 100%;
     position: absolute;
