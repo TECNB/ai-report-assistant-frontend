@@ -321,7 +321,7 @@ const handleEnter = async () => {
 
     const userContent = message.value;
 
-    if (message.value != '整理文件中空气质量、碳排放来源、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
+    if (message.value != '整理文件中空气质量、碳排放来源、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量'&& message.value !== '根据我的手写报表进行转化') {
       displayedMessages.value.push({ type: 'user', content: userContent });
     }
 
@@ -347,7 +347,7 @@ const handleEnter = async () => {
       content: pdfUrl.value
     });
     const userContent = message.value;
-    if (message.value != '整理文件中空气质量、碳排放来源、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
+    if (message.value != '整理文件中空气质量、碳排放来源、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量'&& message.value !== '根据我的手写报表进行转化') {
       displayedMessages.value.push({ type: 'user', content: userContent });
     }
     showSuggestions.value = false; // 隐藏建议列表

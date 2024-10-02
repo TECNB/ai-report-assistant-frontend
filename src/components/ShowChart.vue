@@ -13,9 +13,7 @@
 
     <!-- 图表显示区 -->
     <div v-if="chartVisible" class="mt-5 w-full h-64">
-      <el-card shadow="hover" class="w-full h-full">
-        <LineContainer :data="chartData" :chartOption="chartOptions" />
-      </el-card>
+
     </div>
   </div>
   <MaskLayer backgroundColor="rgba(0, 0, 0, 0.3)" :ifShow="chartVisible" />
@@ -24,7 +22,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import LineContainer from './charts/LineContainer.vue'; // 假设你有一个封装好的图表组件
 
 // 定义图表是否可见的状态
 const chartVisible = ref(false);
@@ -35,33 +32,7 @@ const showChart = () => {
 const updateChartVisible = (value: boolean) => {
   chartVisible.value = value;
 };
-// 模拟的图表数据
-const chartData = [
-  { date: '2024-01-01', value: 120 },
-  { date: '2024-02-01', value: 200 },
-  { date: '2024-03-01', value: 150 }
-];
 
-// 图表选项
-const chartOptions = {
-  title: {
-    text: '图表展示',
-    left: 'center'
-  },
-  xAxis: {
-    type: 'category',
-    data: chartData.map(item => item.date)
-  },
-  yAxis: {
-    type: 'value'
-  },
-  series: [
-    {
-      data: chartData.map(item => item.value),
-      type: 'line'
-    }
-  ]
-};
 
 </script>
 
