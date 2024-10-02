@@ -10,36 +10,36 @@
         </div>
         <el-scrollbar height="86%" wrap-style="width:100%;" class="flex justify-start">
             <div class="flex flex-col justify-center items-start gap-4 px-2 py-5">
-                <p class="text-text-200">来源</p>
+                <p class="text-text-200">类型</p>
                 <div class="flex justify-start items-center gap-5">
                     <div
-                        class="w-24 h-24 relative flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2">
-                        <i class="fa-regular fa-table-cells fa-xl"></i>
-                        <p class="text-sm">现有数据</p>
+                        class="w-24 h-24 relative flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer">
+                        <i class="fa-regular fa-broom fa-xl"></i>
+                        <p class="text-sm">数据清洗</p>
                         <div class="absolute top-0 right-1">
                             <i class="fa-regular fa-circle-check"></i>
                         </div>
                     </div>
 
                     <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2">
-                        <i class="fas fa-database fa-xl" style="color: #666;"></i>
-                        <p class="text-sm text-text-200">数据库</p>
+                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer">
+                        <i class="fa-regular fa-reflect-horizontal fa-xl" style="color: #666;"></i>
+                        <p class="text-sm text-text-200">数据转换</p>
                     </div>
                     <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2">
-                        <i class="fa-regular fa-file-pdf fa-xl" style="color: #666;"></i>
-                        <p class="text-sm text-text-200">PDF</p>
+                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer">
+                        <i class="fa-regular fa-filters fa-xl" style="color: #666;"></i>
+                        <p class="text-sm text-text-200">数据筛选</p>
                     </div>
                     <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2">
-                        <i class="fa-regular fa-file-xls fa-xl" style="color: #666;"></i>
-                        <p class="text-sm text-text-200">Excel表格</p>
+                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer">
+                        <i class="fa-regular fa-bars-sort fa-xl" style="color: #666;"></i>
+                        <p class="text-sm text-text-200">排序与汇总</p>
                     </div>
                     <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2">
-                        <i class="fa-regular fa-file-excel fa-xl" style="color: #666;"></i>
-                        <p class="text-sm text-text-200">暂不添加</p>
+                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer">
+                        <i class="fa-regular fa-wrench fa-xl" style="color: #666;"></i>
+                        <p class="text-sm text-text-200">自定义</p>
                     </div>
                 </div>
 

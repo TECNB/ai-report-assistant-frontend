@@ -13,7 +13,7 @@
                 <p class="text-text-200">来源</p>
                 <div class="flex justify-start items-center gap-5">
                     <div
-                        class="w-24 h-24 relative flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2">
+                        class="w-24 h-24 relative flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer">
                         <i class="fa-regular fa-table-cells fa-xl"></i>
                         <p class="text-sm">现有数据</p>
                         <div class="absolute top-0 right-1">
@@ -22,22 +22,22 @@
                     </div>
 
                     <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2">
+                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer">
                         <i class="fas fa-database fa-xl" style="color: #666;"></i>
                         <p class="text-sm text-text-200">数据库</p>
                     </div>
                     <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2">
+                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer">
                         <i class="fa-regular fa-file-pdf fa-xl" style="color: #666;"></i>
                         <p class="text-sm text-text-200">PDF</p>
                     </div>
                     <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2">
+                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer">
                         <i class="fa-regular fa-file-xls fa-xl" style="color: #666;"></i>
                         <p class="text-sm text-text-200">Excel表格</p>
                     </div>
                     <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2">
+                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer">
                         <i class="fa-regular fa-file-excel fa-xl" style="color: #666;"></i>
                         <p class="text-sm text-text-200">暂不添加</p>
                     </div>
