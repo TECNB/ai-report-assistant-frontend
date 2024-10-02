@@ -25,25 +25,78 @@
                 </div>
 
 
-                <p class="text-text-200">缺失值处理</p>
-                <el-select v-model="formName1" placeholder="请点击选择处理方式" size="large" clearable :teleported="false"
-                    style="width: 360px;">
-                    <el-option v-for="(text, index) in missingMethods" :key="index" :label="text" :value="text" />
-                </el-select>
-                <p class="text-text-200">重复数据处理</p>
+                <div class="flex flex-col gap-4 mt-4" v-if="activeIndex==0">
+                    <p class="text-text-200">缺失值处理</p>
+                    <el-select v-model="formName1" placeholder="请点击选择处理方式" size="large" clearable :teleported="false"
+                        style="width: 360px;">
+                        <el-option v-for="(text, index) in missingMethods" :key="index" :label="text" :value="text" />
+                    </el-select>
+                    <p class="text-text-200">重复数据处理</p>
 
-                <el-select v-model="formName2" placeholder="请点击选择分类" size="large" clearable :teleported="false"
-                    style="width: 360px;">
-                    <el-option v-for="(text, index) in repeatMethods" :key="index" :label="text" :value="text" />
-                </el-select>
+                    <el-select v-model="formName2" placeholder="请点击选择处理方式" size="large" clearable :teleported="false"
+                        style="width: 360px;">
+                        <el-option v-for="(text, index) in repeatMethods" :key="index" :label="text" :value="text" />
+                    </el-select>
 
-                <p class="text-text-200">异常值处理</p>
+                    <p class="text-text-200">异常值处理</p>
 
-                <el-select v-model="selectedConnectionMethod" placeholder="请点击选择连接方式" size="large" clearable
-                    :teleported="false" style="width: 360px;">
-                    <el-option v-for="(method, index) in unusualnMethods" :key="index" :label="method"
-                        :value="method" />
-                </el-select>
+                    <el-select v-model="selectedConnectionMethod" placeholder="请点击选择处理方式" size="large" clearable
+                        :teleported="false" style="width: 360px;">
+                        <el-option v-for="(method, index) in unusualnMethods" :key="index" :label="method"
+                            :value="method" />
+                    </el-select>
+                </div>
+                <div class="flex flex-col gap-4 mt-4" v-if="activeIndex==1">
+                    <p class="text-text-200">字段类型转换</p>
+                    <el-select v-model="formName1" placeholder="请点击选择字段" size="large" clearable :teleported="false"
+                        style="width: 360px;">
+                        <el-option v-for="(text, index) in missingMethods" :key="index" :label="text" :value="text" />
+                    </el-select>
+                    <p class="text-text-200">字段格式化</p>
+
+                    <el-select v-model="formName2" placeholder="请点击选择字段" size="large" clearable :teleported="false"
+                        style="width: 360px;">
+                        <el-option v-for="(text, index) in repeatMethods" :key="index" :label="text" :value="text" />
+                    </el-select>
+
+                    <p class="text-text-200">字段重命名</p>
+
+                    <el-select v-model="selectedConnectionMethod" placeholder="请点击选择字段" size="large" clearable
+                        :teleported="false" style="width: 360px;">
+                        <el-option v-for="(method, index) in unusualnMethods" :key="index" :label="method"
+                            :value="method" />
+                    </el-select>
+
+                    <p class="text-text-200">计算衍生字段</p>
+
+                    <el-select v-model="selectedConnectionMethod" placeholder="请点击选择字段" size="large" clearable
+                        :teleported="false" style="width: 360px;">
+                        <el-option v-for="(method, index) in unusualnMethods" :key="index" :label="method"
+                            :value="method" />
+                    </el-select>
+                </div>
+                <div class="flex flex-col gap-4 mt-4" v-if="activeIndex==4">
+                    <!-- <p class="text-text-200">缺失值处理</p>
+                    <el-select v-model="formName1" placeholder="请点击选择处理方式" size="large" clearable :teleported="false"
+                        style="width: 360px;">
+                        <el-option v-for="(text, index) in missingMethods" :key="index" :label="text" :value="text" />
+                    </el-select>
+                    <p class="text-text-200">重复数据处理</p>
+
+                    <el-select v-model="formName2" placeholder="请点击选择分类" size="large" clearable :teleported="false"
+                        style="width: 360px;">
+                        <el-option v-for="(text, index) in repeatMethods" :key="index" :label="text" :value="text" />
+                    </el-select>
+
+                    <p class="text-text-200">异常值处理</p>
+
+                    <el-select v-model="selectedConnectionMethod" placeholder="请点击选择连接方式" size="large" clearable
+                        :teleported="false" style="width: 360px;">
+                        <el-option v-for="(method, index) in unusualnMethods" :key="index" :label="method"
+                            :value="method" />
+                    </el-select> -->
+                </div>
+
 
             </div>
 
