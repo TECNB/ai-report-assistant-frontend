@@ -43,23 +43,23 @@
                     </div>
                 </div>
 
-                <p class="text-text-200">选择现有数据</p>
-                <el-select v-model="formName1" placeholder="请点击选择分类" size="large" clearable :teleported="false"
+                <p class="text-text-200">缺失值处理</p>
+                <el-select v-model="formName1" placeholder="请点击选择处理方式" size="large" clearable :teleported="false"
                     style="width: 360px;">
-                    <el-option v-for="(text, index) in allTexts" :key="index" :label="text" :value="text" />
+                    <el-option v-for="(text, index) in missingMethods" :key="index" :label="text" :value="text" />
                 </el-select>
-                <p class="text-text-200">连接数据库</p>
+                <p class="text-text-200">重复数据处理</p>
 
                 <el-select v-model="formName2" placeholder="请点击选择分类" size="large" clearable :teleported="false"
                     style="width: 360px;">
-                    <el-option v-for="(text, index) in allTexts" :key="index" :label="text" :value="text" />
+                    <el-option v-for="(text, index) in repeatMethods" :key="index" :label="text" :value="text" />
                 </el-select>
 
-                <p class="text-text-200">连接方式</p>
+                <p class="text-text-200">异常值处理</p>
 
                 <el-select v-model="selectedConnectionMethod" placeholder="请点击选择连接方式" size="large" clearable
                     :teleported="false" style="width: 360px;">
-                    <el-option v-for="(method, index) in connectionMethods" :key="index" :label="method"
+                    <el-option v-for="(method, index) in unusualnMethods" :key="index" :label="method"
                         :value="method" />
                 </el-select>
 
@@ -92,8 +92,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { formContant } from '../constant/formContant';
+import { ref } from 'vue';
 
 const props = defineProps(['ifShow']);
 const emit = defineEmits();
@@ -102,10 +101,22 @@ let formName1 = ref('')
 let formName2 = ref('')
 
 // 自定义连接方式数组
-const connectionMethods = [
-    '外连接',
-    '内连接',
-    '全连接',
+const missingMethods = [
+    '填充',
+    '删除',
+    '平均值填充',
+];
+
+const repeatMethods = [
+    '删除',
+    '合并',
+];
+
+const unusualnMethods = [
+    '删除异常值',
+    '标准差法',
+    '阈值法',
+    '箱线图法'
 ];
 
 // 选择的连接方式
@@ -115,10 +126,6 @@ const toggleVisibility = () => {
     emit('updateIfShow', false);
 };
 
-// 计算属性，获取所有 text 字段
-const allTexts = computed(() => {
-    return formContant.flatMap(category => category.items.map(item => item.text));
-});
 </script>
 
 <style lang="scss" scoped>
