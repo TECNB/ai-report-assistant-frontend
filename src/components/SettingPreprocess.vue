@@ -12,36 +12,18 @@
             <div class="flex flex-col justify-center items-start gap-4 px-2 py-5">
                 <p class="text-text-200">类型</p>
                 <div class="flex justify-start items-center gap-5">
-                    <div
-                        class="w-24 h-24 relative flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer">
-                        <i class="fa-regular fa-broom fa-xl"></i>
-                        <p class="text-sm">数据清洗</p>
-                        <div class="absolute top-0 right-1">
+                    <div v-for="(item, index) in steps" :key="index" :class="[
+                        'w-24 h-24 relative flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer',
+                        activeIndex === index ? 'bg-active' : 'bg-inactive'
+                    ]" @click="setActiveIndex(index)">
+                        <i :class="[item.icon, 'fa-xl']" :style="activeIndex === index ? '' : 'color: #666;'"></i>
+                        <p :class="['text-sm', activeIndex === index ? '' : 'text-text-200']">{{ item.label }}</p>
+                        <div v-if="activeIndex === index" class="absolute top-0 right-1">
                             <i class="fa-regular fa-circle-check"></i>
                         </div>
                     </div>
-
-                    <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer">
-                        <i class="fa-regular fa-reflect-horizontal fa-xl" style="color: #666;"></i>
-                        <p class="text-sm text-text-200">数据转换</p>
-                    </div>
-                    <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer">
-                        <i class="fa-regular fa-filters fa-xl" style="color: #666;"></i>
-                        <p class="text-sm text-text-200">数据筛选</p>
-                    </div>
-                    <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer">
-                        <i class="fa-regular fa-bars-sort fa-xl" style="color: #666;"></i>
-                        <p class="text-sm text-text-200">排序与汇总</p>
-                    </div>
-                    <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer">
-                        <i class="fa-regular fa-wrench fa-xl" style="color: #666;"></i>
-                        <p class="text-sm text-text-200">自定义</p>
-                    </div>
                 </div>
+
 
                 <p class="text-text-200">缺失值处理</p>
                 <el-select v-model="formName1" placeholder="请点击选择处理方式" size="large" clearable :teleported="false"
@@ -99,6 +81,23 @@ const emit = defineEmits();
 
 let formName1 = ref('')
 let formName2 = ref('')
+
+// 数据项
+const steps = [
+    { label: '数据清洗', icon: 'fa-regular fa-broom' },
+    { label: '数据转换', icon: 'fa-regular fa-reflect-horizontal' },
+    { label: '数据筛选', icon: 'fa-regular fa-filters' },
+    { label: '排序与汇总', icon: 'fa-regular fa-bars-sort' },
+    { label: '自定义', icon: 'fa-regular fa-wrench' }
+];
+
+// 选中项的 index
+const activeIndex = ref<number | null>(0);
+
+// 设置选中项
+const setActiveIndex = (index: number) => {
+    activeIndex.value = index;
+};
 
 // 自定义连接方式数组
 const missingMethods = [
