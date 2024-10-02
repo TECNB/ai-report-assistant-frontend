@@ -162,6 +162,10 @@ import { AIChat } from '../utils/AIChat'; // 导入AIChat
 import chatExample from '../constant/chatExample'; // 导入聊天示例
 import chatExampleTuBiao from "../constant/chatExampleTuBiao.ts";
 import { useSidebarStore, useSideLeftStore, useSideTuBiaoStore, useSideBaoBiaoStore } from '../stores/SidebarStore.ts';
+import { useChatStore } from '../stores/chatStore';
+//获取对话的stpre
+const chatStore = useChatStore();
+
 let chartVisible = ref(false);
 const updateChartVisible = (value: boolean) => {
   chartVisible.value = value;
@@ -190,7 +194,7 @@ import chatExampleBaoBiao from "../constant/chatExampleBaoBiao.ts";
 
 // 上传图片成功处理函数
 const saveMessages = () => {
-  localStorage.setItem('chatMessages', JSON.stringify(displayedMessages.value));
+  chatStore.saveMessages(displayedMessages.value);
 };
 
 // 上传失败处理函数
@@ -250,15 +254,14 @@ const typeEffect = (text: string, speed: number) => {
 
 
 onMounted(() => {
-  const savedMessages = localStorage.getItem('chatMessages');
-  if (savedMessages) {
-    displayedMessages.value = JSON.parse(savedMessages);
-  }
-  if(displayedMessages.value !== null)
-  {
-    console.log("yes")
+  if (chatStore.displayedMessages.length > 0) {
+    displayedMessages.value = chatStore.displayedMessages;
     showSuggestions.value = false;
+    console.log("message",displayedMessages.value)
   }
+  watch(() => chatStore.displayedMessages, (newValue) => {
+    console.log('Messages updated:', newValue);
+  });
 
   watch(() => sideTuBiaoStore.TuBiao, (value) => {
     if (value === 1) {
@@ -325,6 +328,7 @@ const handleEnter = async () => {
     // await typeEffect(chatExample2.prompt, 50);
     imageUrl.value = ''; // 清空图片 URL
     saveMessages();
+
   }
   if (pdfUrl.value) {
     displayedMessages.value.push({
@@ -373,7 +377,7 @@ const handleEnter = async () => {
     displayedMessages.value.push({ type: 'ai', content: '' });
     // 模拟打字效果
     await typeEffect(chatExampleTuBiao.prompt, 50)
-
+    saveMessages();
     return;
   }
 
@@ -403,7 +407,7 @@ const handleEnter = async () => {
     if (sideBaoBiaoStore.BaoBiao === 1) {
       displayedMessages.value.push({ type: 'showChartTu', content: '' });
     }
-
+    saveMessages();
     return;
   }
 
@@ -427,7 +431,7 @@ const handleEnter = async () => {
     await typeEffect(chatExample.prompt, 50);
 
     displayedMessages.value.push({ type: 'numberQuestion', content: '' });
-
+    saveMessages();
     return;
   }
   if (message.value === '预测接下来三个月的温室气体排放') {
@@ -448,7 +452,7 @@ const handleEnter = async () => {
     await typeEffect(chatExample.prompt, 50);
 
     displayedMessages.value.push({ type: 'predictQuestion', content: '' });
-
+    saveMessages();
     return;
   }
   if (message.value === '为我归因2023年温室气体排放') {
@@ -469,6 +473,7 @@ const handleEnter = async () => {
     // await typeEffect(chatExample2.prompt, 50);
 
     displayedMessages.value.push({ type: 'attributionQuestion', content: '' });
+    saveMessages();
     return;
   }
   if (message.value === '整理文件中空气质量、碳排放来源、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
@@ -509,7 +514,7 @@ const handleEnter = async () => {
     // await typeEffect(chatExample.prompt, 50);
     //
     // displayedMessages.value.push({ type: 'predictQuestion', content: '' });
-
+    saveMessages();
     return;
   }
   if (message.value.trim()) {
@@ -576,6 +581,7 @@ const handleEnter = async () => {
       displayedMessages.value.pop(); // 移除加载占位符
       displayedMessages.value.push({ type: 'ai', content: '发生错误，请稍后再试。' });
     }
+
   }
 };
 
