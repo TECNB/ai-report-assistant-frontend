@@ -10,13 +10,13 @@
                 <div class="h-6 border-l-2 border-gray-300">
                     
                 </div>
-                <div class="bg-gray-200 rounded-md px-5 py-2">
+                <div class="bg-gray-200 rounded-md cursor-pointer px-5 py-2">
                     <p class="text-black">取消</p>
                 </div>
-                <div class="bg-gray-200 rounded-md px-5 py-2">
+                <div class="bg-gray-200 rounded-md cursor-pointer px-5 py-2">
                     <p class="text-black">保存</p>
                 </div>
-                <div class="bg-gray-700 rounded-md px-5 py-2">
+                <div class="bg-gray-700 rounded-md cursor-pointer px-5 py-2">
                     <p class="text-white">保存并执行</p>
                 </div>
             </div>
@@ -26,28 +26,7 @@
             <div class="flex justify-start items-start gap-10 p-5 w-[1780px]" ref="innerRef">
                 <!-- 数据源 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <!-- 头部 -->
-                    <div class="flex justify-center items-center relative cursor-pointer">
-                        <!-- Arrow tail -->
-                        <div class="absolute top-0 -left-3 w-3 h-16 bg-gray-200 opacity-80"></div>
-
-                        <!-- Main body -->
-                        <div class="w-72 h-16 flex justify-between items-center bg-gray-200 opacity-80 p-3">
-                            <div class="flex flex-col justify-center items-start">
-                                <p class="font-bold">数据源</p>
-                                <p>2个数据源</p>
-                            </div>
-                            <div class="flex justify-center items-center gap-4">
-                                <i class="fa-light fa-pen"></i>
-                                <i class="fa-light fa-copy"></i>
-                                <i class="fa-light fa-trash"></i>
-                            </div>
-                        </div>
-
-                        <!-- Arrow head -->
-                        <div class="absolute top-0 -right-5 w-5 h-16 bg-gray-200 opacity-80"
-                            style="clip-path: polygon(0 0%, 100% 50%, 0 100%);"></div>
-                    </div>
+                    <PipelineHeader title="数据源" :num="2"/>
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
@@ -103,34 +82,7 @@
 
                 <!-- 数据预处理 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <!-- 头部 -->
-                    <div class="flex justify-center items-center relative cursor-pointer">
-                        <!-- Arrow tail -->
-                        <div class="absolute top-0 -left-3 w-3 h-16 bg-gray-200 opacity-80"></div>
-
-                        <!-- Main body -->
-                        <div class="w-72 h-16 flex justify-between items-center bg-gray-200 opacity-80 p-3">
-                            <div class="flex flex-col justify-center items-start">
-                                <p class="font-bold">数据预处理</p>
-                                <p>2个任务</p>
-                            </div>
-                            <div class="flex justify-center items-center gap-4">
-                                <i class="fa-light fa-pen"></i>
-                                <i class="fa-light fa-copy"></i>
-                                <i class="fa-light fa-trash"></i>
-                            </div>
-                        </div>
-
-                        <!-- Arrow head -->
-                        <div class="absolute top-0 -right-5 w-5 h-16 bg-gray-200 opacity-80"
-                            style="clip-path: polygon(0 0%, 100% 50%, 0 100%);"></div>
-
-                        <!-- 添加符号 -->
-                        <div
-                            class="w-4 h-4 absolute -left-7 bottom-6 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
-                            <i class="fa-regular fa-plus fa-2xs"></i>
-                        </div>
-                    </div>
+                    <PipelineHeader title="数据预处理" :num="2"/>
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
@@ -238,33 +190,7 @@
 
                 <!-- 图表生成 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <!-- 头部 -->
-                    <div class="flex justify-center items-center relative cursor-pointer">
-                        <!-- Arrow tail -->
-                        <div class="absolute top-0 -left-3 w-3 h-16 bg-gray-200 opacity-80"></div>
-
-                        <!-- Main body -->
-                        <div class="w-72 h-16 flex justify-between items-center bg-gray-200 opacity-80 p-3">
-                            <div class="flex flex-col justify-center items-start">
-                                <p class="font-bold">图表生成</p>
-                                <p>3个任务</p>
-                            </div>
-                            <div class="flex justify-center items-center gap-4">
-                                <i class="fa-light fa-pen"></i>
-                                <i class="fa-light fa-copy"></i>
-                                <i class="fa-light fa-trash"></i>
-                            </div>
-                        </div>
-
-                        <!-- Arrow head -->
-                        <div class="absolute top-0 -right-5 w-5 h-16 bg-gray-200 opacity-80"
-                            style="clip-path: polygon(0 0%, 100% 50%, 0 100%);"></div>
-                        <!-- 添加符号 -->
-                        <div
-                            class="w-4 h-4 absolute -left-7 bottom-6 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
-                            <i class="fa-regular fa-plus fa-2xs"></i>
-                        </div>
-                    </div>
+                    <PipelineHeader title="图表生成" :num="3"/>
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] relative border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
@@ -404,33 +330,7 @@
 
                 <!-- 图表生成 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <!-- 头部 -->
-                    <div class="flex justify-center items-center relative cursor-pointer">
-                        <!-- Arrow tail -->
-                        <div class="absolute top-0 -left-3 w-3 h-16 bg-gray-200 opacity-80"></div>
-
-                        <!-- Main body -->
-                        <div class="w-72 h-16 flex justify-between items-center bg-gray-200 opacity-80 p-3">
-                            <div class="flex flex-col justify-center items-start">
-                                <p class="font-bold">报表生成</p>
-                                <p>1个任务</p>
-                            </div>
-                            <div class="flex justify-center items-center gap-4">
-                                <i class="fa-light fa-pen"></i>
-                                <i class="fa-light fa-copy"></i>
-                                <i class="fa-light fa-trash"></i>
-                            </div>
-                        </div>
-
-                        <!-- Arrow head -->
-                        <div class="absolute top-0 -right-5 w-5 h-16 bg-gray-200 opacity-80"
-                            style="clip-path: polygon(0 0%, 100% 50%, 0 100%);"></div>
-                        <!-- 添加符号 -->
-                        <div
-                            class="w-4 h-4 absolute -left-7 bottom-6 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
-                            <i class="fa-regular fa-plus fa-2xs"></i>
-                        </div>
-                    </div>
+                    <PipelineHeader title="报表生成" :num="1"/>
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
@@ -523,28 +423,8 @@
 
                 <!-- 新阶段 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <!-- 头部 -->
-                    <div class="flex justify-center items-center relative cursor-pointer">
-                        <!-- Arrow tail -->
-                        <div class="absolute top-0 -left-3 w-3 h-16 bg-gray-200/60 opacity-80"></div>
-
-                        <!-- Main body -->
-                        <div class="w-72 h-16 flex justify-between items-center bg-gray-200/60 opacity-80 p-3">
-                            <div class="flex flex-col justify-center items-start">
-                                <p class="font-bold text-black/60">新阶段</p>
-                                <p class="text-black/60">0个任务</p>
-                            </div>
-                        </div>
-
-                        <!-- Arrow head -->
-                        <div class="absolute top-0 -right-5 w-5 h-16 bg-gray-200/60 opacity-80"
-                            style="clip-path: polygon(0 0%, 100% 50%, 0 100%);"></div>
-                        <!-- 添加符号 -->
-                        <div
-                            class="w-4 h-4 absolute -left-7 bottom-6 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
-                            <i class="fa-regular fa-plus fa-2xs"></i>
-                        </div>
-                    </div>
+                    <PipelineHeader title="新阶段" :num="0"/>
+                    
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] translate-x-7 p-5">

@@ -46,6 +46,7 @@ declare module 'vue' {
     MaskLayer: typeof import('./src/components/MaskLayer.vue')['default']
     NumberQuestion: typeof import('./src/components/NumberQuestion.vue')['default']
     PieContainer: typeof import('./src/components/charts/PieContainer.vue')['default']
+    PipelineHeader: typeof import('./src/components/PipelineHeader.vue')['default']
     PredictQuestion: typeof import('./src/components/PredictQuestion.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
