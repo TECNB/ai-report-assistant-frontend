@@ -5,10 +5,11 @@
 
             <div class="flex justify-center items-center gap-5">
                 <div class="w-60">
-                    <el-slider v-model="sliderValue" :max="maxScroll" @input="inputSlider" :show-tooltip="false" class="el-slider-style"></el-slider>
+                    <el-slider v-model="sliderValue" :max="maxScroll" @input="inputSlider" :show-tooltip="false"
+                        class="el-slider-style"></el-slider>
                 </div>
                 <div class="h-6 border-l-2 border-gray-300">
-                    
+
                 </div>
                 <div class="bg-gray-200 rounded-md cursor-pointer px-5 py-2">
                     <p class="text-black">取消</p>
@@ -26,125 +27,36 @@
             <div class="flex justify-start items-start gap-10 p-5 w-[1780px]" ref="innerRef">
                 <!-- 数据源 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <PipelineHeader title="数据源" :num="2"/>
+                    <PipelineHeader title="数据源" :num="2" />
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
                         <div class="-translate-x-5">
-                            <div
-                                class="flex flex-col bg-white p-5 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
-                                <div class="text-left">
-                                    <p class="font-bold">年度空气质量统计表</p>
-                                </div>
-                                <div class="">
-                                    <p></p>
-                                </div>
-                                <div class="">
-
-                                </div>
-                                <!-- 过程连线 -->
-                                <div class="w-11 absolute -right-11 top-6 border border-gray-400 border-b-[3px]">
-                                </div>
-                            </div>
-
-                            <div
-                                class="flex flex-col bg-white p-5 border-4 border-transparent cursor-pointer rounded-xl shadow-lg mt-5 hover:border-gray-300">
-                                <div class="text-left">
-                                    <p class="font-bold">碳排放来源表</p>
-                                </div>
-                                <div class="">
-                                    <p></p>
-                                </div>
-                                <div class="">
-
-                                </div>
-                            </div>
-
-                            <div
-                                class="flex flex-col bg-gray-500/30  px-5 py-3 cursor-pointer rounded-xl shadow-lg mt-8 hover:bg-gray-500/50">
-                                <div class="flex justify-center items-center gap-2" @click="showSetting(1)">
-                                    <i class="fa-regular fa-plus"></i>
-                                    <p class="font-bold opacity-100">数据源</p>
-                                </div>
-                            </div>
-
-                            <!-- 右并行连线 -->
-                            <div
-                                class="h-[80px] w-4 absolute -right-4 bottom-28 border-gray-400 border-r-[3px] border-b-[3px] rounded-br-2xl -z-10">
-                            </div>
-                            <!-- 右并行连线右上角圆角 -->
-                            <div
-                                class="h-14 w-4 absolute -right-[29px] bottom-40 border-gray-400 border-l-[3px] border-t-[3px] rounded-tl-2xl -z-10">
-                            </div>
+                            <PipelineMainData :tasks="tasks[0].subTasks" @show="showSetting"/>
                         </div>
                     </div>
                 </div>
 
                 <!-- 数据预处理 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <PipelineHeader title="数据预处理" :num="2"/>
+                    <PipelineHeader title="数据预处理" :num="2" />
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
                         <!-- 准入设置按钮 -->
                         <PipelineAccessSettings />
-                        
+
 
                         <div class="-translate-x-5 relative">
-                            <div class="container  rounded-lg">
-                                <div
-                                    class="box relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
-                                    <div class="text-left">
-                                        <p class="font-bold">缺失值和异常值清洗</p>
-                                    </div>
-                                    <!-- 过程连线 -->
-                                    <div class="w-10 absolute -left-11 top-5 border border-gray-400 border-b-[3px]">
-                                    </div>
-                                    <div class="w-10 absolute -right-11 top-5 border border-gray-400 border-b-[3px]">
-                                    </div>
-
-                                    <!-- 串行连线 -->
-                                    <div class="h-5 absolute left-5 -bottom-6 border border-gray-400 border-l-[3px]">
-                                    </div>
-                                </div>
-                                <div
-                                    class="box relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg mt-5 hover:border-gray-300">
-                                    <div class="text-left">
-                                        <p class="font-bold">标准化数据</p>
-                                    </div>
-
-                                    <!-- 添加符号 -->
-                                    <div
-                                        class="w-4 h-4 absolute left-28 -bottom-3 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
-                                        <i class="fa-regular fa-plus fa-2xs"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div
-                                class="flex flex-col bg-white p-2 border-4 border-transparent cursor-pointer rounded-xl shadow-md mt-5 hover:shadow-lg">
-                                <div class="flex justify-center items-center gap-2" @click="showSetting(2)">
-                                    <i class="fa-regular fa-plus"></i>
-                                    <p class="font-bold opacity-100">并行任务</p>
-                                </div>
-                            </div>
-
-                            <!-- 左并行连线 -->
-                            <div
-                                class="h-[150px] w-6 absolute -left-5 bottom-5 border-gray-400 border-l-[3px] border-b-[3px] border-dashed rounded-bl-2xl -z-10">
-                            </div>
-                            <!-- 右并行连线 -->
-                            <div
-                                class="h-[150px] w-6 absolute -right-5 bottom-5 border-gray-400 border-r-[3px] border-b-[3px] border-dashed rounded-br-2xl -z-10">
-                            </div>
+                            <PipelineMainTask :tasks="tasks[0].subTasks" @show="showSetting"/>
+                            
                         </div>
                     </div>
                 </div>
 
                 <!-- 图表生成 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <PipelineHeader title="图表生成" :num="3"/>
+                    <PipelineHeader title="图表生成" :num="3" />
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] relative border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
@@ -238,7 +150,7 @@
 
                 <!-- 图表生成 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <PipelineHeader title="报表生成" :num="1"/>
+                    <PipelineHeader title="报表生成" :num="1" />
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
@@ -285,8 +197,8 @@
 
                 <!-- 新阶段 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <PipelineHeader title="新阶段" :num="0"/>
-                    
+                    <PipelineHeader title="新阶段" :num="0" />
+
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] translate-x-7 p-5">
@@ -314,6 +226,7 @@
             </div>
 
         </el-scrollbar>
+
 
         <SettingDataSource :ifShow="settingVisible1" @updateIfShow="updateSettingVisible1" />
         <!-- 遮罩层 -->
@@ -344,17 +257,72 @@ const innerRef = ref<HTMLDivElement>()
 const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>()
 
 
-
 const settingVisible1 = ref(false);
 const settingVisible2 = ref(false);
 const settingVisible3 = ref(false);
 const settingVisible4 = ref(false);
 
+const tasks = [
+    {
+        title: '数据源',
+        subTasks: [ // 使用 subTasks 替换 children
+            {
+                title: '年度空气质量统计表',
+                subTasks: []
+            },
+            {
+                title: '碳排放来源表',
+                subTasks: []
+            }
+        ]
+    },
+    {
+        title: '数据预处理',
+        subTasks: [
+            {
+                title: '缺失值和异常值清洗',
+                subTasks: [
+                    {
+                        title: '标准化数据',
+                        subTasks: []
+                    }
+                ]
+            },
+        ]
+    },
+    {
+        title: '图表生成',
+        subTasks: [
+            {
+                title: '获取时间轴',
+                subTasks: []
+            },
+            {
+                title: '取数',
+                subTasks: []
+            },
+            {
+                title: '图表选择',
+                subTasks: []
+            }
+        ]
+    },
+    {
+        title: '报表生成',
+        subTasks: [
+            {
+                title: '输出文件类型选择',
+                subTasks: []
+            }
+        ]
+    }
+]
+
 
 onMounted(() => {
     const innerWidth = innerRef.value?.scrollWidth || 0
     const containerWidth = scrollbarRef.value?.$el.clientWidth || 0
-    maxScroll.value = innerWidth - containerWidth 
+    maxScroll.value = innerWidth - containerWidth
 })
 
 const inputSlider = (value: number) => {
@@ -389,6 +357,7 @@ const showSetting = (index: number) => {
 
 
 
+
 const updateSettingVisible1 = (newValue: boolean) => {
     settingVisible1.value = newValue;
 };
@@ -418,50 +387,7 @@ const updateSettingVisible4 = (newValue: boolean) => {
     background-size: 30px 30px;
 }
 
-.line {
-    z-index: 1000;
-    position: absolute;
-    top: 0px;
-    right: -18px;
-    clip-path: url(#arrow-head);
-    width: 20px;
-    height: 66px;
-    background-image: linear-gradient(90deg, #2a3c85, #2a3c85);
-}
-
-
-
-.container {
-    position: relative;
-}
-
-.container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: inherit;
-    /* 保持与外层 div 一样的圆角 */
-    background-color: gray;
-    opacity: 0.15;
-    /* 外层背景颜色 */
-    z-index: -1;
-    /* 确保不影响内部内容 */
-    transform: translate(-10px, -10px);
-    /* 移动伪元素的大小 */
-    width: calc(100% + 20px);
-    height: calc(100% + 20px);
-    border-radius: 12px;
-}
-
-.box {
-    position: relative;
-    z-index: 1;
-    /* 确保内容在伪元素之上 */
-}
-.el-slider-style{
-    --el-slider-main-bg-color:#333;
+.el-slider-style {
+    --el-slider-main-bg-color: #333;
 }
 </style>
