@@ -1,8 +1,12 @@
 <template>
-    <div class="MainPipeline px-5 py-3">
+    <div class="MainPipeline w-full px-5 py-3">
         <div class="w-[92%] flex justify-between items-center border-b -mx-5 px-7 pb-2 ">
             <p class="text-2xl font-bold">空气质量数据导入</p>
+
             <div class="flex justify-center items-center gap-5">
+                <div class="w-52">
+                    <el-slider v-model="sliderValue" :max="maxScroll" @input="inputSlider" :show-tooltip="false" class="el-slider-style"></el-slider>
+                </div>
                 <div class="bg-gray-200 rounded-md px-5 py-2">
                     <p class="text-black">取消</p>
                 </div>
@@ -15,8 +19,8 @@
             </div>
         </div>
 
-        <el-scrollbar height="100%" wrap-style="padding:20px" class="flex justify-start">
-            <div class="flex justify-center items-start gap-10">
+        <el-scrollbar height="100%" class="w-[1300px]" ref="scrollbarRef" @scroll="handleScroll">
+            <div class="flex justify-start items-start gap-10 p-5 w-[1950px]" ref="innerRef">
                 <!-- 数据源 -->
                 <div class="flex flex-col justify-start items-center gap-2">
                     <!-- 头部 -->
@@ -506,6 +510,10 @@
                             <div
                                 class="h-[75px] w-4 absolute -left-4 bottom-6 border-gray-400 border-l-[3px] border-b-[3px] rounded-bl-2xl -z-10 border-dashed">
                             </div>
+                            <!-- 右并行连线 -->
+                            <div
+                                class="h-[75px] w-4 absolute -right-4 bottom-6 border-gray-400 border-r-[3px] border-b-[3px] rounded-br-2xl -z-10 border-dashed">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -535,7 +543,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { ElScrollbar } from 'element-plus';
+
+
+const sliderValue = ref(0)
+const maxScroll = ref(0)
+const innerRef = ref<HTMLDivElement>()
+const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>()
+
+
 
 const settingVisible1 = ref(false);
 const settingVisible2 = ref(false);
@@ -553,6 +570,20 @@ const accessSettingsHelpVisible3 = ref(false);
 const accessSettings1 = ref(false);
 const accessSettings2 = ref(false);
 const accessSettings3 = ref(false);
+
+onMounted(() => {
+    const innerWidth = innerRef.value?.scrollWidth || 0
+    const containerWidth = scrollbarRef.value?.$el.clientWidth || 0
+    maxScroll.value = innerWidth - containerWidth
+})
+
+const inputSlider = (value: number) => {
+    scrollbarRef.value?.setScrollLeft(value)
+}
+
+const handleScroll = ({ scrollLeft }: { scrollLeft: number }) => {
+    sliderValue.value = scrollLeft
+}
 
 
 const showSetting = (index: number) => {
@@ -695,5 +726,8 @@ const updateSettingVisible4 = (newValue: boolean) => {
     position: relative;
     z-index: 1;
     /* 确保内容在伪元素之上 */
+}
+.el-slider-style{
+    --el-slider-main-bg-color:#333;
 }
 </style>
