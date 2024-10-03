@@ -7,7 +7,8 @@
                 <div class="w-52">
                     <el-slider v-model="sliderValue" :max="maxScroll" @input="inputSlider" :show-tooltip="false" class="el-slider-style"></el-slider>
                 </div>
-                <div class="bg-gray-200 rounded-md px-5 py-2">
+                <div class="flex justify-center items-center gap-5 border-l-2 pl-2">
+                    <div class="bg-gray-200 rounded-md px-5 py-2">
                     <p class="text-black">取消</p>
                 </div>
                 <div class="bg-gray-200 rounded-md px-5 py-2">
@@ -16,11 +17,13 @@
                 <div class="bg-gray-700 rounded-md px-5 py-2">
                     <p class="text-white">保存并执行</p>
                 </div>
+                </div>
+                
             </div>
         </div>
 
         <el-scrollbar height="100%" class="w-[1300px]" ref="scrollbarRef" @scroll="handleScroll">
-            <div class="flex justify-start items-start gap-10 p-5 w-[1950px]" ref="innerRef">
+            <div class="flex justify-start items-start gap-10 p-5 w-[1780px]" ref="innerRef">
                 <!-- 数据源 -->
                 <div class="flex flex-col justify-start items-center gap-2">
                     <!-- 头部 -->
@@ -518,6 +521,98 @@
                     </div>
                 </div>
 
+                <!-- 新阶段 -->
+                <div class="flex flex-col justify-start items-center gap-2">
+                    <!-- 头部 -->
+                    <div class="flex justify-center items-center relative cursor-pointer">
+                        <!-- Arrow tail -->
+                        <div class="absolute top-0 -left-3 w-3 h-16 bg-gray-200/60 opacity-80"></div>
+
+                        <!-- Main body -->
+                        <div class="w-72 h-16 flex justify-between items-center bg-gray-200/60 opacity-80 p-3">
+                            <div class="flex flex-col justify-center items-start">
+                                <p class="font-bold text-black/60">新阶段</p>
+                                <p class="text-black/60">0个任务</p>
+                            </div>
+                        </div>
+
+                        <!-- Arrow head -->
+                        <div class="absolute top-0 -right-5 w-5 h-16 bg-gray-200/60 opacity-80"
+                            style="clip-path: polygon(0 0%, 100% 50%, 0 100%);"></div>
+                        <!-- 添加符号 -->
+                        <div
+                            class="w-4 h-4 absolute -left-7 bottom-6 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
+                            <i class="fa-regular fa-plus fa-2xs"></i>
+                        </div>
+                    </div>
+
+                    <!-- 主要部分 -->
+                    <div class="w-72 h-[800px] translate-x-7 p-5">
+                        <!-- 准入设置按钮 -->
+                        <el-popover :visible="accessSettingsVisible3" placement="bottom" :width="400">
+                            <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">
+                                <p class="text-lg text-black font-bold">准入设置</p>
+                                <div class="Close" @click="accessSettingsVisible3 = false">
+                                    <el-icon size="20" class="cursor-pointer">
+                                        <Close />
+                                    </el-icon>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-start items-center gap-3 mt-5">
+                                <p>设置帮助</p>
+                                <el-popover :visible="accessSettingsHelpVisible3" placement="right" :width="650">
+                                    <p>自动：流水线执行时自动进入该阶段继续运行。</p>
+                                    <p>手动：流水线执行时需手动确认后才能进入该阶段继续运行。</p>
+                                    <p>时间窗：流水线阶段任务在执行窗口内时可以运行，若未在执行窗口内则无法运行该阶段任务。</p>
+                                    <template #reference>
+                                        <i class="fa-light fa-circle-question"
+                                            @click="accessSettingsHelpVisible3 = !accessSettingsHelpVisible3"></i>
+                                    </template>
+                                </el-popover>
+
+                            </div>
+                            <div class="mt-5">
+                                <el-checkbox v-model="accessSettings1" label="自动" class="el-checkbox-class" />
+                                <el-checkbox v-model="accessSettings2" label="手动" class="el-checkbox-class" />
+                                <el-checkbox v-model="accessSettings3" label="时间窗" class="el-checkbox-class" />
+                            </div>
+
+
+                            <div class="flex justify-center items-center gap-5 mt-10">
+                                <div class="bg-black cursor-pointer rounded-lg px-10 py-2"
+                                    @click="accessSettingsVisible3 = false">
+                                    <p class=" text-white">确定</p>
+                                </div>
+
+                                <div class="bg-white cursor-pointer rounded-lg border px-10 py-2"
+                                    @click="accessSettingsVisible3 = false">
+                                    <p class=" text-black">取消</p>
+                                </div>
+                            </div>
+                            <template #reference>
+                                <div class="w-7 h-7 absolute -left-14 top-8 bg-black rounded-full z-50 flex justify-center items-center"
+                                    @click="showAccessSettings(3)">
+                                    <i class="fa-light fa-up-to-bracket fa-rotate-90 " style="color: white;"></i>
+                                </div>
+                            </template>
+                        </el-popover>
+                        <div class="-translate-x-5">
+                            <div
+                                class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
+                                <div class="flex justify-center items-center gap-2" @click="showSetting(4)">
+                                    <i class="fa-regular fa-plus"></i>
+                                    <p class="font-bold opacity-100">新建阶段</p>
+                                </div>
+                            </div>
+
+                            <!-- 过程连线 -->
+                            <div class="w-11 absolute -left-11 top-6 border border-gray-400 border-b-[3px]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
 
             </div>
@@ -574,7 +669,7 @@ const accessSettings3 = ref(false);
 onMounted(() => {
     const innerWidth = innerRef.value?.scrollWidth || 0
     const containerWidth = scrollbarRef.value?.$el.clientWidth || 0
-    maxScroll.value = innerWidth - containerWidth
+    maxScroll.value = innerWidth - containerWidth 
 })
 
 const inputSlider = (value: number) => {
