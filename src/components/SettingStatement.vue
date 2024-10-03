@@ -10,58 +10,94 @@
         </div>
         <el-scrollbar height="86%" wrap-style="width:100%;" class="flex justify-start">
             <div class="flex flex-col justify-center items-start gap-4 px-2 py-5">
-                <p class="text-text-200">来源</p>
-                <div class="flex justify-start items-center gap-5">
-                    <div
-                        class="w-24 h-24 relative flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2">
-                        <i class="fa-regular fa-table-cells fa-xl"></i>
-                        <p class="text-sm">现有数据</p>
-                        <div class="absolute top-0 right-1">
+                <p class="text-text-200">类型</p>
+                <div class="w-full flex justify-start items-center gap-5">
+                    <div v-for="(item, index) in steps" :key="index" :class="[
+                        'w-24 h-24 relative flex-1 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2 cursor-pointer',
+                        activeIndex === index ? 'bg-active' : 'bg-inactive'
+                    ]" @click="setActiveIndex(index)">
+                        <i :class="[item.icon, 'fa-xl']" :style="activeIndex === index ? '' : 'color: #666;'"></i>
+                        <p :class="['text-sm', activeIndex === index ? '' : 'text-text-200']">{{ item.label }}</p>
+                        <div v-if="activeIndex === index" class="absolute top-0 right-1">
                             <i class="fa-regular fa-circle-check"></i>
                         </div>
                     </div>
-
-                    <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2">
-                        <i class="fas fa-database fa-xl" style="color: #666;"></i>
-                        <p class="text-sm text-text-200">数据库</p>
-                    </div>
-                    <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2">
-                        <i class="fa-regular fa-file-pdf fa-xl" style="color: #666;"></i>
-                        <p class="text-sm text-text-200">PDF</p>
-                    </div>
-                    <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2">
-                        <i class="fa-regular fa-file-xls fa-xl" style="color: #666;"></i>
-                        <p class="text-sm text-text-200">Excel表格</p>
-                    </div>
-                    <div
-                        class="w-24 h-24 flex flex-col justify-center items-center gap-9 rounded-md shadow-[0_2px_6px_0_rgba(37,43,58,0.12)] pt-2">
-                        <i class="fa-regular fa-file-excel fa-xl" style="color: #666;"></i>
-                        <p class="text-sm text-text-200">暂不添加</p>
-                    </div>
                 </div>
 
-                <p class="text-text-200">选择现有数据</p>
-                <el-select v-model="formName1" placeholder="请点击选择分类" size="large" clearable :teleported="false"
-                    style="width: 360px;">
-                    <el-option v-for="(text, index) in allTexts" :key="index" :label="text" :value="text" />
-                </el-select>
-                <p class="text-text-200">连接数据库</p>
 
-                <el-select v-model="formName2" placeholder="请点击选择分类" size="large" clearable :teleported="false"
-                    style="width: 360px;">
-                    <el-option v-for="(text, index) in allTexts" :key="index" :label="text" :value="text" />
-                </el-select>
+                <div class="flex flex-col gap-4 mt-4" v-if="activeIndex==0">
+                    <p class="text-text-200">日期范围设置</p>
+                    <el-select v-model="formName1" placeholder="请点击选择一种图表" size="large" clearable :teleported="false"
+                        style="width: 360px;">
+                        <el-option v-for="(text, index) in timeMethods" :key="index" :label="text" :value="text" />
+                    </el-select>
+                    <p class="text-text-200">动态参数字段自定义</p>
 
-                <p class="text-text-200">连接方式</p>
+                    <el-select v-model="formName2" placeholder="请点击选择一种图表" size="large" clearable :teleported="false"
+                        style="width: 360px;">
+                        <el-option v-for="(text, index) in repeatMethods" :key="index" :label="text" :value="text" />
+                    </el-select>
 
-                <el-select v-model="selectedConnectionMethod" placeholder="请点击选择连接方式" size="large" clearable
-                    :teleported="false" style="width: 360px;">
-                    <el-option v-for="(method, index) in connectionMethods" :key="index" :label="method"
-                        :value="method" />
-                </el-select>
+                    <p class="text-text-200">报表尺寸大小</p>
+
+                    <el-select v-model="selectedConnectionMethod" placeholder="请点击选择一种图表" size="large" clearable
+                        :teleported="false" style="width: 360px;">
+                        <el-option v-for="(method, index) in sizeMethods" :key="index" :label="method"
+                            :value="method" />
+                    </el-select>
+
+                    <p class="text-text-200">报表语言</p>
+
+                    <el-select v-model="selectedConnectionMethod" placeholder="请点击选择一种图表" size="large" clearable
+                        :teleported="false" style="width: 360px;">
+                        <el-option v-for="(method, index) in languageMethods" :key="index" :label="method"
+                            :value="method" />
+                    </el-select>
+                </div>
+                <div class="flex flex-col gap-4 mt-4" v-if="activeIndex==1">
+                    <p class="text-text-200">输出类型选择</p>
+                    <el-select v-model="formName1" placeholder="请点击选择一种类型" size="large" clearable :teleported="false"
+                        style="width: 360px;">
+                        <el-option v-for="(text, index) in outputMethods" :key="index" :label="text" :value="text" />
+                    </el-select>
+                    <p class="text-text-200">水印与标志设置</p>
+
+                    <el-select v-model="formName2" placeholder="请点击选择字段" size="large" clearable :teleported="false"
+                        style="width: 360px;">
+                        <el-option v-for="(text, index) in logoMethods" :key="index" :label="text" :value="text" />
+                    </el-select>
+
+                    <p class="text-text-200">安全与权限设置</p>
+
+                    <el-select v-model="selectedConnectionMethod" placeholder="请点击选择字段" size="large" clearable
+                        :teleported="false" style="width: 360px;">
+                        <el-option v-for="(method, index) in securityMethods" :key="index" :label="method"
+                            :value="method" />
+                    </el-select>
+
+                </div>
+                <div class="flex flex-col gap-4 mt-4" v-if="activeIndex==2">
+                    <p class="text-text-200">文件分发</p>
+                    <el-select v-model="formName1" placeholder="请点击选择类型" size="large" clearable :teleported="false"
+                        style="width: 360px;">
+                        <el-option v-for="(text, index) in afterOutputMethods" :key="index" :label="text" :value="text" />
+                    </el-select>
+                    <p class="text-text-200">API 集成</p>
+
+                    <el-select v-model="formName2" placeholder="请点击选择类型" size="large" clearable :teleported="false"
+                        style="width: 360px;">
+                        <el-option v-for="(text, index) in repeatMethods" :key="index" :label="text" :value="text" />
+                    </el-select>
+
+                    <p class="text-text-200">定制脚本</p>
+
+                    <el-select v-model="selectedConnectionMethod" placeholder="请点击选择类型" size="large" clearable
+                        :teleported="false" style="width: 360px;">
+                        <el-option v-for="(method, index) in unusualnMethods" :key="index" :label="method"
+                            :value="method" />
+                    </el-select>
+                </div>
+
 
             </div>
 
@@ -92,8 +128,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { formContant } from '../constant/formContant';
+import { ref } from 'vue';
 
 const props = defineProps(['ifShow']);
 const emit = defineEmits();
@@ -101,12 +136,81 @@ const emit = defineEmits();
 let formName1 = ref('')
 let formName2 = ref('')
 
-// 自定义连接方式数组
-const connectionMethods = [
-    '外连接',
-    '内连接',
-    '全连接',
+// 数据项
+const steps = [
+    { label: '报表类型', icon: 'fa-regular fa-file-chart-pie' },
+    { label: '报表配置', icon: 'fa-regular fa-sliders' },
+    { label: '生成后处理', icon: 'fa-regular fa-arrow-progress' },
+
 ];
+
+// 选中项的 index
+const activeIndex = ref<number | null>(0);
+
+// 设置选中项
+const setActiveIndex = (index: number) => {
+    activeIndex.value = index;
+};
+
+// 自定义连接方式数组
+const missingMethods = [
+    '填充',
+    '删除',
+    '平均值填充',
+];
+
+const repeatMethods = [
+    '删除',
+    '合并',
+];
+
+const unusualnMethods = [
+    '删除异常值',
+    '标准差法',
+    '阈值法',
+    '箱线图法'
+];
+
+const outputMethods = [
+    'PDF',
+    '图片',
+];
+
+const afterOutputMethods = [
+    '发送邮箱',
+    '通知用户',
+    '保存至云盘',
+    '保存至本地'
+];
+const logoMethods = [
+    '文字水印',
+    '自定义Logo',
+];
+const securityMethods = [
+    '加密',
+    '权限设置',
+    '密码保护',
+    '防盗链'
+];
+const timeMethods = [
+    '日报',
+    '周报',
+    '月报',
+    '季报',
+    '年报'
+];
+const sizeMethods = [
+    '小',
+    '中',
+    '大',
+    '自定义'
+];
+const languageMethods = [
+    '中文',
+    '英文',
+    '日文',
+    '韩文',
+]
 
 // 选择的连接方式
 const selectedConnectionMethod = ref<string>('');
@@ -115,10 +219,6 @@ const toggleVisibility = () => {
     emit('updateIfShow', false);
 };
 
-// 计算属性，获取所有 text 字段
-const allTexts = computed(() => {
-    return formContant.flatMap(category => category.items.map(item => item.text));
-});
 </script>
 
 <style lang="scss" scoped>
