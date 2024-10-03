@@ -32,7 +32,7 @@
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
                         <div class="-translate-x-5">
-                            <PipelineMainData :tasks="tasks[0].subTasks" @show="showSetting"/>
+                            <PipelineMainData :tasks="tasks[0].subTasks" @show="showSetting" />
                         </div>
                     </div>
                 </div>
@@ -46,11 +46,8 @@
                         <!-- 准入设置按钮 -->
                         <PipelineAccessSettings />
 
-
-                        <div class="-translate-x-5 relative">
-                            <PipelineMainTask :tasks="tasks[0].subTasks" @show="showSetting"/>
-                            
-                        </div>
+                        <!-- 任务列 -->
+                        <PipelineMainTask :tasks="tasks[1]" @show="showSetting" />
                     </div>
                 </div>
 
@@ -63,88 +60,8 @@
                         <!-- 准入设置按钮 -->
                         <PipelineAccessSettings />
 
-                        <div class="-translate-x-5">
-                            <div
-                                class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
-                                <div class="text-left">
-                                    <p class="font-bold">获取时间轴</p>
-                                </div>
-                                <div
-                                    class="w-4 h-4 absolute left-28 -bottom-3 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
-                                    <i class="fa-regular fa-plus fa-2xs"></i>
-                                </div>
-
-                            </div>
-                            <div
-                                class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg mt-5 hover:border-gray-300">
-                                <div class="text-left">
-                                    <p class="font-bold">取数</p>
-                                </div>
-                                <div
-                                    class="w-4 h-4 absolute left-28 -bottom-3 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
-                                    <i class="fa-regular fa-plus fa-2xs"></i>
-                                </div>
-                            </div>
-                            <div
-                                class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg mt-5 hover:border-gray-300">
-                                <div class="text-left">
-                                    <p class="font-bold">图表选择</p>
-                                </div>
-                                <div
-                                    class="w-4 h-4 absolute left-28 -bottom-3 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
-                                    <i class="fa-regular fa-plus fa-2xs"></i>
-                                </div>
-                            </div>
-
-                            <div
-                                class="flex flex-col bg-white p-2 border-4 border-transparent cursor-pointer rounded-xl shadow-md mt-5 hover:shadow-lg">
-                                <div class="flex justify-center items-center gap-2" @click="showSetting(3)">
-                                    <i class="fa-regular fa-plus"></i>
-                                    <p class="font-bold opacity-100">并行任务</p>
-                                </div>
-                            </div>
-
-                            <!-- 过程连线 -->
-                            <div class="w-11 absolute -left-11 top-6 border border-gray-400 border-b-[3px]">
-                            </div>
-                            <div class="w-11 absolute -right-11 top-6 border border-gray-400 border-b-[3px]">
-                            </div>
-
-                            <!-- 右并行连线右上角圆角 -->
-                            <div
-                                class="h-14 w-4 absolute -right-[29px] top-7 border-gray-400 border-l-[3px] border-t-[3px] rounded-tl-2xl -z-10">
-                            </div>
-                            <!-- 右并行连线 -->
-                            <div
-                                class="h-[68px] w-4 absolute -right-4 top-10 border-gray-400 border-r-[3px] border-b-[3px] rounded-br-2xl -z-10">
-                            </div>
-                            <!-- 右并行连线 -->
-                            <div
-                                class="h-[85px] w-4 absolute -right-4 bottom-24 border-gray-400 border-r-[3px] border-b-[3px] rounded-br-2xl -z-10">
-                            </div>
-                            <!-- 右并行连线 -->
-                            <div
-                                class="h-[85px] w-4 absolute -right-4 bottom-6 border-gray-400 border-r-[3px] border-b-[3px] rounded-br-2xl -z-10 border-dashed">
-                            </div>
-
-                            <!-- 左并行连线右上角圆角 -->
-                            <div
-                                class="h-14 w-4 absolute -left-[29px] top-7 border-gray-400 border-r-[3px] border-t-[3px] rounded-tr-2xl -z-10">
-                            </div>
-                            <!-- 左并行连线 -->
-                            <div
-                                class="h-[68px] w-4 absolute -left-4 top-10 border-gray-400 border-l-[3px] border-b-[3px] rounded-bl-2xl -z-10">
-                            </div>
-                            <!-- 左并行连线 -->
-                            <div
-                                class="h-[85px] w-4 absolute -left-4 bottom-24 border-gray-400 border-l-[3px] border-b-[3px] rounded-bl-2xl -z-10">
-                            </div>
-                            <!-- 左并行连线 -->
-                            <div
-                                class="h-[85px] w-4 absolute -left-4 bottom-6 border-gray-400 border-l-[3px] border-b-[3px] rounded-bl-2xl -z-10 border-dashed">
-                            </div>
-
-                        </div>
+                        <!-- 任务列 -->
+                        <PipelineMainTask :tasks="tasks[2]" @show="showSetting" />
                     </div>
                 </div>
 
@@ -157,41 +74,8 @@
                         <!-- 准入设置按钮 -->
                         <PipelineAccessSettings />
 
-                        <div class="-translate-x-5">
-                            <div
-                                class="relative flex flex-col bg-white p-3 border-4 border-transparent cursor-pointer rounded-xl shadow-lg hover:border-gray-300">
-                                <div class="text-left">
-                                    <p class="font-bold">输出文件类型选择</p>
-                                </div>
-                                <div
-                                    class="w-4 h-4 absolute left-28 -bottom-3 flex justify-center items-center rounded-xl bg-white shadow-[0_2px_6px_0_rgba(37,43,58,0.4)]">
-                                    <i class="fa-regular fa-plus fa-2xs"></i>
-                                </div>
-                            </div>
-
-                            <div
-                                class="flex flex-col bg-white p-2 border-4 border-transparent cursor-pointer rounded-xl shadow-md mt-5 hover:shadow-lg">
-                                <div class="flex justify-center items-center gap-2" @click="showSetting(4)">
-                                    <i class="fa-regular fa-plus"></i>
-                                    <p class="font-bold opacity-100">并行任务</p>
-                                </div>
-                            </div>
-
-                            <!-- 过程连线 -->
-                            <div class="w-11 absolute -left-11 top-6 border border-gray-400 border-b-[3px]">
-                            </div>
-                            <div class="w-11 absolute -right-11 top-6 border border-gray-400 border-b-[3px]">
-                            </div>
-
-                            <!-- 左并行连线 -->
-                            <div
-                                class="h-[75px] w-4 absolute -left-4 bottom-6 border-gray-400 border-l-[3px] border-b-[3px] rounded-bl-2xl -z-10 border-dashed">
-                            </div>
-                            <!-- 右并行连线 -->
-                            <div
-                                class="h-[75px] w-4 absolute -right-4 bottom-6 border-gray-400 border-r-[3px] border-b-[3px] rounded-br-2xl -z-10 border-dashed">
-                            </div>
-                        </div>
+                        <!-- 任务列 -->
+                        <PipelineMainTask :tasks="tasks[3]" @show="showSetting" />
                     </div>
                 </div>
 
@@ -220,9 +104,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
 
         </el-scrollbar>
