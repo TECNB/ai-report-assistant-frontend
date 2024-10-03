@@ -4,11 +4,13 @@
             <p class="text-2xl font-bold">空气质量数据导入</p>
 
             <div class="flex justify-center items-center gap-5">
-                <div class="w-52">
+                <div class="w-60">
                     <el-slider v-model="sliderValue" :max="maxScroll" @input="inputSlider" :show-tooltip="false" class="el-slider-style"></el-slider>
                 </div>
-                <div class="flex justify-center items-center gap-5 border-l-2 pl-2">
-                    <div class="bg-gray-200 rounded-md px-5 py-2">
+                <div class="h-6 border-l-2 border-gray-300">
+                    
+                </div>
+                <div class="bg-gray-200 rounded-md px-5 py-2">
                     <p class="text-black">取消</p>
                 </div>
                 <div class="bg-gray-200 rounded-md px-5 py-2">
@@ -17,8 +19,6 @@
                 <div class="bg-gray-700 rounded-md px-5 py-2">
                     <p class="text-white">保存并执行</p>
                 </div>
-                </div>
-                
             </div>
         </div>
 
