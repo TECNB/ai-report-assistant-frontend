@@ -1,8 +1,18 @@
 <template>
     <div class="MainPipeline px-5 py-3">
-        <div class="flex justify-between items-center border-b -mx-5 px-7 pb-2 ">
+        <div class="w-[92%] flex justify-between items-center border-b -mx-5 px-7 pb-2 ">
             <p class="text-2xl font-bold">空气质量数据导入</p>
-
+            <div class="flex justify-center items-center gap-5">
+                <div class="bg-gray-200 rounded-md px-5 py-2">
+                    <p class="text-black">取消</p>
+                </div>
+                <div class="bg-gray-200 rounded-md px-5 py-2">
+                    <p class="text-black">保存</p>
+                </div>
+                <div class="bg-gray-700 rounded-md px-5 py-2">
+                    <p class="text-white">保存并执行</p>
+                </div>
+            </div>
         </div>
 
         <el-scrollbar height="100%" wrap-style="padding:20px" class="flex justify-start">
