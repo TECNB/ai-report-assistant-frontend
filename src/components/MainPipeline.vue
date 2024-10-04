@@ -148,6 +148,7 @@ interface PipelineStage {
     title: string;   // 环节标题
     num: number;     // 任务数
     status: 'completed' | 'inProgress' | 'notStarted';  // 环节状态
+    completedTasks?: number;  // 已完成的任务数，仅在inProgress时有意义
 }
 
 const stage: PipelineStage[] = [
@@ -159,22 +160,23 @@ const stage: PipelineStage[] = [
     {
         title: '数据预处理',
         num: 2,
-        status: 'inProgress'
+        status: 'inProgress',
+        completedTasks: 1   // 1/2 任务完成
     },
     {
         title: '图表生成',
         num: 3,
-        status: 'inProgress'
+        status: 'notStarted',
     },
     {
         title: '报表生成',
         num: 1,
-        status: 'inProgress'
+        status: 'notStarted',
     },
     {
         title: '新阶段',
         num: 0,
-        status: 'inProgress'
+        status: 'notStarted',
     }
 ]
 
