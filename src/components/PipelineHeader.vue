@@ -3,23 +3,26 @@
         <!-- 头部 -->
         <div v-if="props.title!=='新阶段'" class="flex justify-center items-center relative cursor-pointer">
             <!-- Arrow tail -->
-            <div class="absolute top-0 -left-3 w-3 h-16 bg-gray-200 opacity-80"></div>
+            <div :class="!props.ifDone ? 'bg-gray-200' : 'bg-emerald-100'" class="absolute top-0 -left-3 w-3 h-16 opacity-80"></div>
 
             <!-- Main body -->
-            <div class="w-72 h-16 flex justify-between items-center bg-gray-200 opacity-80 p-3">
+            <div :class="!props.ifDone ? 'bg-gray-200' : 'bg-emerald-100'" class="w-72 h-16 relative flex justify-between items-center  opacity-80 overflow-hidden p-3">
                 <div class="flex flex-col justify-center items-start">
                     <p class="font-bold">{{ props.title }}</p>
-                    <p>{{ props.count }}个数据源</p>
+                    <p>{{ props.num }}个数据源</p>
                 </div>
-                <div class="flex justify-center items-center gap-4">
+                <div class="flex justify-center items-center gap-4" v-if="!ifDone">
                     <i class="fa-light fa-pen"></i>
                     <i class="fa-light fa-copy"></i>
                     <i class="fa-light fa-trash"></i>
                 </div>
+                <div class="absolute -top-3 right-0" v-else>
+                    <i class="fa-solid fa-circle-check text-7xl text-emerald-300" ></i>
+                </div>
             </div>
 
             <!-- Arrow head -->
-            <div class="absolute top-0 -right-5 w-5 h-16 bg-gray-200 opacity-80"
+            <div :class="!props.ifDone ? 'bg-gray-200' : 'bg-emerald-100'" class="absolute top-0 -right-5 w-5 h-16 opacity-80"
                 style="clip-path: polygon(0 0%, 100% 50%, 0 100%);"></div>
             <!-- 添加符号 -->
             <div v-if="props.title !== '数据源'"
@@ -36,7 +39,7 @@
             <div class="w-72 h-16 flex justify-between items-center bg-gray-200/60 opacity-80 p-3">
                 <div class="flex flex-col justify-center items-start">
                     <p class="font-bold text-black/60">{{ props.title }}</p>
-                    <p class="text-black/60">{{ props.count }}个数据源</p>
+                    <p class="text-black/60">{{ props.num }}个数据源</p>
                 </div>
             </div>
 
@@ -53,8 +56,8 @@
 </template>
 
 <script setup lang="ts">
-import { } from "vue"
-const props = defineProps(['title', 'count'])
+import {  } from "vue"
+const props = defineProps(['title', 'num', 'ifDone'])
 const emit = defineEmits()
 
 

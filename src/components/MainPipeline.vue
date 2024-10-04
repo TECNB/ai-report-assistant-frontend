@@ -27,7 +27,7 @@
             <div class="flex justify-start items-start gap-10 p-5 w-[1780px]" ref="innerRef">
                 <!-- 数据源 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <PipelineHeader title="数据源" :num="2" />
+                    <PipelineHeader title="数据源" :num="2" :ifDone="true"/>
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
