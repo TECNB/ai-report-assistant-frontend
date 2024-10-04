@@ -17,7 +17,7 @@
                 <div class="bg-gray-200 rounded-md cursor-pointer px-5 py-2">
                     <p class="text-black">保存</p>
                 </div>
-                <div class="bg-gray-700 rounded-md cursor-pointer px-5 py-2">
+                <div class="bg-gray-700 rounded-md cursor-pointer px-5 py-2" @click="handlePipeline">
                     <p class="text-white">保存并执行</p>
                 </div>
             </div>
@@ -25,9 +25,9 @@
 
         <el-scrollbar height="100%" class="w-[1300px]" ref="scrollbarRef" @scroll="handleScroll">
             <!-- 头部 -->
-            <div class="flex justify-start items-start gap-10 px-5 pt-5 w-[1780px]" >
-                <div class="" v-for="info in stage">
-                    <PipelineHeader :info="info" />
+            <div class="flex justify-start items-start gap-10 px-5 pt-5 w-[1780px]">
+                <div class="" v-for="(info, index) in stages">
+                    <PipelineHeader :info="info" :timer="timers[index]" />
                 </div>
             </div>
 
@@ -144,6 +144,13 @@ const settingVisible2 = ref(false);
 const settingVisible3 = ref(false);
 const settingVisible4 = ref(false);
 
+// 用来记录每个阶段的时间
+const timers = ref<number[]>([0, 0, 0, 0]); // 用于存储每个阶段的时间
+
+let intervals: any[] = []; // 用于存储定时器
+
+
+
 interface PipelineStage {
     title: string;   // 环节标题
     num: number;     // 任务数
@@ -151,34 +158,39 @@ interface PipelineStage {
     completedTasks?: number;  // 已完成的任务数，仅在inProgress时有意义
 }
 
-const stage: PipelineStage[] = [
+// stage为ref类型
+const stages = ref<PipelineStage[]>([
     {
         title: '数据源',
         num: 2,
-        status: 'completed'
+        status: 'notStarted',
+        completedTasks: 0
     },
     {
         title: '数据预处理',
-        num: 2,
-        status: 'inProgress',
-        completedTasks: 1   // 1/2 任务完成
+        num: 1,
+        status: 'notStarted',
+        completedTasks: 0
     },
     {
         title: '图表生成',
         num: 3,
         status: 'notStarted',
+        completedTasks: 0
     },
     {
         title: '报表生成',
         num: 1,
         status: 'notStarted',
+        completedTasks: 0
     },
     {
         title: '新阶段',
         num: 0,
         status: 'notStarted',
+        completedTasks: 0
     }
-]
+])
 
 const tasks = [
     {
@@ -242,6 +254,64 @@ onMounted(() => {
     const containerWidth = scrollbarRef.value?.$el.clientWidth || 0
     maxScroll.value = innerWidth - containerWidth
 })
+
+
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+const startTimer = (index: number) => {
+    const start = performance.now();
+    intervals[index] = setInterval(() => {
+        timers.value[index] = parseFloat(((performance.now() - start) / 1000).toFixed(2));
+    }, 100); // 每 100 毫秒更新一次
+};
+
+const stopTimer = (index: number) => {
+    clearInterval(intervals[index]); // 清除定时器
+};
+
+const handlePipeline = async () => {
+    console.log('handlePipeline');
+
+    // Stage 1
+    stages.value[0].status = 'inProgress';
+    startTimer(0); // 开始计时
+    await delay(2000);
+    stopTimer(0); // 停止计时
+    stages.value[0].status = 'completed';
+    console.log(`Stage 1 completed in ${timers.value[0]} s`);
+
+    // Stage 2
+    stages.value[1].status = 'inProgress';
+    startTimer(1); // 开始计时
+    await delay(3000);
+    stages.value[1].completedTasks = 1;
+    await delay(2000);
+    stopTimer(1); // 停止计时
+    stages.value[1].status = 'completed';
+    console.log(`Stage 2 completed in ${timers.value[1]} s`);
+
+    // Stage 3
+    stages.value[2].status = 'inProgress';
+    startTimer(2); // 开始计时
+    await delay(3000);
+    stages.value[2].completedTasks = 1;
+    await delay(4000);
+    stages.value[2].completedTasks = 2;
+    await delay(2000);
+    stopTimer(2); // 停止计时
+    stages.value[2].status = 'completed';
+    console.log(`Stage 3 completed in ${timers.value[2]} s`);
+
+    // Stage 4
+    stages.value[3].status = 'inProgress';
+    startTimer(3); // 开始计时
+    await delay(2000);
+    stopTimer(3); // 停止计时
+    stages.value[3].status = 'completed';
+    console.log(`Stage 4 completed in ${timers.value[3]} s`);
+
+    console.log('All stages completed.');
+};
 
 const inputSlider = (value: number) => {
     scrollbarRef.value?.setScrollLeft(value)

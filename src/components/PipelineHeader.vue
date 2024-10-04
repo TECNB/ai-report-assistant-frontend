@@ -16,7 +16,7 @@
 
                 <div class="flex flex-col justify-center items-start" v-else>
                     <p class="font-bold text-white">{{ props.info.title }}</p>
-                    <p class="text-white">{{ props.info.completedTasks }}/{{ props.info.num }}个任务完成 | {{ timer }}s</p>
+                    <p class="text-white">{{ props.info.completedTasks }}/{{ props.info.num }}个任务完成 | {{ props.timer }}s</p>
                 </div>
 
                 <!-- 未进行时三个图标 -->
@@ -73,19 +73,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed,ref,onMounted } from "vue"
-const props = defineProps(['info'])
+import { computed } from "vue"
+const props = defineProps(['info','timer'])
 const emit = defineEmits()
 
-const timer = ref(0)
-
-// timer随着秒数增大
-onMounted(() => {
-    const interval = setInterval(() => {
-        timer.value += 1
-    }, 1000)
-    return () => clearInterval(interval)
-})
 
 const backgroundClass = computed(() => {
     if (props.info.status === 'inProgress') {
