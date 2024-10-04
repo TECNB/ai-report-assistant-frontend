@@ -24,10 +24,16 @@
         </div>
 
         <el-scrollbar height="100%" class="w-[1300px]" ref="scrollbarRef" @scroll="handleScroll">
-            <div class="flex justify-start items-start gap-10 p-5 w-[1780px]" ref="innerRef">
+            <!-- 头部 -->
+            <div class="flex justify-start items-start gap-10 px-5 pt-5 w-[1780px]" >
+                <div class="" v-for="info in stage">
+                    <PipelineHeader :info="info" />
+                </div>
+            </div>
+
+            <div class="flex justify-start items-start gap-10 px-5 w-[1780px]" ref="innerRef">
                 <!-- 数据源 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <PipelineHeader title="数据源" :num="2" :ifDone="true"/>
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
@@ -39,7 +45,6 @@
 
                 <!-- 数据预处理 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <PipelineHeader title="数据预处理" :num="2" />
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
@@ -53,7 +58,6 @@
 
                 <!-- 图表生成 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <PipelineHeader title="图表生成" :num="3" />
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] relative border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
@@ -67,7 +71,6 @@
 
                 <!-- 图表生成 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <PipelineHeader title="报表生成" :num="1" />
 
                     <!-- 主要部分 -->
                     <div class="w-72 h-[800px] border-r-2 border-gray-500 border-dashed translate-x-7 p-5">
@@ -81,7 +84,6 @@
 
                 <!-- 新阶段 -->
                 <div class="flex flex-col justify-start items-center gap-2">
-                    <PipelineHeader title="新阶段" :num="0" />
 
 
                     <!-- 主要部分 -->
@@ -105,7 +107,6 @@
                     </div>
                 </div>
             </div>
-
         </el-scrollbar>
 
 
@@ -142,6 +143,40 @@ const settingVisible1 = ref(false);
 const settingVisible2 = ref(false);
 const settingVisible3 = ref(false);
 const settingVisible4 = ref(false);
+
+interface PipelineStage {
+    title: string;   // 环节标题
+    num: number;     // 任务数
+    status: 'completed' | 'inProgress' | 'notStarted';  // 环节状态
+}
+
+const stage: PipelineStage[] = [
+    {
+        title: '数据源',
+        num: 2,
+        status: 'completed'
+    },
+    {
+        title: '数据预处理',
+        num: 2,
+        status: 'inProgress'
+    },
+    {
+        title: '图表生成',
+        num: 3,
+        status: 'inProgress'
+    },
+    {
+        title: '报表生成',
+        num: 1,
+        status: 'inProgress'
+    },
+    {
+        title: '新阶段',
+        num: 0,
+        status: 'inProgress'
+    }
+]
 
 const tasks = [
     {
