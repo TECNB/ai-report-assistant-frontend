@@ -265,31 +265,45 @@ const typeEffect = (text: string, speed: number) => {
 
 
 onMounted(() => {
-  if (chatStore.displayedMessages.length > 0) {
-    displayedMessages.value = chatStore.displayedMessages;
+  // 从当前活跃的对话中获取消息
+  if (chatStore.getCurrentMessages().length > 0) {
+    displayedMessages.value = chatStore.getCurrentMessages(); // 使用 getCurrentMessages 方法获取消息
     showSuggestions.value = false;
-    console.log("message",displayedMessages.value)
+    console.log("message", displayedMessages.value);
   }
-  watch(() => chatStore.displayedMessages, (newValue) => {
+
+  // 监听聊天消息的变化，自动更新 displayedMessages
+  watch(() => chatStore.getCurrentMessages(), (newValue) => {
     console.log('Messages updated:', newValue);
+    displayedMessages.value = newValue;
   });
 
+  // watch(()=>chatStore.currentConversationId,()=>{
+  //   displayedMessages.value = chatStore.getCurrentMessages()
+  //   console.log("重复l")
+  // })
+
+  // 监听 sideTuBiaoStore 的变化
   watch(() => sideTuBiaoStore.TuBiao, (value) => {
     if (value === 1) {
-      sideTuBiaoStore.TuBiao = 0
+      sideTuBiaoStore.TuBiao = 0;
       displayedMessages.value.pop();
       displayedMessages.value.push({ type: 'showChart', content: '' });
-      saveMessages(); // 保存聊天记录
+      chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     }
-  })
+  });
+
+  // 监听 sideBaoBiaoStore 的变化
   watch(() => sideBaoBiaoStore.BaoBiao, (val) => {
     if (val === 1) {
-      sideBaoBiaoStore.BaoBiao = 0
+      sideBaoBiaoStore.BaoBiao = 0;
       displayedMessages.value.pop();
-      displayedMessages.value.push({ type: 'showChartTu', content: '' })
-      saveMessages(); // 保存聊天记录
+      displayedMessages.value.push({ type: 'showChartTu', content: '' });
+      chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     }
-  })
+  });
+
+  // 监听 message 的变化并调整 textarea 大小
   watch(message, (newValue) => {
     if (!newValue.trim()) {
       const textarea = document.querySelector('textarea');
@@ -298,7 +312,8 @@ onMounted(() => {
       }
     }
   });
-})
+});
+
 
 const autoResize = (event:any) => {
   const textarea = event.target;
@@ -314,15 +329,19 @@ const autoResize = (event:any) => {
 // 回车事件处理函数
 const handleEnter = async () => {
   if (imageUrl.value) {
+    if (chatStore.currentConversationId === null) {
+      chatStore.startNewConversation();
+    }
     displayedMessages.value.push({
       type: 'image',
       content: imageUrl.value
     });
-
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     const userContent = message.value;
 
     if (message.value != '整理文件中空气质量、碳排放来源、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量'&& message.value !== '根据我的手写报表进行转化') {
       displayedMessages.value.push({ type: 'user', content: userContent });
+      chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     }
 
     showSuggestions.value = false; // 隐藏建议列表
@@ -338,17 +357,21 @@ const handleEnter = async () => {
     // 添加最终的AI消息并应用打字效果
     // await typeEffect(chatExample2.prompt, 50);
     imageUrl.value = ''; // 清空图片 URL
-    saveMessages();
 
   }
   if (pdfUrl.value) {
+    if (chatStore.currentConversationId === null) {
+      chatStore.startNewConversation();
+    }
     displayedMessages.value.push({
       type: 'pdf',
       content: pdfUrl.value
     });
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     const userContent = message.value;
     if (message.value != '整理文件中空气质量、碳排放来源、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量'&& message.value !== '根据我的手写报表进行转化') {
       displayedMessages.value.push({ type: 'user', content: userContent });
+      chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     }
     showSuggestions.value = false; // 隐藏建议列表
 
@@ -359,17 +382,21 @@ const handleEnter = async () => {
 
     // 添加最终的AI消息并应用打字效果
     displayedMessages.value.push({ type: 'pdfQuestion', content: '以下是为您所转化的PDF报表' });
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
 
     pdfUrl.value = ''; // 清空 PDF URL
-    saveMessages();
+
 
   }
   if (message.value === '为我生成图表，其中横向柱状图部分采取由大到小的排列方式') {
+    if (chatStore.currentConversationId === null) {
+      chatStore.startNewConversation();
+    }
     const userContent = message.value;
 
     // 添加用户消息
     displayedMessages.value.push({ type: 'user', content: userContent });
-
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     // 清空输入框
     message.value = '';
     showSuggestions.value = false;
@@ -386,18 +413,22 @@ const handleEnter = async () => {
 
     // 添加可点击的 AI 消息，使用 v-html 渲染
     displayedMessages.value.push({ type: 'ai', content: '' });
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     // 模拟打字效果
     await typeEffect(chatExampleTuBiao.prompt, 50)
-    saveMessages();
+
     return;
   }
 
   if (message.value === '为我生成报表，要求年度空气质量统计单独占一行，同时从之前的PDF中，提取空气质量优良天数以及本年度二氧化碳总排放量的具体数字数据，将它们作为一行') {
+    if (chatStore.currentConversationId === null) {
+      chatStore.startNewConversation();
+    }
     const userContent = message.value;
 
     // 添加用户消息
     displayedMessages.value.push({ type: 'user', content: userContent });
-
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     // 清空输入框
     message.value = '';
     showSuggestions.value = false;
@@ -412,21 +443,21 @@ const handleEnter = async () => {
 
     // 添加可点击的 AI 消息，使用 v-html 渲染
     displayedMessages.value.push({ type: 'ai', content: '' });
-
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     await typeEffect(chatExampleBaoBiao.prompt, 50)
 
-    if (sideBaoBiaoStore.BaoBiao === 1) {
-      displayedMessages.value.push({ type: 'showChartTu', content: '' });
-    }
-    saveMessages();
     return;
   }
 
 
 
   if (message.value === '2023年累计温室气体排放') {
+    if (chatStore.currentConversationId === null) {
+      chatStore.startNewConversation();
+    }
     const userContent = message.value;
     displayedMessages.value.push({ type: 'user', content: userContent });
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     message.value = '';
 
     showSuggestions.value = false; // 隐藏建议列表
@@ -436,18 +467,23 @@ const handleEnter = async () => {
     // 移除加载占位符
     displayedMessages.value.pop();
     displayedMessages.value.push({ type: 'ai', content: '' });
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
 
 
     // 添加最终的AI消息并应用打字效果
     await typeEffect(chatExample.prompt, 50);
 
     displayedMessages.value.push({ type: 'numberQuestion', content: '' });
-    saveMessages();
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     return;
   }
   if (message.value === '预测接下来三个月的温室气体排放') {
+    if (chatStore.currentConversationId === null) {
+      chatStore.startNewConversation();
+    }
     const userContent = message.value;
     displayedMessages.value.push({ type: 'user', content: userContent });
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     message.value = '';
 
     showSuggestions.value = false; // 隐藏建议列表
@@ -457,24 +493,30 @@ const handleEnter = async () => {
     // 移除加载占位符
     displayedMessages.value.pop();
     displayedMessages.value.push({ type: 'ai', content: '' });
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
 
 
     // 添加最终的AI消息并应用打字效果
     await typeEffect(chatExample.prompt, 50);
 
     displayedMessages.value.push({ type: 'predictQuestion', content: '' });
-    saveMessages();
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     return;
   }
   if (message.value === '为我归因2023年温室气体排放') {
+    if (chatStore.currentConversationId === null) {
+      chatStore.startNewConversation();
+    }
     const userContent = message.value;
     displayedMessages.value.push({ type: 'user', content: userContent });
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     message.value = '';
 
     showSuggestions.value = false; // 隐藏建议列表
 
     // Add a loading placeholder
     displayedMessages.value.push({ type: 'loading', content: '' });
+
     // 移除加载占位符
     displayedMessages.value.pop();
     // displayedMessages.value.push({ type: 'ai', content: '' });
@@ -484,23 +526,28 @@ const handleEnter = async () => {
     // await typeEffect(chatExample2.prompt, 50);
 
     displayedMessages.value.push({ type: 'attributionQuestion', content: '' });
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     saveMessages();
     return;
   }
 
   if(message.value ==='根据我的手写报表进行转化')
   {
+    if (chatStore.currentConversationId === null) {
+      chatStore.startNewConversation();
+    }
     const userContent = message.value;
     displayedMessages.value.push({ type: 'user', content: userContent });
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     message.value = '';
     showSuggestions.value = false; // 隐藏建议列表
     displayedMessages.value.push({ type: 'ai', content: '请耐心等待，正在读取文件中...' });
-
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     setTimeout(() => {
       // 第二步：显示PDF读取完成并显示加载中的弹窗
       displayedMessages.value.pop(); // 移除之前的提示
       displayedMessages.value.push({ type: 'ai', content: 'IMG报表读取完成，正在进行接话数据转化...' });
-
+      chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
 
       // 第三步：等待2秒后显示最终界面
       setTimeout(() => {
@@ -508,20 +555,26 @@ const handleEnter = async () => {
         // 显示最终界面和相关图表的按钮
         displayedMessages.value.pop(); // 移除之前的提示
         displayedMessages.value.push({ type: 'ai', content: '点击下方按钮生成多个相关图表的节目' });
+        chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
         displayedMessages.value.pop(); // 移除之前的提示
         displayedMessages.value.push({ type: 'showIMG', content: '生成图表' });
+        chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
 
       }, 2000); // 等待2秒显示图表生成界面
     }, 3000); // 等待3秒显示PDF读取完成的提示
 
 
-    saveMessages();
+
     return;
   }
 
   if (message.value === '整理文件中空气质量、碳排放来源、森林覆盖率的相关数据给我，其中监测水质的数据要求为化学需氧量') {
+    if (chatStore.currentConversationId === null) {
+      chatStore.startNewConversation();
+    }
     const userContent = message.value;
     displayedMessages.value.push({ type: 'user', content: userContent });
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     message.value = '';
 
     showSuggestions.value = false; // 隐藏建议列表
@@ -532,11 +585,13 @@ const handleEnter = async () => {
     // // 移除加载占位符
     // displayedMessages.value.pop();
     displayedMessages.value.push({ type: 'ai', content: '请耐心等待，正在读取文件中...' });
+    chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
 
     setTimeout(() => {
       // 第二步：显示PDF读取完成并显示加载中的弹窗
       displayedMessages.value.pop(); // 移除之前的提示
       displayedMessages.value.push({ type: 'ai', content: 'PDF读取完成，正在进行接话数据转化...' });
+      chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
 
 
       // 第三步：等待2秒后显示最终界面
@@ -545,8 +600,10 @@ const handleEnter = async () => {
         // 显示最终界面和相关图表的按钮
         displayedMessages.value.pop(); // 移除之前的提示
         displayedMessages.value.push({ type: 'ai', content: '点击下方按钮生成多个相关图表的节目' });
+        chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
         displayedMessages.value.pop(); // 移除之前的提示
         displayedMessages.value.push({ type: 'showStruct', content: '生成图表' });
+        chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
 
       }, 2000); // 等待2秒显示图表生成界面
     }, 3000); // 等待3秒显示PDF读取完成的提示
@@ -555,7 +612,7 @@ const handleEnter = async () => {
     // await typeEffect(chatExample.prompt, 50);
     //
     // displayedMessages.value.push({ type: 'predictQuestion', content: '' });
-    saveMessages();
+
     return;
   }
   if (message.value.trim()) {

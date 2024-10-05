@@ -24,15 +24,23 @@
             </div>
         </div>
 
-      <!-- 新对话部分显示 -->
-      <div v-if="conversationCount > 0" class="pt-3">
-        <p class="text-text-400 font-bold text-left mt-5 p-2">今天</p>
-        <div class="pt-2 flex flex-col gap-3">
-          <p v-for="(conversation, index) in conversations" :key="index"
-             class="text-left whitespace-nowrap overflow-hidden text-text-100 text-sm p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition"
-             @click="openConversation(conversation)">
-            {{ conversation }}
-          </p>
+      <div class="px-3">
+        <!-- 新对话部分显示 -->
+        <div v-if="chatStore.conversations.length > 0" class="pt-3">
+          <p class="text-text-400 font-bold text-left mt-5 p-2">今天</p>
+
+          <div class="pt-2 flex flex-col gap-3">
+            <!-- 遍历对话列表 -->
+            <div v-for="(conversation) in chatStore.conversations" :key="conversation.id">
+
+              <!-- 如果加载完成，显示对话标题 -->
+              <div
+                   class="text-left whitespace-nowrap overflow-hidden text-text-100 text-sm p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition"
+                   @click="openConversation(conversation)">
+                对话 {{ conversation.id }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -69,31 +77,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref} from "vue"
 
 import { reportContent } from '../constant/reportContent';
-
+import { useChatStore } from '../stores/chatStore';  // 引入 ChatStore
 
 let chartVisible = ref(false);
 let statementVisible = ref(false);
 let dataSourceVisible = ref(false);
 let userDataVisible = ref(false);
+const chatStore = useChatStore();
 
-// 对话计数器
-let conversationCount = ref(0);
-let conversations = ref<string[]>([]);
 
 // 增加新对话
 const addNewConversation = () => {
-  conversationCount.value++;
-  conversations.value.push(`新对话 ${conversationCount.value}`);
+  chatStore.startNewConversation();  // 使用 store 创建新对话
+  console.log('test',chatStore.currentConversationId)
 };
 
 // 打开对话
-const openConversation = (conversation: string) => {
-  console.log(`打开对话: ${conversation}`);
+const openConversation = (conversation: any) => {
+  chatStore.switchConversation(conversation.id);  // 切换到点击的对话
+  console.log(`打开对话: 对话 ${conversation.id}`);
 };
-// 切换“今天”部分的显示与隐藏
 
 
 const showChart = () => {
@@ -124,5 +130,11 @@ const updateUserDataVisible = (value: boolean) => {
 </script>
 
 <style lang="scss" scoped>
-
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+}
 </style>
