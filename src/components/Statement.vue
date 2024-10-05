@@ -8,7 +8,13 @@
                 </el-icon>
             </div>
         </div>
-        <el-scrollbar height="95%" wrap-style="width:100%;" class="flex justify-center" @scroll="onScroll">
+      <div v-if="loading" class="loading-container">
+        <el-icon size="50" class="loading-spinner">
+          <Loading />
+        </el-icon>
+        <p class="text-lg font-bold mt-3">加载中，请稍候...</p>
+      </div>
+        <el-scrollbar height="95%" wrap-style="width:100%;" class="flex justify-center" @scroll="onScroll" v-else>
             <div class="w-full flex flex-col justify-center items-center self-center relative overflow-visible">
                 <!-- 动态渲染可拖动的元素 -->
                 <div v-for="(item, index) in statementItems" :key="index" :data-id="index"
@@ -114,7 +120,18 @@ let initialHeight = ref(0);
 let activeIndex = ref<number | null>(null); // 当前操作的元素索引
 
 const hoveredItem = ref<number | null>(null); // 用来存储当前悬浮的元素索引
+let loading = ref(true);  // 用于控制加载状态
 
+// 模拟加载过程
+watch(() => props.ifShow, async (newValue) => {
+  if (newValue) {
+    loading.value = true;
+    // 等待 2 秒模拟加载
+    setTimeout(() => {
+      loading.value = false;
+    }, 2000);
+  }
+});
 const toggleVisibility = () => {
     emit('updateIfShow', false);
 };
@@ -527,5 +544,16 @@ input.input-reset {
     color: inherit;
     outline: none;
     pointer-events: pointer;
+}
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
 }
 </style>

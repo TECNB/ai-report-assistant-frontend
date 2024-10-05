@@ -8,7 +8,8 @@
                 </el-icon>
             </div> -->
         </div>
-        <el-scrollbar height="95%" wrap-style="width:90%;" class="flex justify-start ml-5">
+
+        <el-scrollbar height="95%" wrap-style="width:90%;" class="flex justify-start ml-5" >
             <div class="w-full flex flex-col justify-center items-center self-center">
                 <div
                     class="w-full h-10 flex justify-center items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">

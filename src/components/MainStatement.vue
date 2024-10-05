@@ -1,9 +1,12 @@
 <template>
-    <div class="Statement">
+    <div class="Statement" >
         <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">
             <p class="text-2xl font-bold">年度碳排放与环境质量报表</p>
         </div>
-        <el-scrollbar height="100%" wrap-style="width:100%;height:100%;" class="flex justify-start" @scroll="onScroll">
+
+
+
+        <el-scrollbar height="100%" wrap-style="width:100%;height:100%;" class="flex justify-start" @scroll="onScroll" >
             <div class="w-full flex flex-col justify-center items-center self-center relative overflow-visible">
                 <!-- 动态渲染可拖动的元素 -->
                 <div v-for="(item, index) in statementItems" :key="index" :data-id="index"
