@@ -31,10 +31,10 @@
 
           <div class="pt-2 flex flex-col gap-3">
             <!-- 遍历对话列表 -->
-            <div v-for="(conversation,index) in chatStore.conversations.slice().sort((a, b) => b.id - a.id)" :key="conversation.id">
+            <div v-for="(conversation) in chatStore.conversations.slice().sort((a, b) => b.id - a.id)" :key="conversation.id">
 
               <!-- 加载动画 -->
-              <div v-if="loadingConversations[index]" class="loader">
+              <div v-if="loadingConversations[conversation.id]" class="loader">
                 加载中...
               </div>
 
@@ -91,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref,onMounted} from "vue"
+import { ref,watch} from "vue"
 
 import { reportContent } from '../constant/reportContent';
 import { useChatStore } from '../stores/chatStore';  // 引入 ChatStore
@@ -102,26 +102,33 @@ let dataSourceVisible = ref(false);
 let userDataVisible = ref(false);
 const chatStore = useChatStore();
 
-const loadingConversations = ref<boolean[]>([])
-const simulateLoading = () => {
-  // 初始化每个对话的加载状态为 true
-  loadingConversations.value = chatStore.conversations.map(() => true);
 
-  // 模拟加载时间，每个对话 1 秒后加载完成
-  chatStore.conversations.forEach((_, index) => {
-    setTimeout(() => {
-      loadingConversations.value[index] = false;
-    }, 1000 + index * 200); // 每个对话加载的延迟时间稍有变化
-  });
-};
+const newConversations = ref<number[]>([]);
+const loadingConversations = ref<Record<number, boolean>>({});  // 用对象来追踪每个对话的加载状态
 
-onMounted(() => {
-  simulateLoading(); // 调用 simulateLoading 函数
-});
+// 监听对话数组的变化，确保新对话时触发加载动画
+watch(
+    () => chatStore.conversations,
+    (newConversationsList) => {
+      // 如果有新对话，标记新对话并触发加载动画
+      newConversationsList.forEach((conversation) => {
+        if (!newConversations.value.includes(conversation.id)) {
+          newConversations.value.push(conversation.id);
+          loadingConversations.value[conversation.id] = true;
+
+          // 模拟加载延迟
+          setTimeout(() => {
+            loadingConversations.value[conversation.id] = false;
+          }, 1000); // 延迟1秒后加载完成
+        }
+      });
+    },
+    { deep: true }
+);
+
 // 增加新对话
 const addNewConversation = () => {
   chatStore.startNewConversation();  // 使用 store 创建新对话
-  console.log('test',chatStore.currentConversationId)
 };
 
 // 打开对话
@@ -166,4 +173,24 @@ const updateUserDataVisible = (value: boolean) => {
   justify-content: center;
   height: 100px;
 }
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  background-color: #f3f3f3;
+  border-radius: 4px;
+  color: #676767;
+  font-size: 14px;
+  font-weight: bold;
+  opacity: 0;
+  animation: fadeIn 0.5s forwards; /* 加入渐显效果 */
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
 </style>
