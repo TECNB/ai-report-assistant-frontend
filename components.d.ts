@@ -20,6 +20,9 @@ declare module 'vue' {
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElDialog: typeof import('element-plus/es')['ElDialog']
+    ElDropdown: typeof import('element-plus/es')['ElDropdown']
+    ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
+    ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElOption: typeof import('element-plus/es')['ElOption']
@@ -72,6 +75,7 @@ declare module 'vue' {
     SidebarPipelinet: typeof import('./src/components/SidebarPipelinet.vue')['default']
     SidebarStatement: typeof import('./src/components/SidebarStatement.vue')['default']
     Statement: typeof import('./src/components/Statement.vue')['default']
+    Timetu: typeof import('./src/components/timetu.vue')['default']
     UserData: typeof import('./src/components/UserData.vue')['default']
   }
 }

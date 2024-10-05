@@ -1,13 +1,43 @@
 <template>
     <div class="Statement" v-if="props.ifShow">
-        <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">
-            <p class="text-2xl font-bold">生成的报表</p>
-            <div class="Close" @click="toggleVisibility">
-                <el-icon size="20" class="cursor-pointer">
-                    <Close />
-                </el-icon>
-            </div>
+      <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">
+        <p class="text-2xl font-bold">生成的报表</p>
+
+        <div class="flex items-center">
+
+          <!-- 下载按钮 -->
+          <el-select
+              v-model="selectedDownload"
+              placeholder="下载"
+              size="mini"
+              @change="handleDownload"
+              class="w-full"
+              clearable :teleported="false"
+          >
+            <template #prefix>  <!-- 在下拉框前面添加“下载”字 -->
+              <span class="mr-2">下载</span>
+            </template>
+            <el-option label="下载 PDF" value="pdf"></el-option>
+            <el-option label="下载 图片" value="image"></el-option>
+          </el-select>
+
+          <!-- 关闭按钮 -->
+          <div class="Close ml-4" @click="toggleVisibility">
+            <el-icon size="20" class="cursor-pointer">
+              <Close />
+            </el-icon>
+          </div>
         </div>
+      </div>
+<!--        <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">-->
+<!--            <p class="text-2xl font-bold">生成的报表</p>-->
+<!--            <div class="Close" @click="toggleVisibility">-->
+<!--                <el-icon size="20" class="cursor-pointer">-->
+<!--                    <Close />-->
+<!--                </el-icon>-->
+<!--            </div>-->
+<!--        </div>-->
+
       <div v-if="loading" class="loading-container">
         <el-icon size="50" class="loading-spinner">
           <Loading />
@@ -75,13 +105,16 @@ import { ref, watch } from 'vue';
 // import { debounce } from 'lodash';
 
 import { StatementItem } from '../interfaces/StatementItem';
-
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import LineContainer from './charts/LineContainer.vue';
 import PieContainer from './charts/PieContainer.vue';
 import BarContainer from './charts/BarContainer.vue';
 import HorizontalBarContainer from './charts/HorizontalBarContainer.vue';
 
 import { statementItems } from '../constant/statementItems';
+
+
 
 const props = defineProps(['ifShow']);
 const emit = defineEmits();
@@ -140,6 +173,47 @@ let initialPositions: number[] = [];
 // 定义变量最初始的位置
 let initialPositionsY: number[] = [];
 initialPositionsY = statementItems.value.map(item => item.top);
+
+// 处理下载操作
+// 处理下载操作
+const handleDownload = async (command: string) => {
+  if (command === 'pdf') {
+    // 实现PDF下载逻辑
+    console.log('下载PDF');
+    await downloadPDF();
+  } else if (command === 'image') {
+    // 实现图片下载逻辑
+    console.log('下载图片');
+    await downloadImage();
+  }
+};
+
+// 下载PDF的函数
+const downloadPDF = async () => {
+  const element = document.querySelector('.Statement') as HTMLElement; // 选择需要下载的元素
+  if (element) {
+    const canvas = await html2canvas(element); // 将元素转为canvas
+    const imgData = canvas.toDataURL('image/png'); // 获取图片数据
+    const pdf = new jsPDF();
+
+    // 将图片添加到PDF中
+    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width * 0.75, canvas.height * 0.75); // 根据需要调整大小
+    pdf.save('report.pdf'); // 下载PDF
+  }
+};
+
+// 下载图片的函数
+const downloadImage = async () => {
+  const element = document.querySelector('.Statement') as HTMLElement; // 选择需要下载的元素
+  if (element) {
+    const canvas = await html2canvas(element); // 将元素转为canvas
+    const imgData = canvas.toDataURL('image/png'); // 获取图片数据
+    const link = document.createElement('a'); // 创建一个链接
+    link.href = imgData; // 设置链接的href为图片数据
+    link.download = 'report.png'; // 设置下载的文件名
+    link.click(); // 模拟点击下载
+  }
+};
 
 const onMouseDown = (event: MouseEvent, index: number, handleType: 'drag' | 'resize') => {
     isInteracting.value = true;
@@ -556,4 +630,5 @@ input.input-reset {
 .loading-spinner {
   animation: spin 1s linear infinite;
 }
+
 </style>
