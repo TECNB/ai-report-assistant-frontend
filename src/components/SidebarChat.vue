@@ -119,7 +119,7 @@ watch(
           // 模拟加载延迟
           setTimeout(() => {
             loadingConversations.value[conversation.id] = false;
-          }, 1000); // 延迟1秒后加载完成
+          }, 1750); // 延迟1秒后加载完成
         }
       });
     },
