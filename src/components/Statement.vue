@@ -17,8 +17,8 @@
             <template #prefix>  <!-- 在下拉框前面添加“下载”字 -->
               <span class="mr-2">下载</span>
             </template>
-            <el-option label="下载 PDF" value="pdf"></el-option>
-            <el-option label="下载 图片" value="image"></el-option>
+            <el-option label="导出 PDF" value="pdf"></el-option>
+            <el-option label="导出 图片" value="image"></el-option>
           </el-select>
 
           <!-- 关闭按钮 -->

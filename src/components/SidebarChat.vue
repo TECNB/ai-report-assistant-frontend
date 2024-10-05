@@ -31,7 +31,7 @@
 
           <div class="pt-2 flex flex-col gap-3">
             <!-- 遍历对话列表 -->
-            <div v-for="(conversation) in chatStore.conversations" :key="conversation.id">
+            <div v-for="(conversation) in chatStore.conversations.slice().sort((a, b) => b.id - a.id)" :key="conversation.id">
 
               <!-- 如果加载完成，显示对话标题 -->
               <div
