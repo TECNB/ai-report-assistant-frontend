@@ -2,7 +2,7 @@
     <div class="flex flex-col items-center justify-center h-screen bg-white relative">
         <img class="absolute top-5 left-5 w-16 h-16 rounded-full border-2 border-white" src="../assets/images/icon.png"
             alt="Logo" />
-        <h1 class="mb-5 text-2xl font-bold">登录到 Open WebUI</h1>
+        <h1 class="mb-5 text-2xl font-bold">登录到 AI-REPORT-ASSISTANT</h1>
         <form @submit.prevent="handleLogin" class="w-80">
             <div class="mb-4">
                 <label for="email" class="block mb-1 text-lg font-bold text-left">电子邮箱</label>
