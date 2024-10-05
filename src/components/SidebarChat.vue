@@ -37,7 +37,15 @@
               <div
                    class="text-left whitespace-nowrap overflow-hidden text-text-100 text-sm p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition"
                    @click="openConversation(conversation)">
-                对话 {{ conversation.id }}
+                <template v-if="conversation.id === 0">
+                  📝 手写报表转化：转化为平台格式报表
+                </template>
+                <template v-else-if="conversation.id === 1">
+                  📄 PDF数据读取：生态环境相关
+                </template>
+                <template v-else>
+                  新对话 {{ conversation.id }}
+                </template>
               </div>
             </div>
           </div>
