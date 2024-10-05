@@ -105,7 +105,7 @@
               <i class="fa-solid fa-file-pdf text-red-600 text-4xl mr-2"></i>
 
               <!-- PDF 文件名称 -->
-              <p class="text-sm">2023中国生态环境状况公报-保留大气环境版.pdf</p>
+              <p class="text-sm">2023中国生态环境状况公报.pdf</p>
             </div>
 
             <!-- 删除按钮 -->
@@ -200,7 +200,7 @@ const relatedData = ref('当前生态环境数据显示：空气质量指数（A
 const showSuggestions = ref(true); // 控制建议列表显示
 const displayedMessages = ref<{ type: string; content: string }[]>([]); // 展示的消息列表
 import defaultImageUrl from '../assets/images/CloudPic.jpg'; // 导入本地图片作为上传失败后的默认图
-import defaultPdfUrl from '../assets/pdf/2023中国生态环境状况公报-保留大气环境版.pdf';
+import defaultPdfUrl from '../assets/pdf/2023中国生态环境状况公报.pdf';
 import chatExampleBaoBiao from "../constant/chatExampleBaoBiao.ts";
 
 // 上传图片成功处理函数
