@@ -3,10 +3,10 @@
         <div class="flex flex-col justify-between px-3">
             <div class="flex justify-between items-center gap-2">
                 <div
-                    class="flex flex-1 justify-between items-center gap-3 p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition">
+                    class="flex flex-1 justify-between items-center gap-3 p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition" @click="addNewConversation">
                     <img class="w-6 h-6 rounded-full object-cover aspect-square" src="../assets/images/icon.png" alt="">
                     <p class="text-sm font-bold">新对话</p>
-                  <el-icon class="ml-auto" size="20" color="#676767" @click="addNewConversation">
+                  <el-icon class="ml-auto" size="20" color="#676767" >
                     <Edit />
                   </el-icon>
                 </div>
@@ -31,10 +31,16 @@
 
           <div class="pt-2 flex flex-col gap-3">
             <!-- 遍历对话列表 -->
-            <div v-for="(conversation) in chatStore.conversations.slice().sort((a, b) => b.id - a.id)" :key="conversation.id">
+            <div v-for="(conversation,index) in chatStore.conversations.slice().sort((a, b) => b.id - a.id)" :key="conversation.id">
+
+              <!-- 加载动画 -->
+              <div v-if="loadingConversations[index]" class="loader">
+                加载中...
+              </div>
 
               <!-- 如果加载完成，显示对话标题 -->
               <div
+                  v-else
                    class="text-left whitespace-nowrap overflow-hidden text-text-100 text-sm p-2 hover:bg-bg-300 cursor-pointer rounded-xl transition"
                    @click="openConversation(conversation)">
                 <template v-if="conversation.id === 0">
@@ -85,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref} from "vue"
+import { ref,onMounted} from "vue"
 
 import { reportContent } from '../constant/reportContent';
 import { useChatStore } from '../stores/chatStore';  // 引入 ChatStore
@@ -96,7 +102,22 @@ let dataSourceVisible = ref(false);
 let userDataVisible = ref(false);
 const chatStore = useChatStore();
 
+const loadingConversations = ref<boolean[]>([])
+const simulateLoading = () => {
+  // 初始化每个对话的加载状态为 true
+  loadingConversations.value = chatStore.conversations.map(() => true);
 
+  // 模拟加载时间，每个对话 1 秒后加载完成
+  chatStore.conversations.forEach((_, index) => {
+    setTimeout(() => {
+      loadingConversations.value[index] = false;
+    }, 1000 + index * 200); // 每个对话加载的延迟时间稍有变化
+  });
+};
+
+onMounted(() => {
+  simulateLoading(); // 调用 simulateLoading 函数
+});
 // 增加新对话
 const addNewConversation = () => {
   chatStore.startNewConversation();  // 使用 store 创建新对话
