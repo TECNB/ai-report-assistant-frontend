@@ -149,12 +149,12 @@ onMounted(async () => {
   try {
     // 加载高亮器并确认是否支持 SQL
     const highlighter = await getHighlighter({
-      themes: ['nord'], // 使用 Nord 主题
+      themes: ['light-plus'], // 使用 light-plus 主题
       langs: ['sql'],   // 确认 SQL 支持
     });
 
     // 使用高亮器进行基础高亮
-    let highlightedHtml = highlighter.codeToHtml(chatPreprocess, { lang: 'sql', theme: 'nord' });
+    let highlightedHtml = highlighter.codeToHtml(chatPreprocess, { lang: 'sql', theme: 'light-plus' });
 
     // 处理行号的生成与显示
     const lines = highlightedHtml.split('\n');
