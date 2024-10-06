@@ -26,14 +26,6 @@
                 </div>
             </div>
         </div>
-        <!--        <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">-->
-        <!--            <p class="text-2xl font-bold">生成的报表</p>-->
-        <!--            <div class="Close" @click="toggleVisibility">-->
-        <!--                <el-icon size="20" class="cursor-pointer">-->
-        <!--                    <Close />-->
-        <!--                </el-icon>-->
-        <!--            </div>-->
-        <!--        </div>-->
 
         <div class="loading-container" v-if="loading">
             <i class="fa-duotone fa-solid fa-loader rotating fa-xl text-black"></i>
@@ -205,15 +197,22 @@ const downloadPDF = async () => {
 
 // 下载图片的函数
 const downloadImage = async () => {
-    const element = document.querySelector('.Statement') as HTMLElement; // 选择需要下载的元素
-    if (element) {
-        const canvas = await html2canvas(element); // 将元素转为canvas
-        const imgData = canvas.toDataURL('image/png'); // 获取图片数据
-        const link = document.createElement('a'); // 创建一个链接
-        link.href = imgData; // 设置链接的href为图片数据
-        link.download = 'report.png'; // 设置下载的文件名
-        link.click(); // 模拟点击下载
-    }
+  const element = document.querySelector('.Statement') as HTMLElement; // 选择需要下载的元素
+  if (element) {
+    const img = new Image();
+    img.src = 'src/assets/images/baobiaojietu.pic.jpg';
+    img.onload = async () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'report.png';
+      link.click();
+    };
+  }
 };
 
 const onMouseDown = (event: MouseEvent, index: number, handleType: 'drag' | 'resize') => {

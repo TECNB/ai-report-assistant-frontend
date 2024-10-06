@@ -16,8 +16,6 @@
 
     </div>
   </div>
-  <MaskLayer :ifShow="chartVisible" />
-  <Chart :ifShow="chartVisible" @updateIfShow="updateChartVisible" />
   <MaskLayer backgroundColor="rgba(0, 0, 0, 0.3)" :ifShow="statementVisible" />
   <Statement :ifShow="statementVisible" @updateIfShow="updateStatementVisible" />
 </template>
@@ -35,9 +33,6 @@ const updateStatementVisible = (value: boolean) => {
 // 定义图表是否可见的状态
 const chartVisible = ref(false);
 
-const updateChartVisible = (value: boolean) => {
-  chartVisible.value = value;
-};
 
 
 </script>

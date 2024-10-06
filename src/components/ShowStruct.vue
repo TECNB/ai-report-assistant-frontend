@@ -12,15 +12,13 @@
     </el-button>
 
     <!-- 图表显示区 -->
-    <div v-if="chartVisible" class="mt-5 w-full h-64">
+    <div v-if="formVisible" class="mt-5 w-full h-64">
 
     </div>
   </div>
-  <MaskLayer :ifShow="chartVisible" />
-  <Chart :ifShow="chartVisible" @updateIfShow="updateChartVisible" />
-  <Form :ifShow="formVisible" @updateIfShow="updateFormVisible" />
   <!-- 遮罩层 -->
-  <MaskLayer :ifShow="formVisible" />
+  <MaskLayer :ifShow="formVisible" backgroundColor="rgba(0, 0, 0, 0.3)"/>
+  <Form :ifShow="formVisible" @updateIfShow="updateFormVisible" />
 </template>
 
 <script setup lang="ts">
@@ -34,13 +32,6 @@ const showForm = () => {
   formVisible.value = !formVisible.value;
 };
 // 定义图表是否可见的状态
-const chartVisible = ref(false);
-
-const updateChartVisible = (value: boolean) => {
-  chartVisible.value = value;
-};
-
-
 
 </script>
 
