@@ -200,7 +200,7 @@ const downloadImage = async () => {
   const element = document.querySelector('.Statement') as HTMLElement; // 选择需要下载的元素
   if (element) {
     const img = new Image();
-    img.src = 'src/assets/images/baobiaojietu.pic.jpg';
+    img.src = 'src/assets/images/2023年度碳排放与环境质量报表.jpg';
     img.onload = async () => {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
