@@ -92,9 +92,9 @@ onMounted(async () => {
 }
 
 .code-container {
-  width: 90%;
+  width: 95%;
   height: 72%;
-  margin: 0 auto;
+  margin: 0 0;
   overflow: hidden;
 }
 

@@ -279,7 +279,7 @@ const toggleVisibility = () => {
 .code-container {
   width: 90%;
   height: 72%;
-  margin: 0 auto;
+  margin: 0 10px;
   overflow: hidden;
 }
 
