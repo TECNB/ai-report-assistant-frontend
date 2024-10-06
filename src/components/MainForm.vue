@@ -1,5 +1,5 @@
 <template>
-    <div class="Form">
+    <div class="Form ">
         <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">
             <p class="text-2xl font-bold">空气质量表</p>
             <!-- <div class="Close">
@@ -8,22 +8,60 @@
                 </el-icon>
             </div> -->
         </div>
-        
-        <el-scrollbar height="95%" wrap-style="padding:20px" class="flex justify-center">
-            <el-table :data="formattedAqiData" style="width: 100%" border
-                        class="border-collapse border border-gray-300">
-                        <el-table-column prop="label" label="Type" width="140" />
-                        <el-table-column v-for="(month, index) in months" :key="index" :prop="month" :label="month"
-                            width="120" />
-                    </el-table>
-        </el-scrollbar>
+
+  <el-scrollbar height="95%" wrap-style="padding:20px" class="flex justify-center bg-gray-50 mt-3 rounded-lg ">
+    <div class="flex items-center space-x-4 mb-3 p-4 bg-gray-50 rounded-2xl shadow-md">
+      <!-- 搜索框 -->
+      <div class="flex-1 rounded-2xl">
+        <el-input
+            v-model="searchQuery"
+            placeholder="请输入分类名称"
+            class="w-full text-lg font-sans"
+        >
+          <template #prefix>
+            <i class="fa-regular fa-magnifying-glass text-gray-500"></i>
+          </template>
+        </el-input>
+      </div>
+
+      <!-- 筛选器 -->
+      <div>
+        <el-select
+            v-model="selectedYear"
+            placeholder="筛选"
+            clearable
+            class="w-full text-lg font-sans"
+
+        >
+          <template #prefix>
+            <i class="fa-regular fa-sort"></i>
+          </template>
+          <el-option
+              v-for="year in allYears"
+              :key="year"
+              :label="year"
+              :value="year"
+          />
+        </el-select>
+      </div>
+    </div>
+
+    <el-table :data="formattedAqiData" style="width: 100%" border
+              class="border-collapse border border-gray-300">
+      <el-table-column prop="label" label="Type" width="140" />
+      <el-table-column v-for="(month, index) in months" :key="index" :prop="month" :label="month"
+                       width="120" />
+    </el-table>
+  </el-scrollbar>
+
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
 import { useAqiData } from '../constant/formData.ts';
-
+let searchQuery = ref(''); // 搜索框输入的内容
+let selectedYear = ref(null); // 筛选的年份
 const { aqiData } = useAqiData();
 let checked1 = ref(true);
 let checked2 = ref(true);
@@ -31,14 +69,16 @@ let checked3 = ref(true);
 let checkedAll = ref(true);
 let isUpdating = false; // 用于避免循环更新
 
-
+const allYears = computed(() => {
+  return [...new Set(aqiData.value.map(item => item.year))].sort((a, b) => b - a);
+});
 const formattedAqiData = computed(() => {
     // 获取现有年份
     // const years = [...new Set(aqiData.value.map(item => item.year))];
 
     // 自动生成 2024 到 2028 的数据
     const futureYears = [2018, 2017, 2016, 2015, 2014,2013,2012,2011,2010,2009,2008,2007];
-    
+
     futureYears.forEach(year => {
         months.forEach((month, index) => {
             // 使用递增的假数据，递增基础为上一年的最后一个数据 + 随机数
@@ -46,7 +86,7 @@ const formattedAqiData = computed(() => {
             const baseAqi = lastData ? lastData.aqi : 60; // 如果找不到数据，默认从 60 开始
             const randomIncrement = Math.floor(Math.random() * 5) + 1; // 随机增加 1-5 的数值
             const aqi = baseAqi + (index + 1) * randomIncrement;
-            
+
             // 插入假数据
             aqiData.value.push({
                 year,
@@ -66,7 +106,7 @@ const formattedAqiData = computed(() => {
             const data = aqiData.value.find(item => item.year === year && item.month === month);
             return data ? data.aqi : null;  // 如果找不到该月的数据，则返回 null
         });
-        
+
         return {
             label: `${year} AQI`,
             ...Object.fromEntries(months.map((month, index) => [month, aqiValues[index]]))
