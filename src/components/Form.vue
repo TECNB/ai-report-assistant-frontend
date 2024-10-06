@@ -14,8 +14,10 @@
             <template #prefix>  <!-- 在下拉框前面添加“下载”字 -->
               <span class="mr-2">下载</span>
             </template>
-            <el-option label="下载 PDF" value="pdf"></el-option>
-            <el-option label="下载 图片" value="image"></el-option>
+            <el-option label="导出 PDF" value="pdf"></el-option>
+            <el-option label="导出 图片" value="image"></el-option>
+            <el-option label="导出 SQL" value="sql"></el-option>
+            <el-option label="导出 Excel" value="excel"></el-option>
           </el-select>
             <div class="Close ml-4" @click="toggleVisibility">
                 <el-icon size="20" class="cursor-pointer">
@@ -156,15 +158,48 @@ let checked3 = ref(true);
 let checkedAll = ref(true);
 let isUpdating = false; // 用于避免循环更新
 let loading = ref(true);  // 用于控制加载状态
+import * as XLSX from 'xlsx';
+
+const exportExcel = () => {
+  const ws = XLSX.utils.json_to_sheet(formattedAqiData.value); // 使用 AQI 数据为例
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'AQI Data');
+
+  // 生成文件并下载
+  XLSX.writeFile(wb, 'data.xlsx');
+};
+
+const exportSQL = () => {
+  const data = formattedAqiData.value; // 以 AQI 数据为例
+  let sqlStatements = '';
+
+  data.forEach(row => {
+    const columns = Object.keys(row).map(col => `\`${col}\``).join(', ');
+    const values = Object.values(row).map(val => `'${val}'`).join(', ');
+    sqlStatements += `INSERT INTO table_name (${columns}) VALUES (${values});\n`;
+  });
+
+  const blob = new Blob([sqlStatements], { type: 'text/sql' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'data.sql';
+  link.click();
+};
+
+
 const handleDownload = async (command: string) => {
   if (command === 'pdf') {
-    // 实现PDF下载逻辑
     console.log('下载PDF');
     await downloadPDF();
   } else if (command === 'image') {
-    // 实现图片下载逻辑
     console.log('下载图片');
     await downloadImage();
+  } else if (command === 'sql') {
+    console.log('导出SQL');
+    exportSQL();
+  } else if (command === 'excel') {
+    console.log('导出Excel');
+    exportExcel();
   }
 };
 

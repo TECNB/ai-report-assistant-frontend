@@ -21,7 +21,8 @@
     "prismjs": "^1.29.0",
     "shiki": "^1.17.0",
     "vue": "^3.4.37",
-    "vue-router": "^4.4.3"
+    "vue-router": "^4.4.3",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.1.2",
