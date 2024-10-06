@@ -24,13 +24,12 @@
             </div>
           </div>
         </div>
-      <!-- 显示加载动画 -->
-      <div v-if="loading" class="loading-container">
-        <el-icon size="50" class="loading-spinner">
-          <Loading />
-        </el-icon>
-        <p class="text-lg font-bold mt-3">加载中，请稍候...</p>
+
+      <div class="loading-container" v-if="loading">
+        <i class="fa-duotone fa-solid fa-loader rotating fa-xl text-black"></i>
+                <p class="text-lg font-bold mt-3">加载中，请稍候...</p>
       </div>
+
 
         <el-scrollbar height="86%" wrap-style="width:90%;" class="flex justify-center" v-else>
             <div class="w-full flex flex-col justify-center items-center self-center">
@@ -316,5 +315,18 @@ const addChart = () => {
 
 .loading-spinner {
   animation: spin 1s linear infinite;
+}
+.rotating {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

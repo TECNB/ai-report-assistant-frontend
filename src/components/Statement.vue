@@ -38,10 +38,8 @@
 <!--            </div>-->
 <!--        </div>-->
 
-      <div v-if="loading" class="loading-container">
-        <el-icon size="50" class="loading-spinner">
-          <Loading />
-        </el-icon>
+      <div class="loading-container" v-if="loading">
+        <i class="fa-duotone fa-solid fa-loader rotating fa-xl text-black"></i>
         <p class="text-lg font-bold mt-3">加载中，请稍候...</p>
       </div>
         <el-scrollbar height="95%" wrap-style="width:100%;" class="flex justify-center" @scroll="onScroll" v-else>
@@ -630,5 +628,17 @@ input.input-reset {
 .loading-spinner {
   animation: spin 1s linear infinite;
 }
+.rotating {
+  animation: spin 2s linear infinite;
+}
 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
 </style>
