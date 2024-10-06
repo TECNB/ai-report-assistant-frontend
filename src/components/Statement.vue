@@ -5,6 +5,9 @@
 
             <div class="flex items-center">
 
+                <!-- 重制按钮 -->
+                <i class="fa-regular fa-retweet fa-xl cursor-pointer mr-5" @click="reset"></i>
+
                 <!-- 下载按钮 -->
                 <el-select v-model="selectedDownload" placeholder="下载" size="mini" @change="handleDownload"
                     class="w-full" clearable :teleported="false">
@@ -127,6 +130,9 @@ let interactionType = ref<'drag' | 'resize' | null>(null); // 交互类型：拖
 let startX = ref(0);
 // 滚动结束后的初始Y位置
 let startY = ref(0);
+
+// 使用深拷贝保存初始的 statementItems
+let statementItemsOrigin: StatementItem[] = JSON.parse(JSON.stringify(statementItems.value));
 
 // 滚动时的初始位置
 // let scrollY = ref(0);
@@ -425,6 +431,11 @@ const moveDownItems = (startIndex: number, distance: number) => {
     statementItems.value[5].top = 765;
 };
 
+const reset = () => {
+    console.log('statementItemsOrigin', statementItemsOrigin)
+    statementItems.value = statementItemsOrigin
+    console.log('statementItems', statementItems.value)
+};
 
 const showDesign = (index: number) => {
     if (hideTimeout) clearTimeout(hideTimeout); // 清除隐藏的延迟
