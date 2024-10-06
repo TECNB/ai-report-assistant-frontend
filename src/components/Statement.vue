@@ -1,47 +1,41 @@
 <template>
     <div class="Statement" v-if="props.ifShow">
-      <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">
-        <p class="text-2xl font-bold">生成的报表</p>
+        <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">
+            <p class="text-2xl font-bold">生成的报表</p>
 
-        <div class="flex items-center">
+            <div class="flex items-center">
 
-          <!-- 下载按钮 -->
-          <el-select
-              v-model="selectedDownload"
-              placeholder="下载"
-              size="mini"
-              @change="handleDownload"
-              class="w-full"
-              clearable :teleported="false"
-          >
-            <template #prefix>  <!-- 在下拉框前面添加“下载”字 -->
-              <span class="mr-2">下载</span>
-            </template>
-            <el-option label="导出 PDF" value="pdf"></el-option>
-            <el-option label="导出 图片" value="image"></el-option>
-          </el-select>
+                <!-- 下载按钮 -->
+                <el-select v-model="selectedDownload" placeholder="下载" size="mini" @change="handleDownload"
+                    class="w-full" clearable :teleported="false">
+                    <template #prefix> <!-- 在下拉框前面添加“下载”字 -->
+                        <span class="mr-2">下载</span>
+                    </template>
+                    <el-option label="导出 PDF" value="pdf"></el-option>
+                    <el-option label="导出 图片" value="image"></el-option>
+                </el-select>
 
-          <!-- 关闭按钮 -->
-          <div class="Close ml-4" @click="toggleVisibility">
-            <el-icon size="20" class="cursor-pointer">
-              <Close />
-            </el-icon>
-          </div>
+                <!-- 关闭按钮 -->
+                <div class="Close ml-4" @click="toggleVisibility">
+                    <el-icon size="20" class="cursor-pointer">
+                        <Close />
+                    </el-icon>
+                </div>
+            </div>
         </div>
-      </div>
-<!--        <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">-->
-<!--            <p class="text-2xl font-bold">生成的报表</p>-->
-<!--            <div class="Close" @click="toggleVisibility">-->
-<!--                <el-icon size="20" class="cursor-pointer">-->
-<!--                    <Close />-->
-<!--                </el-icon>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!--        <div class="flex justify-between items-center border-b -mx-5 px-5 pb-2 ">-->
+        <!--            <p class="text-2xl font-bold">生成的报表</p>-->
+        <!--            <div class="Close" @click="toggleVisibility">-->
+        <!--                <el-icon size="20" class="cursor-pointer">-->
+        <!--                    <Close />-->
+        <!--                </el-icon>-->
+        <!--            </div>-->
+        <!--        </div>-->
 
-      <div class="loading-container" v-if="loading">
-        <i class="fa-duotone fa-solid fa-loader rotating fa-xl text-black"></i>
-        <p class="text-lg font-bold mt-3">加载中，请稍候...</p>
-      </div>
+        <div class="loading-container" v-if="loading">
+            <i class="fa-duotone fa-solid fa-loader rotating fa-xl text-black"></i>
+            <p class="text-lg font-bold mt-3">加载中，请稍候...</p>
+        </div>
         <el-scrollbar height="95%" wrap-style="width:100%;" class="flex justify-center" @scroll="onScroll" v-else>
             <div class="w-full flex flex-col justify-center items-center self-center relative overflow-visible">
                 <!-- 动态渲染可拖动的元素 -->
@@ -56,6 +50,8 @@
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
                         <i class="fa-regular fa-ellipsis-vertical" style="color: #4b5563;"></i>
                     </div>
+
+
                     <!-- 控制大小按钮 -->
                     <div v-if="hoveredItem === index"
                         class="absolute w-5 h-8 -bottom-3 -right-2 flex cursor-nwse-resize"
@@ -67,9 +63,10 @@
                     <input class="text-sm font-bold input-reset" type="text" v-model="item.label" />
 
                     <!-- 数字数据类型 -->
-                    <div v-if="item.type === 'numbers'" class="h-36 flex justify-center items-center gap-2">
+                    <div v-if="item.type === 'numbers'" class="h-full flex justify-center items-center gap-2">
                         <p v-for="n in item.numbers" :key="n"
-                            class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">{{ n }}</p>
+                            class="px-2 py-5 text-4xl font-bold bg-gray-100 rounded-lg">{{ n
+                            }}</p>
                     </div>
 
                     <!-- 图表类型 -->
@@ -155,13 +152,13 @@ let loading = ref(true);  // 用于控制加载状态
 
 // 模拟加载过程
 watch(() => props.ifShow, async (newValue) => {
-  if (newValue) {
-    loading.value = true;
-    // 等待 2 秒模拟加载
-    setTimeout(() => {
-      loading.value = false;
-    }, 2000);
-  }
+    if (newValue) {
+        loading.value = true;
+        // 等待 2 秒模拟加载
+        setTimeout(() => {
+            loading.value = false;
+        }, 2000);
+    }
 });
 const toggleVisibility = () => {
     emit('updateIfShow', false);
@@ -175,42 +172,42 @@ initialPositionsY = statementItems.value.map(item => item.top);
 // 处理下载操作
 // 处理下载操作
 const handleDownload = async (command: string) => {
-  if (command === 'pdf') {
-    // 实现PDF下载逻辑
-    console.log('下载PDF');
-    await downloadPDF();
-  } else if (command === 'image') {
-    // 实现图片下载逻辑
-    console.log('下载图片');
-    await downloadImage();
-  }
+    if (command === 'pdf') {
+        // 实现PDF下载逻辑
+        console.log('下载PDF');
+        await downloadPDF();
+    } else if (command === 'image') {
+        // 实现图片下载逻辑
+        console.log('下载图片');
+        await downloadImage();
+    }
 };
 
 // 下载PDF的函数
 const downloadPDF = async () => {
-  const element = document.querySelector('.Statement') as HTMLElement; // 选择需要下载的元素
-  if (element) {
-    const canvas = await html2canvas(element); // 将元素转为canvas
-    const imgData = canvas.toDataURL('image/png'); // 获取图片数据
-    const pdf = new jsPDF();
+    const element = document.querySelector('.Statement') as HTMLElement; // 选择需要下载的元素
+    if (element) {
+        const canvas = await html2canvas(element); // 将元素转为canvas
+        const imgData = canvas.toDataURL('image/png'); // 获取图片数据
+        const pdf = new jsPDF();
 
-    // 将图片添加到PDF中
-    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width * 0.75, canvas.height * 0.75); // 根据需要调整大小
-    pdf.save('report.pdf'); // 下载PDF
-  }
+        // 将图片添加到PDF中
+        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width * 0.75, canvas.height * 0.75); // 根据需要调整大小
+        pdf.save('report.pdf'); // 下载PDF
+    }
 };
 
 // 下载图片的函数
 const downloadImage = async () => {
-  const element = document.querySelector('.Statement') as HTMLElement; // 选择需要下载的元素
-  if (element) {
-    const canvas = await html2canvas(element); // 将元素转为canvas
-    const imgData = canvas.toDataURL('image/png'); // 获取图片数据
-    const link = document.createElement('a'); // 创建一个链接
-    link.href = imgData; // 设置链接的href为图片数据
-    link.download = 'report.png'; // 设置下载的文件名
-    link.click(); // 模拟点击下载
-  }
+    const element = document.querySelector('.Statement') as HTMLElement; // 选择需要下载的元素
+    if (element) {
+        const canvas = await html2canvas(element); // 将元素转为canvas
+        const imgData = canvas.toDataURL('image/png'); // 获取图片数据
+        const link = document.createElement('a'); // 创建一个链接
+        link.href = imgData; // 设置链接的href为图片数据
+        link.download = 'report.png'; // 设置下载的文件名
+        link.click(); // 模拟点击下载
+    }
 };
 
 const onMouseDown = (event: MouseEvent, index: number, handleType: 'drag' | 'resize') => {
@@ -363,13 +360,13 @@ const checkCollision = () => {
                 }
 
 
-                if (movedItems.has(index) && spaceAvailable) {
+                if (movedItems.has(index) && spaceAvailable && initialPositionsY[index]==draggedItem.top) {
                     if (index == 1) {
                         console.log(index, 'restoreItemPosition')
 
                     }
-
-                    restoreItemPosition(index);  // 归位
+                    restoreAllMovedItems();  // 恢复所有移动过的元素
+                    // restoreItemPosition(index);  // 归位
                     movedItems.delete(index);    // 清除下移记录
                 }
             }
@@ -383,8 +380,19 @@ const checkCollision = () => {
 const restoreItemPosition = (index: number) => {
     if (index == 1) {
         console.log(index, '移动后initialPositions[index]', initialPositions[index])
+    }else if (index == 5) {
+        console.log(index, '移动后initialPositions[5]', initialPositions[index])
     }
     statementItems.value[index].top = initialPositionsY[index];  // 恢复到初始位置
+
+};
+
+// 归位函数，恢复所有移动过的元素的原始位置
+const restoreAllMovedItems = () => {
+    movedItems.forEach(index => {
+        restoreItemPosition(index);  // 恢复单个元素到初始位置
+        movedItems.delete(index);    // 清除下移记录
+    });
 };
 
 
@@ -407,11 +415,14 @@ const checkOverlap = (item1: StatementItem, item2: StatementItem) => {
 // 下移某个元素及其下面的元素
 const moveDownItems = (startIndex: number, distance: number) => {
     for (let i = startIndex; i < statementItems.value.length; i++) {
-        if (!movedItems.has(i)) { // 如果元素还没被移动过，才执行下移
+        if (!movedItems.has(i)) {
+            console.log('Moving item:', i, 'down by:', distance); // 添加日志查看下移情况
             statementItems.value[i].top += distance;
-            movedItems.add(i);  // 标记为已下移
+            movedItems.add(i);
+            console.log('movedItems：statementItems.value[i].top', statementItems.value[i].top)
         }
     }
+    statementItems.value[5].top = 765;
 };
 
 
@@ -617,28 +628,30 @@ input.input-reset {
     outline: none;
     pointer-events: pointer;
 }
+
 .loading-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .loading-spinner {
-  animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
 }
+
 .rotating {
-  animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
+    0% {
+        transform: rotate(0deg);
+    }
 
-  100% {
-    transform: rotate(360deg);
-  }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 </style>
