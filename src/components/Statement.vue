@@ -432,9 +432,12 @@ const moveDownItems = (startIndex: number, distance: number) => {
 };
 
 const reset = () => {
-    console.log('statementItemsOrigin', statementItemsOrigin)
-    statementItems.value = statementItemsOrigin
-    console.log('statementItems', statementItems.value)
+    console.log('statementItemsOrigin', statementItemsOrigin);
+    
+    // 在重置时使用深拷贝，确保是一个新的数组副本
+    statementItems.value = JSON.parse(JSON.stringify(statementItemsOrigin));
+    
+    console.log('statementItems', statementItems.value);
 };
 
 const showDesign = (index: number) => {
