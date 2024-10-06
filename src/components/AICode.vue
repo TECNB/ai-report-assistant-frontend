@@ -17,7 +17,7 @@
     <!-- 使用 el-scrollbar 组件来显示带行号的高亮代码 -->
     <div class="code-container">
       <el-scrollbar height="100%" wrap-style="width:100%;" class="scrollbar-container">
-        <pre class="code-block fixed-size rounded-l-2xl p-6 bg-gray-50">
+        <pre class="code-block fixed-size rounded-l-2xl p-6 bg-write">
           <code v-html="highlightedCode"></code>
         </pre>
       </el-scrollbar>
@@ -35,9 +35,8 @@
 <script setup lang="ts">
 import {onMounted, ref} from 'vue';
 import {getHighlighter} from 'shiki';
-import chatExample from '../constant/chatExample.ts'; // 请替换为chatExample.ts的实际路径
-import {ElScrollbar} from 'element-plus'; // 导入 Element Plus 的 el-scrollbar 组件
-
+import chatWeather from "../constant/chatWeather.ts";
+import {ElScrollbar} from 'element-plus';
 const props = defineProps({
   ifShow: Boolean,
 });
@@ -49,31 +48,31 @@ const toggleVisibility = () => {
 };
 
 onMounted(async () => {
-  const highlighter = await getHighlighter({
-    themes: ['nord'], // 使用 Nord 主题
-    langs: ['json'], // 使用 json 作为语言来高亮
-  });
+  try {
+    // 加载高亮器并确认是否支持 SQL
+    const highlighter = await getHighlighter({
+      themes: ['nord'], // 使用 Nord 主题
+      langs: ['sql'],   // 确认 SQL 支持
+    });
+    // 使用高亮器进行基础高亮
+    let highlightedHtml = highlighter.codeToHtml(chatWeather, { lang: 'sql', theme: 'nord' });
 
-  const codeExample = JSON.stringify(chatExample, null, 2); // 格式化 JSON
-  const highlightedHtml = highlighter.codeToHtml(codeExample, {lang: 'json', theme: 'nord'});
+    // 处理行号的生成与显示
+    const lines = highlightedHtml.split('\n');
+    const numberedHtml = lines.map((line, index) => {
+      return `<span class="line-number text-gray-400">${index + 1}</span> ${line}`;
+    }).join('\n');
 
-  const lines = highlightedHtml.split('\n').map(line => line.replace(/\\n/g, '<br/>'));
-  const numberedHtml = lines
-      .filter(line => line.trim() !== '')
-      .map((line, index) => {
-        return `<span class="line-number text-gray-400">${index + 1}</span> ${line
-            .replace(/"(.*?)":/g, '<span class="text-purple-700 font-bold text-lg">"$1"</span>:')
-            .replace(/:\s*"([^"]*)"/g, function (p1) {
-              const highlightedString = p1.replace(/([0-9.]+)/g, '<span class="text-purple-600 font-semibold">$1</span>');
-              return `: "<span class="text-green-600 font-semibold">${highlightedString}</span>"`;
-            })
-            .replace(/:\s*([0-9.]+)/g, ': <span class="text-green-600 font-semibold">$1</span>')
-            .replace(/:\s*(true|false|null)/g, ': <span class="text-red-600 font-semibold">$1</span>')}`;
-      })
-      .join('\n');
+    // 将高亮和带行号的代码嵌入到页面
+    highlightedCode.value = `<pre>${numberedHtml}</pre>`;
 
-  highlightedCode.value = `<pre>${numberedHtml}</pre>`;
+  } catch (error) {
+    // 捕获错误并显示日志
+    console.error('高亮失败:', error);
+    highlightedCode.value = `<pre>代码高亮失败，请检查配置。</pre>`;
+  }
 });
+
 </script>
 
 <style scoped>
@@ -148,4 +147,14 @@ onMounted(async () => {
 .btn-confirm:hover {
   background-color: #2563eb;
 }
+/* 例如，您可以自定义行号的颜色 */
+.line-number {
+  color: #4B5563; /* 颜色改为更深的灰色 */
+}
+
+/* 例如，您可以自定义关键字的颜色 */
+.text-blue-600 {
+  color: #1E3A8A; /* 深蓝色 */
+}
+
 </style>
