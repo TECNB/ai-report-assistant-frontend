@@ -17,7 +17,7 @@
     <!-- 使用 el-scrollbar 组件来显示带行号的高亮代码 -->
     <div class="code-container">
       <el-scrollbar height="100%" wrap-style="width:100%;" class="scrollbar-container">
-        <pre class="code-block fixed-size rounded-l-2xl p-6 bg-write">
+        <pre class="code-block fixed-size rounded-l-2xl bg-write">
           <code v-html="highlightedCode"></code>
         </pre>
       </el-scrollbar>
