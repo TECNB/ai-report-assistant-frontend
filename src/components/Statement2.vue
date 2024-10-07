@@ -102,16 +102,22 @@ import LineContainer from './charts/LineContainer.vue';
 import PieContainer from './charts/PieContainer.vue';
 import BarContainer from './charts/BarContainer.vue';
 import HorizontalBarContainer from './charts/HorizontalBarContainer.vue';
+import FunnelContainer from './charts/FunnelContainer.vue';
+import BoardContainer from './charts/BoardContainer.vue';
 
 import airLineOptions from '../utils/airLineOptions';
 import waterBarOption from '../utils/waterBarOption';
 import forestPieOption from '../utils/forestPieOption';
 import airHorizontalBarOption from '../utils/airHorizontalBarOption';
+import funnelOptions from '../utils/funnelOptions';
+import boardOptions from '../utils/boardOptions';
 
 import { airLineData } from '../constant/airLineData';
 import { forestPieData } from '../constant/forestPieData';
 import { waterBarData } from '../constant/waterBarData' ;
 import { horizontalBarData } from '../constant/horizontalBarData';
+import { funnelData } from '../constant/funnelData';
+import { boardData } from '../constant/boardData';
 
 // import { statementItems2 as statementItems } from '../constant/statementItems';
 
@@ -121,10 +127,11 @@ let statementItems = ref<StatementItem[]>([
     { top: 0, left: 970, height: 200, width: 350, label: '本年度绿地覆盖率', type: 'numbers', numbers: [8, 2] },
     
     { top: 300, left: 380, height: 500, width: 538,label: '绿化面积对比', type: 'chart', chart: 'horizontalBar', data: horizontalBarData, chartOption: airHorizontalBarOption  },
-    { top: 210, left: 20, height: 290, width: 308, label: '年度绿化来源分析', type: 'chart', chart: 'bar', data: waterBarData, chartOption: waterBarOption },
+    { top: 210, left: 20, height: 290, width: 308, label: '年度绿化来源分析', type: 'chart', chart: 'funnel', data: funnelData, chartOption: funnelOptions },
     { top: 510, left: 20, height: 290, width: 308, label: '年度森林覆盖率', type: 'chart', chart: 'pie', data: forestPieData, chartOption: forestPieOption },
-    { top: 210, left: 970, height: 290, width: 308, label: '年度绿化统计', type: 'chart', chart: 'line', data: airLineData, chartOption: airLineOptions },
-    { top: 510, left: 970, height: 290, width: 308, label: '年度森林覆盖率', type: 'chart', chart: 'pie', data: forestPieData, chartOption: forestPieOption },
+    { top: 210, left: 970, height: 290, width: 308, label: '年度绿化统计', type: 'chart', chart: 'board', data: boardData, chartOption: boardOptions },
+    
+    { top: 510, left: 970, height: 290, width: 308, label: '年度植被覆盖率', type: 'chart', chart: 'pie', data: forestPieData, chartOption: forestPieOption },
 ]);
 
 
@@ -489,6 +496,8 @@ const getChartComponent = (chartType: string) => {
         bar: BarContainer,
         pie: PieContainer,
         horizontalBar: HorizontalBarContainer,
+        funnel: FunnelContainer,
+        board: BoardContainer
     };
     return chartComponents[chartType] || null;
 };
