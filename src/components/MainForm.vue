@@ -7,6 +7,24 @@
                     <Close />
                 </el-icon>
             </div> -->
+          <div class="flex items-center rounded-xl">
+            <el-select
+                v-model="sortOrder"
+                placeholder="默认排序"
+                clearable
+                class="text-lg font-bold  w-48 min-w-[12rem] custom-select"
+            >
+              <!-- 固定的 "排序" 前缀 -->
+              <template #prefix>
+                <span class="font-bold text-gray-400">排序：</span>
+              </template>
+
+              <!-- 可选项 -->
+              <el-option label="日期倒序" value="desc" class="font-bold "></el-option>
+              <el-option label="日期正序" value="asc" class="font-bold text-gray-300"></el-option>
+            </el-select>
+          </div>
+
         </div>
 
   <el-scrollbar height="95%" wrap-style="padding:20px" class="flex justify-center bg-gray-50 mt-3 rounded-lg ">
@@ -46,7 +64,7 @@
       </div>
     </div>
 
-    <el-table :data="formattedAqiData" style="width: 100%" border
+    <el-table :data="sortedAqiData"  style="width: 100%" border
               class="border-collapse border border-gray-300">
       <el-table-column prop="label" label="Type" width="140" />
       <el-table-column v-for="(month, index) in months" :key="index" :prop="month" :label="month"
@@ -68,6 +86,19 @@ let checked2 = ref(true);
 let checked3 = ref(true);
 let checkedAll = ref(true);
 let isUpdating = false; // 用于避免循环更新
+
+
+let sortOrder = ref(''); // 排序选择框的值
+
+const sortedAqiData = computed(() => {
+  let data = [...formattedAqiData.value];
+  if (sortOrder.value === 'asc') {
+    return data.sort((a, b) => a.label.localeCompare(b.label));
+  } else if (sortOrder.value === 'desc') {
+    return data.sort((a, b) => b.label.localeCompare(a.label));
+  }
+  return data; // 默认排序
+});
 
 const allYears = computed(() => {
   return [...new Set(aqiData.value.map(item => item.year))].sort((a, b) => b - a);
@@ -149,7 +180,29 @@ watch([checked1, checked2, checked3], ([newChecked1, newChecked2, newChecked3]) 
     width: 70%;
     height: 100%;
 }
+.custom-select .el-input__inner {
+  @apply border-none bg-gray-100 rounded-xl px-4 py-2; /* 去掉边框, 添加背景色, 圆角, 内边距 */
+}
 
+/* 覆盖 focused 状态下的样式，防止获取焦点时的默认边框和阴影 */
+.custom-select .el-input__inner:focus {
+  @apply outline-none ring-0 border-none; /* 移除聚焦时的 outline 和阴影 */
+}
+
+/* 覆盖 el-select 下拉框的样式 */
+.custom-select .el-select-dropdown {
+  @apply rounded-xl bg-white border-none shadow-lg; /* 去掉边框，增加圆角和阴影 */
+}
+
+/* 设置每个 el-option 的样式 */
+.custom-select .el-option {
+  @apply rounded-lg px-4 py-2; /* 每个选项的圆角和内边距 */
+}
+
+/* 设置选中项的背景颜色 */
+.custom-select .el-option.is-selected {
+  @apply bg-gray-200; /* 选中项的填充色 */
+}
 :deep(.el-checkbox__inner) {
     zoom: 150%;
 }
@@ -166,5 +219,8 @@ watch([checked1, checked2, checked3], ([newChecked1, newChecked2, newChecked3]) 
 
 :deep(.el-checkbox__inner:hover) {
     border-color: #000;
+}
+.el-select-dropdown {
+  border-radius: 12px; /* Tailwind 类处理不了 el-select-dropdown，因此使用自定义样式 */
 }
 </style>
