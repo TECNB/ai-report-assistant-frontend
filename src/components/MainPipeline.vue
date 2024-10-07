@@ -125,12 +125,17 @@
         <SettingStatement :ifShow="settingVisible4" @updateIfShow="updateSettingVisible4" />
         <!-- 遮罩层 -->
         <MaskLayer :ifShow="settingVisible4" backgroundColor="rgba(0, 0, 0, 0.4)" />
+
+        <MaskLayer :ifShow="statementVisible" />
+        <Statement2 :ifShow="statementVisible" @updateIfShow="updateStatementVisible" />
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { ElScrollbar } from 'element-plus';
+
+const statementVisible = ref(false);
 
 
 const sliderValue = ref(0)
@@ -255,6 +260,9 @@ onMounted(() => {
     maxScroll.value = innerWidth - containerWidth
 })
 
+const updateStatementVisible = (value: boolean) => {
+    statementVisible.value = value;
+}
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -271,6 +279,7 @@ const stopTimer = (index: number) => {
 
 const handlePipeline = async () => {
     console.log('handlePipeline');
+    statementVisible.value = true;
 
     // Stage 1
     stages.value[0].status = 'inProgress';

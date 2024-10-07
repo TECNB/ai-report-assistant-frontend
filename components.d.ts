@@ -75,6 +75,7 @@ declare module 'vue' {
     SidebarPipelinet: typeof import('./src/components/SidebarPipelinet.vue')['default']
     SidebarStatement: typeof import('./src/components/SidebarStatement.vue')['default']
     Statement: typeof import('./src/components/Statement.vue')['default']
+    Statement2: typeof import('./src/components/Statement2.vue')['default']
     Timetu: typeof import('./src/components/timetu.vue')['default']
     UserData: typeof import('./src/components/UserData.vue')['default']
   }
