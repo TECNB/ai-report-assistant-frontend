@@ -95,8 +95,6 @@ import { ref, watch } from 'vue';
 // import { debounce } from 'lodash';
 
 import { StatementItem } from '../interfaces/StatementItem';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
 import LineContainer from './charts/LineContainer.vue';
 import PieContainer from './charts/PieContainer.vue';
 import BarContainer from './charts/BarContainer.vue';
@@ -183,16 +181,26 @@ const handleDownload = async (command: string) => {
 
 // 下载PDF的函数
 const downloadPDF = async () => {
-    const element = document.querySelector('.Statement') as HTMLElement; // 选择需要下载的元素
-    if (element) {
-        const canvas = await html2canvas(element); // 将元素转为canvas
-        const imgData = canvas.toDataURL('image/png'); // 获取图片数据
-        const pdf = new jsPDF();
-
-        // 将图片添加到PDF中
-        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width * 0.75, canvas.height * 0.75); // 根据需要调整大小
-        pdf.save('report.pdf'); // 下载PDF
+  const element = document.querySelector('.Statement') as HTMLElement; // 选择需要下载的元素
+  if (element) {
+    try {
+      const pdfPath = 'src/assets/images/2023年度碳排放与环境质量报表.pdf'; // PDF文件路径
+      const response = await fetch(pdfPath);
+      if (!response.ok) {
+        throw new Error(`下载PDF时出错: ${response.statusText}`);
+      }
+      const blob = await response.blob();
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = '2023年度碳排放与环境质量报表.pdf';
+      document.body.appendChild(link); // 有些浏览器需要将链接添加到DOM中
+      link.click();
+      document.body.removeChild(link); // 下载后移除链接
+      URL.revokeObjectURL(link.href); // 释放URL对象
+    } catch (error) {
+      console.error(error);
     }
+  }
 };
 
 // 下载图片的函数
