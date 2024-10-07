@@ -50,17 +50,21 @@
                     </div>
                 </div>
 
-                <div
-                    class="w-full flex flex-col justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg p-5">
-                    <el-table :data="formattedAqiData" style="width: 100%" border
-                        class="border-collapse border border-gray-300">
-                        <el-table-column prop="label" label="Type" width="140" />
-                        <el-table-column v-for="(month, index) in months" :key="index" :prop="month" :label="month"
-                            width="120" />
-                    </el-table>
-                </div>
+              <div class="w-full flex flex-col justify-center items-center self-center">
+                <!-- 年度空气质量统计表格 -->
+                <div class="w-full flex flex-col justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg p-5">
+                  <el-table :data="formattedAqiData" style="width: 100%" border class="border-collapse border border-gray-300">
+                    <!-- 年份列 -->
+                    <el-table-column prop="label" label="Year" width="120" />
 
-                <div
+                    <!-- 动态生成月份列 -->
+                    <el-table-column v-for="(month, index) in months" :key="index" :prop="month" :label="month" width="120" />
+                  </el-table>
+                </div>
+              </div>
+
+
+              <div
                     class="w-full h-10 flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border  rounded-lg my-5 p-5">
                     <el-checkbox v-model="checked2" size="large" />
                     <p class="font-bold text-center">生态环境评估报告 - 碳排放来源分析</p>
@@ -74,15 +78,18 @@
                         </div>
                     </div>
                 </div>
-                <div
-                    class="w-full flex flex-col justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg p-5">
-                    <el-table :data="formattedCodData" style="width: 100%" border
-                        class="border-collapse border border-gray-300">
-                        <el-table-column prop="label" label="Type" width="140" />
-                        <el-table-column v-for="(month, index) in months" :key="index" :prop="month" :label="month"
-                            width="120" />
-                    </el-table>
+              <div class="w-full flex flex-col justify-center items-center self-center">
+                <!-- 年度COD统计表格 -->
+                <div class="w-full flex flex-col justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg p-5">
+                  <el-table :data="formattedCodData" style="width: 100%" border class="border-collapse border border-gray-300">
+                    <!-- 年份列 -->
+                    <el-table-column prop="label" label="Year" width="120" />
+
+                    <!-- 动态生成月份列 -->
+                    <el-table-column v-for="(month, index) in months" :key="index" :prop="month" :label="month" width="120" />
+                  </el-table>
                 </div>
+              </div>
 
 
                 <div
@@ -99,15 +106,18 @@
                         </div>
                     </div>
                 </div>
+
                 <div
                     class="w-full flex justify-between items-center shadow-[0_8px_24px_rgba(0,0,0,0.04)] border rounded-lg p-5">
                     <el-table :data="formattedRegionData" style="width: 100%" border
                         class="border-collapse border border-gray-300">
-                        <el-table-column prop="label" label="Type" width="140" />
+
+                        <el-table-column prop="label" label="Year" width="140" />
                         <el-table-column v-for="(region, index) in regions" :key="index" :prop="region" :label="region"
                             width="320" />
                     </el-table>
                 </div>
+
             </div>
         </el-scrollbar>
         <div class="w-full flex justify-between items-center absolute bottom-3 border-t pt-3 -mx-5 px-5">
@@ -161,29 +171,44 @@ let loading = ref(true);  // 用于控制加载状态
 import * as XLSX from 'xlsx';
 
 const exportExcel = () => {
-  const ws = XLSX.utils.json_to_sheet(formattedAqiData.value); // 使用 AQI 数据为例
+  // 创建 AQI 数据工作表
+  const wsAqi = XLSX.utils.json_to_sheet(formattedAqiData.value);
+  // 创建 COD 数据工作表
+  const wsCod = XLSX.utils.json_to_sheet(formattedCodData.value);
+  // 创建 Region 数据工作表
+  const wsRegion = XLSX.utils.json_to_sheet(formattedRegionData.value);
+
+  // 新建工作簿
   const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, 'AQI Data');
+
+  // 将工作表添加到工作簿中
+  XLSX.utils.book_append_sheet(wb, wsAqi, 'AQI Data');
+  XLSX.utils.book_append_sheet(wb, wsCod, 'COD Data');
+  XLSX.utils.book_append_sheet(wb, wsRegion, 'Region Data');
 
   // 生成文件并下载
-  XLSX.writeFile(wb, 'data.xlsx');
+  XLSX.writeFile(wb, '2023年度碳排放与环境质量数据结构导入.xlsx');
 };
 
-const exportSQL = () => {
-  const data = formattedAqiData.value; // 以 AQI 数据为例
-  let sqlStatements = '';
 
-  data.forEach(row => {
-    const columns = Object.keys(row).map(col => `\`${col}\``).join(', ');
-    const values = Object.values(row).map(val => `'${val}'`).join(', ');
-    sqlStatements += `INSERT INTO table_name (${columns}) VALUES (${values});\n`;
-  });
-
-  const blob = new Blob([sqlStatements], { type: 'text/sql' });
-  const link = document.createElement('a');
-  link.href = URL.createObjectURL(blob);
-  link.download = 'data.sql';
-  link.click();
+const exportSQL = async () => {
+  const sqlPath = 'src/assets/sql/2023年度碳排放与环境质量数据结构导入.sql'; // SQL文件路径
+  try {
+    const response = await fetch(sqlPath);
+    if (!response.ok) {
+      throw new Error(`下载SQL时出错: ${response.statusText}`);
+    }
+    const blob = await response.blob();
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = '2023年度碳排放与环境质量报表.sql';
+    document.body.appendChild(link); // 有些浏览器需要将链接添加到DOM中
+    link.click();
+    document.body.removeChild(link); // 下载后移除链接
+    URL.revokeObjectURL(link.href); // 释放URL对象
+  } catch (error) {
+    console.error('导出SQL时出错:', error);
+  }
 };
 
 
@@ -247,27 +272,62 @@ const toggleVisibility = () => {
 };
 // 将数据转换为行列互换的形式
 const formattedAqiData = computed(() => {
-    const aqiValues = aqiData.value.map(item => item.aqi);
-    return [
-        { label: 'AQI', ...Object.fromEntries(months.map((month, index) => [month, aqiValues[index]])) }
-    ];
+  // 获取所有不同的年份
+  const years = [...new Set(aqiData.value.map(item => item.year))];
+
+  // 按年份分组，并对每个年份的数据进行月份匹配
+  return years.map(year => {
+    const yearData = aqiData.value.filter(item => item.year === year);
+    const aqiValues = yearData.map(item => item.aqi);
+
+    // 返回该年数据，包含 label、月份和对应的 AQI 数据
+    return {
+      label: `${year} AQI`, // 每年的标签
+      ...Object.fromEntries(months.map((month, index) => [month, aqiValues[index] || 'N/A'])) // N/A 处理可能的空数据
+    };
+  });
 });
+
 // 月份列表
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 // 将数据转换为行列互换的形式
 const formattedCodData = computed(() => {
-    const codValues = codData.value.map(item => item.cod);
-    return [
-        { label: 'COD (mg/L)', ...Object.fromEntries(months.map((month, index) => [month, codValues[index]])) }
-    ];
+
+  const years = [...new Set(codData.value.map(item => item.year))];
+
+    return years.map(year => {
+      const yearData = codData.value.filter(item => item.year === year)
+      const codValues = yearData.map(item => item.cod);
+
+      return {
+        label: `${year} COD`,
+        ...Object.fromEntries(months.map((month,index) => [month,codValues[index] || 'N/A' ]))
+      }
+    })
 });
+
+
 const regions = ['东部地区', '西部地区', '北部地区', '南部地区'];
-const formattedRegionData = computed(() => {
-    const codValues = regionData.value.map(item => item.percentage);
-    return [
-        { label: '%', ...Object.fromEntries(regions.map((region, index) => [region, codValues[index]])) }
-    ];
-});
+
+const formattedRegionData = computed((()=>{
+  const years = [...new Set((regionData.value.map(item =>item.year)))];
+  return years.map(year =>{
+    const yearData = regionData.value.filter(item => item.year === year)
+    const percentageValues = yearData.map(item => item.percentage);
+    return {
+      label:`${year} %`,
+      ...Object.fromEntries(regions.map((region,index) => [region,percentageValues[index] || 'N/A']))
+    }
+
+  })
+
+}))
+// const formattedRegionData = computed(() => {
+//     const codValues = regionData.value.map(item => item.percentage);
+//     return [
+//         { label: '%', ...Object.fromEntries(regions.map((region, index) => [region, codValues[index]])) }
+//     ];
+// });
 // 监听 ifShow 的变化，只有在为 true 时才初始化图表
 watch(() => props.ifShow, async (newValue) => {
     if (newValue) {

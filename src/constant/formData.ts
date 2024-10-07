@@ -73,29 +73,98 @@ export function useAqiData() {
 }
 export function useCodData() {
     const codData = ref([
-        { month: 'Jan', cod: 15 },
-        { month: 'Feb', cod: 18 },
-        { month: 'Mar', cod: 17 },
-        { month: 'Apr', cod: 20 },
-        { month: 'May', cod: 28 },
-        { month: 'Jun', cod: 20 },
-        { month: 'Jul', cod: 15 },
-        { month: 'Aug', cod: 20 },
-        { month: 'Sep', cod: 22 },
-        { month: 'Oct', cod: 28 },
-        { month: 'Nov', cod: 30 },
-        { month: 'Dec', cod: 25 }
+        { year: 2019, month: 'Jan', cod: 15 },
+        { year: 2019, month: 'Feb', cod: 18 },
+        { year: 2019, month: 'Mar', cod: 17 },
+        { year: 2019, month: 'Apr', cod: 20 },
+        { year: 2019, month: 'May', cod: 28 },
+        { year: 2019, month: 'Jun', cod: 20 },
+        { year: 2019, month: 'Jul', cod: 15 },
+        { year: 2019, month: 'Aug', cod: 20 },
+        { year: 2019, month: 'Sep', cod: 22 },
+        { year: 2019, month: 'Oct', cod: 28 },
+        { year: 2019, month: 'Nov', cod: 30 },
+        { year: 2019, month: 'Dec', cod: 25 },
+
+        { year: 2020, month: 'Jan', cod: 16 },
+        { year: 2020, month: 'Feb', cod: 19 },
+        { year: 2020, month: 'Mar', cod: 18 },
+        { year: 2020, month: 'Apr', cod: 21 },
+        { year: 2020, month: 'May', cod: 29 },
+        { year: 2020, month: 'Jun', cod: 21 },
+        { year: 2020, month: 'Jul', cod: 16 },
+        { year: 2020, month: 'Aug', cod: 21 },
+        { year: 2020, month: 'Sep', cod: 23 },
+        { year: 2020, month: 'Oct', cod: 29 },
+        { year: 2020, month: 'Nov', cod: 31 },
+        { year: 2020, month: 'Dec', cod: 26 },
+
+        { year: 2021, month: 'Jan', cod: 17 },
+        { year: 2021, month: 'Feb', cod: 20 },
+        { year: 2021, month: 'Mar', cod: 19 },
+        { year: 2021, month: 'Apr', cod: 22 },
+        { year: 2021, month: 'May', cod: 30 },
+        { year: 2021, month: 'Jun', cod: 22 },
+        { year: 2021, month: 'Jul', cod: 17 },
+        { year: 2021, month: 'Aug', cod: 22 },
+        { year: 2021, month: 'Sep', cod: 24 },
+        { year: 2021, month: 'Oct', cod: 30 },
+        { year: 2021, month: 'Nov', cod: 32 },
+        { year: 2021, month: 'Dec', cod: 27 },
+
+        { year: 2022, month: 'Jan', cod: 18 },
+        { year: 2022, month: 'Feb', cod: 21 },
+        { year: 2022, month: 'Mar', cod: 20 },
+        { year: 2022, month: 'Apr', cod: 23 },
+        { year: 2022, month: 'May', cod: 31 },
+        { year: 2022, month: 'Jun', cod: 23 },
+        { year: 2022, month: 'Jul', cod: 18 },
+        { year: 2022, month: 'Aug', cod: 23 },
+        { year: 2022, month: 'Sep', cod: 25 },
+        { year: 2022, month: 'Oct', cod: 31 },
+        { year: 2022, month: 'Nov', cod: 33 },
+        { year: 2022, month: 'Dec', cod: 28 },
+
+        { year: 2023, month: 'Jan', cod: 19 },
+        { year: 2023, month: 'Feb', cod: 22 },
+        { year: 2023, month: 'Mar', cod: 21 },
+        { year: 2023, month: 'Apr', cod: 24 },
+        { year: 2023, month: 'May', cod: 32 },
+        { year: 2023, month: 'Jun', cod: 24 },
+        { year: 2023, month: 'Jul', cod: 19 },
+        { year: 2023, month: 'Aug', cod: 24 },
+        { year: 2023, month: 'Sep', cod: 26 },
+        { year: 2023, month: 'Oct', cod: 32 },
+        { year: 2023, month: 'Nov', cod: 34 },
+        { year: 2023, month: 'Dec', cod: 29 }
     ]);
     return { codData };
 }
 
+
 // 抽取区域比例数据
 export function useRegionData() {
     const regionData = ref([
-        { region: '东部地区', percentage: 40 },
-        { region: '西部地区', percentage: 30 },
-        { region: '中部地区', percentage: 20 },
-        { region: '北部地区', percentage: 10 }
+        { year: 2019, region: '东部地区', percentage: 40 },
+        { year: 2019, region: '西部地区', percentage: 30 },
+        { year: 2019, region: '中部地区', percentage: 20 },
+        { year: 2019, region: '北部地区', percentage: 10 },
+        { year: 2020, region: '东部地区', percentage: 41 },
+        { year: 2020, region: '西部地区', percentage: 31 },
+        { year: 2020, region: '中部地区', percentage: 19 },
+        { year: 2020, region: '北部地区', percentage: 11 },
+        { year: 2021, region: '东部地区', percentage: 42 },
+        { year: 2021, region: '西部地区', percentage: 29 },
+        { year: 2021, region: '中部地区', percentage: 21 },
+        { year: 2021, region: '北部地区', percentage: 9 },
+        { year: 2022, region: '东部地区', percentage: 43 },
+        { year: 2022, region: '西部地区', percentage: 28 },
+        { year: 2022, region: '中部地区', percentage: 22 },
+        { year: 2022, region: '北部地区', percentage: 8 },
+        { year: 2023, region: '东部地区', percentage: 44 },
+        { year: 2023, region: '西部地区', percentage: 27 },
+        { year: 2023, region: '中部地区', percentage: 23 },
+        { year: 2023, region: '北部地区', percentage: 7 }
     ]);
     return { regionData };
 }
