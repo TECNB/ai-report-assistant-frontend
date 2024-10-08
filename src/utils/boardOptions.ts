@@ -2,10 +2,6 @@ import { ECBasicOption } from 'echarts/types/dist/shared';
 
 const boardOptions = (currentValue: number): ECBasicOption => {
     return {
-        title: {
-            text: '年度绿化统计',
-            left: 'center',
-        },
         tooltip: {
             formatter: '{a} <br/>{b} : {c}%',
         },
@@ -15,17 +11,17 @@ const boardOptions = (currentValue: number): ECBasicOption => {
                 type: 'gauge',
                 detail: {
                     formatter: '{value}%',
-                    fontSize: 18,
+                    fontSize: 20,
                 },
                 data: [
                     {
                         value: currentValue,
-                        name: '当前绿化率',
+
                     },
                 ],
                 axisLine: {
                     lineStyle: {
-                        width: 15,
+                        width: 10,
                         color: [
                             [0.2, '#FF6E76'],
                             [0.4, '#FDDD60'],
@@ -39,13 +35,13 @@ const boardOptions = (currentValue: number): ECBasicOption => {
                     width: 5,
                 },
                 splitLine: {
-                    length: 20,
+                    length: 12,
                     lineStyle: {
                         width: 2,
                     },
                 },
                 axisLabel: {
-                    fontSize: 12,
+                    fontSize: 10,
                 },
             },
         ],
