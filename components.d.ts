@@ -58,6 +58,7 @@ declare module 'vue' {
     PipelineMainData: typeof import('./src/components/PipelineMainData.vue')['default']
     PipelineMainTask: typeof import('./src/components/PipelineMainTask.vue')['default']
     PredictQuestion: typeof import('./src/components/PredictQuestion.vue')['default']
+    RadarContainer: typeof import('./src/components/charts/RadarContainer.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Setting: typeof import('./src/components/Setting.vue')['default']
