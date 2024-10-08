@@ -78,7 +78,7 @@
                 </div>
             </div>
         </el-scrollbar>
-        <div class="w-[1200px] h-14 shadow-xl fixed left-16 bottom-6 flex items-center bg-gray-50 rounded-3xl p-5">
+        <!-- <div class="w-[1200px] h-14 shadow-xl fixed left-16 bottom-6 flex items-center bg-gray-50 rounded-3xl p-5">
 
             <input v-model="message" @keyup.enter="handleEnter" type="text" placeholder="输入消息"
                 class="bg-transparent outline-none flex-1 placeholder:text-text-200 placeholder:font-bold text-black ml-2" />
@@ -86,7 +86,7 @@
             <el-icon size="18" class="ml-2" @click="toggleRecognition">
                 <Microphone />
             </el-icon>
-        </div>
+        </div> -->
     </div>
 </template>
 
