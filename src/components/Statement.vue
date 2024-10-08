@@ -4,6 +4,8 @@
             <p class="text-2xl font-bold">生成的报表</p>
 
             <div class="flex items-center">
+                <!-- AI按钮 -->
+                <i class="fa-regular fa-microchip-ai fa-xl cursor-pointer mr-5" @click="showAI"></i>
 
                 <!-- 重制按钮 -->
                 <i class="fa-regular fa-retweet fa-xl cursor-pointer mr-5" @click="reset"></i>
@@ -78,7 +80,7 @@
                 </div>
             </div>
         </el-scrollbar>
-        <!-- <div class="w-[1200px] h-14 shadow-xl fixed left-16 bottom-6 flex items-center bg-gray-50 rounded-3xl p-5">
+        <div class="w-[1200px] h-14 shadow-xl fixed left-16 bottom-6 flex items-center bg-gray-50 rounded-3xl p-5" v-if="ifShowAI">
 
             <input v-model="message" @keyup.enter="handleEnter" type="text" placeholder="输入消息"
                 class="bg-transparent outline-none flex-1 placeholder:text-text-200 placeholder:font-bold text-black ml-2" />
@@ -86,7 +88,7 @@
             <el-icon size="18" class="ml-2" @click="toggleRecognition">
                 <Microphone />
             </el-icon>
-        </div> -->
+        </div>
     </div>
 </template>
 
@@ -136,6 +138,8 @@ let dragY = 0;
 // 定义一个变量用于保存第一个 scrollTop
 let previousScrollTop: number | null = null;
 
+const ifShowAI = ref(false);
+
 
 let initialTop = ref(0);
 let initialLeft = ref(0);
@@ -165,6 +169,9 @@ let initialPositions: number[] = [];
 let initialPositionsY: number[] = [];
 initialPositionsY = statementItems.value.map(item => item.top);
 
+const showAI = () => {
+    ifShowAI.value = !ifShowAI.value;
+};
 // 处理下载操作
 // 处理下载操作
 const handleDownload = async (command: string) => {
@@ -512,11 +519,12 @@ const handleEnter = () => {
 
     if (Array.isArray(statementItems.value) && statementItems.value[0] && Array.isArray(statementItems.value[0].numbers)) {
         switch (message.value) {
-            case '空气质量优良天数中的数据改为160':
+            case '空气质量优良天数中的数据改为160天':
                 // 修改 numbers 数组
-                statementItems.value[0].numbers[0] = 1;
-                statementItems.value[0].numbers[1] = 6;
-                statementItems.value[0].numbers[2] = 0;
+                statementItems.value[0].numbers[0] = "1";
+                statementItems.value[0].numbers[1] = "6";
+                statementItems.value[0].numbers[2] = "0";
+                statementItems.value[0].numbers[2] = "天";
                 break;
             case '空气质量优良天数组件宽度改小一点':
                 // 修改 numbers 数组

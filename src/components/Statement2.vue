@@ -4,6 +4,8 @@
             <p class="text-2xl font-bold">生成的报表</p>
 
             <div class="flex items-center">
+                <!-- AI按钮 -->
+                <i class="fa-regular fa-microchip-ai fa-xl cursor-pointer mr-5" @click="showAI"></i>
 
                 <!-- 重制按钮 -->
                 <i class="fa-regular fa-retweet fa-xl cursor-pointer mr-5" @click="reset"></i>
@@ -34,7 +36,7 @@
         </div> -->
 
         <!-- v-else -->
-        <el-scrollbar height="95%" wrap-style="width:100%;" class="flex justify-center" @scroll="onScroll" >
+        <el-scrollbar height="95%" wrap-style="width:100%;" class="flex justify-center" @scroll="onScroll">
             <div class="w-full flex flex-col justify-center items-center self-center relative overflow-visible">
                 <!-- 动态渲染可拖动的元素 -->
                 <div v-for="(item, index) in statementItems" :key="index" :data-id="index"
@@ -81,7 +83,7 @@
                 </div>
             </div>
         </el-scrollbar>
-        <div class="w-[1200px] h-14 shadow-xl fixed left-16 bottom-6 flex items-center bg-gray-50 rounded-3xl p-5">
+        <div class="w-[1200px] h-14 shadow-xl fixed left-16 bottom-6 flex items-center bg-gray-50 rounded-3xl p-5" v-if="ifShowAI">
 
             <input v-model="message" @keyup.enter="handleEnter" type="text" placeholder="输入消息"
                 class="bg-transparent outline-none flex-1 placeholder:text-text-200 placeholder:font-bold text-black ml-2" />
@@ -108,32 +110,7 @@ import RadarContainer from './charts/RadarContainer.vue';
 import BoxplotContainer from './charts/BoxplotContainer.vue';
 import ScatterContainer from './charts/ScatterContainer.vue';
 
-import funnelOptions from '../utils/funnelOptions';
-import boardOptions from '../utils/boardOptions';
-import radarOptions from '../utils/radarOptions';
-import boxplotOptions from '../utils/boxplotOptions';
-import scatterOption from '../utils/scatterOption';
-
-import { funnelData } from '../constant/funnelData';
-import { boardData } from '../constant/boardData';
-import { radarData } from '../constant/radarData';
-import { boxplotData } from '../constant/boxplotData';
-import { scatterData } from '../constant/scatterData';
-
-// import { statementItems2 as statementItems } from '../constant/statementItems';
-
-let statementItems = ref<StatementItem[]>([
-    { top: 0, left: 20, height: 200, width: 350, label: '本年度种草改良总量', type: 'numbers', numbers: ["4", "7", "9","万公顷"] },
-    { top: 0, left: 380, height: 290, width: 580, label: '年度绿化面积', type: 'numbers', numbers: ["8", "0", "0","万公顷"] },
-    { top: 0, left: 970, height: 200, width: 350, label: '本年度治理沙化面积', type: 'numbers', numbers: ["1", "9", "0","万公顷"] },
-    
-    { top: 300, left: 380, height: 500, width: 538,label: '绿化面积对比', type: 'chart', chart: 'radar', data: radarData, chartOption: radarOptions  },
-    { top: 210, left: 20, height: 290, width: 308, label: '年度绿化来源分析', type: 'chart', chart: 'funnel', data: funnelData, chartOption: funnelOptions },
-    { top: 510, left: 20, height: 290, width: 308, label: '年度碳排放来源分析', type: 'chart', chart: 'boxplot', data: boxplotData, chartOption: boxplotOptions },
-    { top: 210, left: 970, height: 290, width: 308, label: '年度绿化统计', type: 'chart', chart: 'board', data: boardData, chartOption: boardOptions },
-    
-    { top: 510, left: 970, height: 290, width: 308, label: '碳排放量对比', type: 'chart', chart: 'scatter', data: scatterData, chartOption: scatterOption },
-]);
+import { statementItems2 as statementItems } from '../constant/statementItems';
 
 
 const props = defineProps(['ifShow']);
@@ -142,6 +119,7 @@ let hideTimeout: ReturnType<typeof setTimeout> | null = null;
 
 let message = ref('');
 let recognition: any = null;
+let ifShowAI = ref(false); // 是否显示AI输入框
 const isRecognizing = ref<boolean>(false); // 状态变量，用于跟踪语音识别是否进行中
 
 
@@ -211,48 +189,51 @@ const handleDownload = async (command: string) => {
     }
 };
 
+const showAI = () => {
+    ifShowAI.value = !ifShowAI.value;
+};
 // 下载PDF的函数
 const downloadPDF = async () => {
-  const element = document.querySelector('.Statement') as HTMLElement; // 选择需要下载的元素
-  if (element) {
-    try {
-      const pdfPath = 'src/assets/images/2023年度碳排放与环境质量报表.pdf'; // PDF文件路径
-      const response = await fetch(pdfPath);
-      if (!response.ok) {
-        throw new Error(`下载PDF时出错: ${response.statusText}`);
-      }
-      const blob = await response.blob();
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = '2023年度碳排放与环境质量报表.pdf';
-      document.body.appendChild(link); // 有些浏览器需要将链接添加到DOM中
-      link.click();
-      document.body.removeChild(link); // 下载后移除链接
-      URL.revokeObjectURL(link.href); // 释放URL对象
-    } catch (error) {
-      console.error(error);
+    const element = document.querySelector('.Statement') as HTMLElement; // 选择需要下载的元素
+    if (element) {
+        try {
+            const pdfPath = 'src/assets/images/2023年度碳排放与环境质量报表.pdf'; // PDF文件路径
+            const response = await fetch(pdfPath);
+            if (!response.ok) {
+                throw new Error(`下载PDF时出错: ${response.statusText}`);
+            }
+            const blob = await response.blob();
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = '2023年度碳排放与环境质量报表.pdf';
+            document.body.appendChild(link); // 有些浏览器需要将链接添加到DOM中
+            link.click();
+            document.body.removeChild(link); // 下载后移除链接
+            URL.revokeObjectURL(link.href); // 释放URL对象
+        } catch (error) {
+            console.error(error);
+        }
     }
-  }
 };
 
 // 下载图片的函数
 const downloadImage = async () => {
-  const element = document.querySelector('.Statement') as HTMLElement; // 选择需要下载的元素
-  if (element) {
-    const img = new Image();
-    img.src = 'src/assets/images/2023年度碳排放与环境质量报表.jpg';
-    img.onload = async () => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      const link = document.createElement('a');
-      link.href = canvas.toDataURL('image/png');
-      link.download = '2023年度碳排放与环境质量报表.png';
-      link.click();
-    };
-  }
+    const element = document.querySelector('.Statement') as HTMLElement; // 选择需要下载的元素
+    if (element) {
+        const img = new Image();
+        img.src = 'src/assets/images/2023年度碳排放与环境质量报表.jpg';
+        img.onload = async () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            const link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = '2023年度碳排放与环境质量报表.png';
+            link.click();
+        };
+    }
 };
 
 const onMouseDown = (event: MouseEvent, index: number, handleType: 'drag' | 'resize') => {
@@ -405,7 +386,7 @@ const checkCollision = () => {
                 }
 
 
-                if (movedItems.has(index) && spaceAvailable && initialPositionsY[index]==draggedItem.top) {
+                if (movedItems.has(index) && spaceAvailable && initialPositionsY[index] == draggedItem.top) {
                     if (index == 1) {
                         console.log(index, 'restoreItemPosition')
 
@@ -425,7 +406,7 @@ const checkCollision = () => {
 const restoreItemPosition = (index: number) => {
     if (index == 1) {
         console.log(index, '移动后initialPositions[index]', initialPositions[index])
-    }else if (index == 5) {
+    } else if (index == 5) {
         console.log(index, '移动后initialPositions[5]', initialPositions[index])
     }
     statementItems.value[index].top = initialPositionsY[index];  // 恢复到初始位置
@@ -472,10 +453,10 @@ const moveDownItems = (startIndex: number, distance: number) => {
 
 const reset = () => {
     console.log('statementItemsOrigin', statementItemsOrigin);
-    
+
     // 在重置时使用深拷贝，确保是一个新的数组副本
     statementItems.value = JSON.parse(JSON.stringify(statementItemsOrigin));
-    
+
     console.log('statementItems', statementItems.value);
 };
 
@@ -551,9 +532,10 @@ const handleEnter = () => {
         switch (message.value) {
             case '空气质量优良天数中的数据改为160':
                 // 修改 numbers 数组
-                statementItems.value[0].numbers[0] = 1;
-                statementItems.value[0].numbers[1] = 6;
-                statementItems.value[0].numbers[2] = 0;
+                statementItems.value[0].numbers[0] = "1";
+                statementItems.value[0].numbers[1] = "6";
+                statementItems.value[0].numbers[2] = "0";
+                statementItems.value[0].numbers[2] = "天";
                 break;
             case '空气质量优良天数组件宽度改小一点':
                 // 修改 numbers 数组
