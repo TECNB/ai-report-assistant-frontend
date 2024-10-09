@@ -28,7 +28,7 @@ const scatterOption = (xAxisData: string[], seriesData: number[][]): ECBasicOpti
                 name: '碳排放量对比',
                 type: 'scatter',
                 data: seriesData,
-                symbolSize: function (data) {
+                symbolSize: function (data:any) {
                     return Math.sqrt(data[1]) / 5;  // 根据数据动态调整点的大小
                 },
                 color: '#5DB1FF',  // 颜色设为适合碳排放主题的蓝色

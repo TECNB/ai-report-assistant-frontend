@@ -279,7 +279,7 @@ const stopTimer = (index: number) => {
 
 const handlePipeline = async () => {
     console.log('handlePipeline');
-    statementVisible.value = true;
+    
 
     // Stage 1
     stages.value[0].status = 'inProgress';
@@ -320,6 +320,8 @@ const handlePipeline = async () => {
     console.log(`Stage 4 completed in ${timers.value[3]} s`);
 
     console.log('All stages completed.');
+
+    statementVisible.value = true;
 };
 
 const inputSlider = (value: number) => {

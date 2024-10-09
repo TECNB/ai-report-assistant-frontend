@@ -153,11 +153,11 @@ const setActiveIndex = (index: number) => {
 };
 
 // 自定义连接方式数组
-const missingMethods = [
-    '填充',
-    '删除',
-    '平均值填充',
-];
+// const missingMethods = [
+//     '填充',
+//     '删除',
+//     '平均值填充',
+// ];
 
 const repeatMethods = [
     '删除',

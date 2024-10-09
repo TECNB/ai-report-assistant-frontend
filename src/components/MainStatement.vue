@@ -66,13 +66,13 @@ import HorizontalBarContainer from './charts/HorizontalBarContainer.vue';
 
 import { statementItems } from '../constant/statementItems';
 
-const props = defineProps(['ifShow']);
+
 const emit = defineEmits();
 let hideTimeout: ReturnType<typeof setTimeout> | null = null;
 
-let message = ref('');
-let recognition: any = null;
-const isRecognizing = ref<boolean>(false); // 状态变量，用于跟踪语音识别是否进行中
+// let message = ref('');
+// let recognition: any = null;
+// const isRecognizing = ref<boolean>(false); // 状态变量，用于跟踪语音识别是否进行中
 
 
 let isInteracting = ref(false); // 统一拖拽和调整大小的状态
@@ -104,9 +104,9 @@ let activeIndex = ref<number | null>(null); // 当前操作的元素索引
 
 const hoveredItem = ref<number | null>(null); // 用来存储当前悬浮的元素索引
 
-const toggleVisibility = () => {
-    emit('updateIfShow', false);
-};
+// const toggleVisibility = () => {
+//     emit('updateIfShow', false);
+// };
 let initialPositions: number[] = [];
 
 // 定义变量最初始的位置
@@ -375,100 +375,100 @@ const onScroll = (scroll: { scrollLeft: number, scrollTop: number }) => {
     }
 };
 
-const handleEnter = () => {
-    console.log('message', message.value);
+// const handleEnter = () => {
+//     console.log('message', message.value);
 
-    if (Array.isArray(statementItems.value) && statementItems.value[0] && Array.isArray(statementItems.value[0].numbers)) {
-        switch (message.value) {
-            case '空气质量优良天数中的数据改为160':
-                // 修改 numbers 数组
-                statementItems.value[0].numbers[0] = 1;
-                statementItems.value[0].numbers[1] = 6;
-                statementItems.value[0].numbers[2] = 0;
-                break;
-            case '空气质量优良天数组件宽度改小一点':
-                // 修改 numbers 数组
-                statementItems.value[0].width = 550;
-                break;
-            case '空气质量优良天数组件高度改大一点':
-                // 修改 numbers 数组
-                statementItems.value[0].height = 210;
-                break;
-            case '空气质量优良天数组件高度改大一点':
-                // 修改 numbers 数组
-                statementItems.value[0].height = 210;
-                break;
+//     if (Array.isArray(statementItems.value) && statementItems.value[0] && Array.isArray(statementItems.value[0].numbers)) {
+//         switch (message.value) {
+//             case '空气质量优良天数中的数据改为160':
+//                 // 修改 numbers 数组
+//                 statementItems.value[0].numbers[0] = "1";
+//                 statementItems.value[0].numbers[1] = "6";
+//                 statementItems.value[0].numbers[2] = "0";
+//                 break;
+//             case '空气质量优良天数组件宽度改小一点':
+//                 // 修改 numbers 数组
+//                 statementItems.value[0].width = 550;
+//                 break;
+//             case '空气质量优良天数组件高度改大一点':
+//                 // 修改 numbers 数组
+//                 statementItems.value[0].height = 210;
+//                 break;
+//             case '空气质量优良天数组件高度改大一点':
+//                 // 修改 numbers 数组
+//                 statementItems.value[0].height = 210;
+//                 break;
 
-            case '交换空气质量优良天和空气质量优良天数的位置':
-                // 交换两个元素的top 以及 left
-                statementItems.value[0].top = 0;
-                statementItems.value[0].left = 680;
-                statementItems.value[1].top = 0;
-                statementItems.value[1].left = 50;
-                break;
-            case '向右移动空气质量优良天数组件':
-                // 向右移动空气质量优良天数组件
-                statementItems.value[0].left = 70;
-                break;
-            case '年度水质监测概览图表改为折线图':
-                // 修改图表类型
-                statementItems.value[3].chart = statementItems.value[2].chart;
-                statementItems.value[3].data = statementItems.value[2].data;
-                statementItems.value[3].chartOption = statementItems.value[2].chartOption;
-                break;
-        }
-    }
+//             case '交换空气质量优良天和空气质量优良天数的位置':
+//                 // 交换两个元素的top 以及 left
+//                 statementItems.value[0].top = 0;
+//                 statementItems.value[0].left = 680;
+//                 statementItems.value[1].top = 0;
+//                 statementItems.value[1].left = 50;
+//                 break;
+//             case '向右移动空气质量优良天数组件':
+//                 // 向右移动空气质量优良天数组件
+//                 statementItems.value[0].left = 70;
+//                 break;
+//             case '年度水质监测概览图表改为折线图':
+//                 // 修改图表类型
+//                 statementItems.value[3].chart = statementItems.value[2].chart;
+//                 statementItems.value[3].data = statementItems.value[2].data;
+//                 statementItems.value[3].chartOption = statementItems.value[2].chartOption;
+//                 break;
+//         }
+//     }
 
-    message.value = '';
-};
+//     message.value = '';
+// };
 
 // 启动语音识别
-const startRecognition = () => {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-        alert('当前浏览器不支持语音识别功能');
-        return;
-    }
+// const startRecognition = () => {
+//     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+//     if (!SpeechRecognition) {
+//         alert('当前浏览器不支持语音识别功能');
+//         return;
+//     }
 
-    recognition = new SpeechRecognition();
-    recognition.lang = 'zh-CN';  // 设置语言
+//     recognition = new SpeechRecognition();
+//     recognition.lang = 'zh-CN';  // 设置语言
 
-    recognition.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
-        message.value = transcript;  // 将识别到的文字保存到 message
-    };
+//     recognition.onresult = (event: any) => {
+//         const transcript = event.results[0][0].transcript;
+//         message.value = transcript;  // 将识别到的文字保存到 message
+//     };
 
-    recognition.onerror = (event: any) => {
-        console.error('Speech recognition error: ', event.error);
-    };
+//     recognition.onerror = (event: any) => {
+//         console.error('Speech recognition error: ', event.error);
+//     };
 
-    recognition.onend = () => {
-        console.log('Speech recognition ended');
-        isRecognizing.value = false;  // 识别结束后更新状态
-    };
+//     recognition.onend = () => {
+//         console.log('Speech recognition ended');
+//         isRecognizing.value = false;  // 识别结束后更新状态
+//     };
 
-    recognition.start();
-    isRecognizing.value = true;  // 设置为识别状态
-    console.log('Speech recognition started');
-};
+//     recognition.start();
+//     isRecognizing.value = true;  // 设置为识别状态
+//     console.log('Speech recognition started');
+// };
 
 // 停止语音识别
-const stopRecognition = () => {
-    if (recognition) {
-        recognition.stop();
-        isRecognizing.value = false;
-        console.log('Speech recognition manually stopped');
-    }
-};
+// const stopRecognition = () => {
+//     if (recognition) {
+//         recognition.stop();
+//         isRecognizing.value = false;
+//         console.log('Speech recognition manually stopped');
+//     }
+// };
 
 // 切换语音识别状态
-const toggleRecognition = () => {
-    if (isRecognizing.value) {
-        stopRecognition(); // 如果正在识别，则停止
-    } else {
-        startRecognition(); // 如果未在识别，则开始识别
-    }
-};
+// const toggleRecognition = () => {
+//     if (isRecognizing.value) {
+//         stopRecognition(); // 如果正在识别，则停止
+//     } else {
+//         startRecognition(); // 如果未在识别，则开始识别
+//     }
+// };
 </script>
 
 <style lang="scss" scoped>

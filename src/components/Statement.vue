@@ -221,7 +221,7 @@ const downloadImage = async () => {
       const ctx = canvas.getContext('2d');
       canvas.width = img.width;
       canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
+      ctx!.drawImage(img, 0, 0);
       const link = document.createElement('a');
       link.href = canvas.toDataURL('image/png');
       link.download = '2023年度碳排放与环境质量报表.png';
