@@ -2,15 +2,20 @@
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2023"],
-    "module": "ESNext",
+    "module": "CommonJS",
     "skipLibCheck": true,
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    "allowJs": true,
+    "checkJs": false,
+    "noEmitHelpers": true,
+    "removeComments": true,
     "isolatedModules": true,
     "moduleDetection": "force",
-    "noEmit": true,
+
+    /* Emit JavaScript files */
+    "noEmit": false,              // 改为 false 以允许编译输出
+    "outDir": "./dist",   // 输出目录为 dist/electron
+    "esModuleInterop": true,       // 允许与 CommonJS 互操作
 
     /* Linting */
     "strict": true,
@@ -18,5 +23,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts"]
+  "include": [
+    "vite.config.ts",              // 保持对 Vite 配置的支持
+    "electron/**/*"            // 包括主进程文件 (例如 electron/main.ts)
+  ],
+  "exclude": ["node_modules"]
 }

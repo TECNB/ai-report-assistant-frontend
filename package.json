@@ -2,11 +2,14 @@
   "name": "ai-report-assistant-frontend",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+
+  "main": "dist/electron/main.js",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "electron:dev": "electron .",
+    "electron:build": "vue-tsc -b && vite build && electron-builder"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "file:./fontawesome-pro-6.6.0-web.tgz",
@@ -25,8 +28,13 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@types/node": "^22.7.6",
     "@vitejs/plugin-vue": "^5.1.2",
     "autoprefixer": "^10.4.20",
+    "cross-env": "^7.0.3",
+    "electron": "^33.0.1",
+    "electron-builder": "^25.1.8",
+    "electron-reload": "^2.0.0-alpha.1",
     "postcss": "^8.4.43",
     "sass": "^1.77.8",
     "tailwindcss": "^3.4.10",
@@ -35,5 +43,28 @@
     "unplugin-vue-components": "^0.27.4",
     "vite": "^5.4.1",
     "vue-tsc": "^2.0.29"
+  },
+  "build": {
+    "appId": "com.example.app",
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.productivity"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "src/assets/",
+        "to": "resources",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "directories": {
+      "buildResources": "build"
+    }
   }
 }
