@@ -456,7 +456,7 @@ const handleEnter = async () => {
       chatStore.startNewConversation();
     }
     const userContent = message.value;
-    displayedMessages.value.push({ type: 'user', content: userContent });
+    displayedMessages.value.push({ type: 'user', content: "" });
     chatStore.saveMessages(displayedMessages.value); // 保存消息到当前对话
     message.value = '';
 
